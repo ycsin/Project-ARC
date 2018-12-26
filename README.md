@@ -16,7 +16,7 @@ cfg
 ```
 
 ### Credits
-- [yc9559 @ CoolApk](https://github.com/yc9559 "yc9559 @ CoolApk")
-- [foobar66 @ XDA](https://forum.xda-developers.com/member.php?u=3463514 "foobar66 @ XDA")
-- [xpirt @ XDA](https://forum.xda-developers.com/member.php?u=5132229 "xpirt @ XDA")
-- [Editor.md](https://pandao.github.io/editor.md/ "Editor.md") to help me with the README.md
+- [yc9559 @ CoolApk](https://github.com/yc9559 "yc9559 @ CoolApk") for Project WIPE
+- [foobar66 @ XDA](https://forum.xda-developers.com/member.php?u=3463514 "foobar66 @ XDA") for scripts as ref
+- [xpirt @ XDA](https://forum.xda-developers.com/member.php?u=5132229 "xpirt @ XDA") for scripts as ref
+- [Editor.md](https://pandao.github.io/editor.md/ "Editor.md") for the formatting of README.md
