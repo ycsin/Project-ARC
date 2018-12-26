@@ -16,6 +16,6 @@ cfg
 ```
 
 ### Credits
-[yc9559 @ CoolApk](https://github.com/yc9559 "yc9559 @ CoolApk")
-[foobar66 @ XDA](https://forum.xda-developers.com/member.php?u=3463514 "foobar66 @ XDA")
-[xpirt @ XDA](https://forum.xda-developers.com/member.php?u=5132229 "xpirt @ XDA")
+- [yc9559 @ CoolApk](https://github.com/yc9559 "yc9559 @ CoolApk")
+- [foobar66 @ XDA](https://forum.xda-developers.com/member.php?u=3463514 "foobar66 @ XDA")
+- [xpirt @ XDA](https://forum.xda-developers.com/member.php?u=5132229 "xpirt @ XDA")
