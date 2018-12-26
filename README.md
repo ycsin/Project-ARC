@@ -10,8 +10,10 @@
 7. [Powercfg](https://github.com/yc9559/cpufreq-interactive-opt "Powercfg") by yc9559 @ CoolApk **[EXY8895 ONLY]**
 
 ### Usage
-`su`
-`cfg`
+```shell
+su
+cfg
+```
 
 ### Credits
 [yc9559 @ CoolApk](https://github.com/yc9559 "yc9559 @ CoolApk")
