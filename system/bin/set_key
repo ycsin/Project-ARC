@@ -1,0 +1,17 @@
+#====================================================
+#       FILE: set_key
+#       AUTHOR: ImbaWind @ XDA
+#       BASED ON: xpirt @ XDA's  set_prop.sh
+#       DESCRIPTION: Change key function
+#       USAGE: set_key <key_num> <arg>
+#====================================================
+
+FILE=/system/usr/keylayout/Generic.kl
+prop=$1
+arg=$2
+if grep -Fq "key "$prop $FILE ; then
+    lineNum=`busybox sed -n "/key ${prop}/=" $FILE`
+    sed -i "${lineNum} ckey ${prop}   ${arg}" $FILE
+else
+    echo "Key not found"
+fi;

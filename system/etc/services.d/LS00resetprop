@@ -1,0 +1,10 @@
+#!/system/bin/sh
+doresetprop () {
+    /sbin/resetprop $1 "$2"
+}
+
+doresetprop ro.product.model 'SM-G950F'
+doresetprop ro.product.brand 'samsung'
+doresetprop ro.product.manufacturer 'samsung'
+doresetprop ro.product.name 'dreamltexx'
+doresetprop ro.product.device 'dreamlte'
