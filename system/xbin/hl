@@ -1,0 +1,4 @@
+echo "Copying /etc/hosts.long to /etc/hosts"
+/system/xbin/sysrw
+cp /system/etc/hosts.long /system/etc/hosts
+/system/xbin/sysro

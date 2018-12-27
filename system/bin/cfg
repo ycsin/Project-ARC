@@ -5,9 +5,11 @@
 #       USAGE: config
 #==============================================================
 CMD=/system/bin/cmd
+REBOOT_REQUIRED=0;
 
 edit_bixby()
 {
+	REBOOT_REQUIRED=1
 	while :
 	do
 		clear;
@@ -161,6 +163,7 @@ edit_bixby()
 
 edit_device()
 {
+	REBOOT_REQUIRED=1
 	FILE=/system/etc/init.d/LS00resetprop
 	while :
 	do
@@ -321,6 +324,7 @@ edit_device()
 
 max_vol_warning()
 {
+	REBOOT_REQUIRED=1
 	while :
 	do
 		clear;
@@ -359,6 +363,7 @@ max_vol_warning()
 
 navbar_toggle()
 {
+	REBOOT_REQUIRED=1
 	while :
 	do
 		clear;
@@ -438,6 +443,7 @@ immersive_mode()
 
 set_dns()
 {
+	REBOOT_REQUIRED=1
 	while :
 	do
 		clear;
@@ -557,6 +563,105 @@ set_powercfg()
 	done
 }
 
+adblock()
+{
+	REBOOT_REQUIRED=1
+	while :
+	do
+		clear;
+		echo " 1. Aggresive Adblock";
+		echo " 2. Moderate Adblock";
+		echo " 3. Disable Adblock";
+		echo " 0. Exit";
+		echo "";
+		echo -n "Enter Option: ";
+		read opt
+		case $opt in
+			1)	hl
+				clear;
+				echo "Enabled aggresive adblock.";
+				echo "";
+				echo "Reboot device to apply.";
+				echo -n "Press EnterKey to continue.";
+				read enterKey
+				break;;
+			2)	hm
+				clear;
+				echo "Enabled moderate adblock";
+				echo "";
+				echo "Reboot device to apply.";
+				echo -n "Press EnterKey to continue.";
+				read enterKey
+				break;;
+			3)	hs
+				clear;
+				echo "Disabled adblock";
+				echo "";
+				echo "Reboot device to apply.";
+				echo -n "Press EnterKey to continue.";
+				read enterKey
+				break;;
+			0)	break;;
+			*)	clear;
+				echo "Invalid option.";
+				sleep 1
+		esac
+	done
+}
+
+service_toggle()
+{
+	while :
+	do
+		clear;
+		echo "[ WARNING ]";
+		echo "This function might break stuffs in";
+		echo "an unexpected and terrible way.";
+		echo "";
+		sleep 1;
+		echo " 1. Aggresive Service Disabler";
+		echo " 2. Moderate Service Disabler";
+		echo " 3. Disable Service Disabler";
+		echo " 0. Exit";
+		echo "";
+		echo -n "Enter Option: ";
+		read opt
+		case $opt in
+			1)	clear;
+				echo "This can take a while.";
+				dss disable
+				clear;
+				echo "All done.";
+				echo "";
+				echo -n "Press EnterKey to continue.";
+				read enterKey
+				break;;
+			2)	clear;
+				echo "This can take a while.";
+				dss2 disable
+				clear;
+				echo "All done.";
+				echo "";
+				echo -n "Press EnterKey to continue.";
+				read enterKey
+				break;;
+			3)	clear;
+				echo "This can take a while.";
+				dss enable
+				clear;
+				echo "All done.";
+				echo "";
+				echo -n "Press EnterKey to continue.";
+				read enterKey
+				break;;
+			0)	break;;
+			*)	clear;
+				echo "Invalid option.";
+				sleep 1
+		esac
+	done
+}
+
 mount -o rw,remount /system
 
 while :
@@ -571,6 +676,8 @@ do
 	echo " 5. Immersive Mode";
 	echo " 6. Set DNS";
 	echo " 7. Powercfg by yc9559@CoolApk [EXY8895]";
+	echo " 8. Host File Based AdBlock";
+	echo " 9. Service Disabler";
 	echo "88. Reboot Device";
 	echo "99. Reboot Recovery";
 	echo " 0. Exit";
@@ -585,10 +692,21 @@ do
 		5)	immersive_mode;;
 		6)	set_dns;;
 		7)	set_powercfg;;
+		8)	adblock;;
+		9)	service_toggle;;
 		88)	reboot;;
 		99) reboot recovery;;
 		0)	clear;
-			echo "Most changes require a reboot to apply";
+			if [ "$REBOOT_REQUIRED" -eq 1 ]; then
+				echo "You have made changes that require a reboot to apply";
+				echo "";
+				echo -n "Do you want to reboot now? (y/n): ";
+				read opt
+				case $opt in
+					y|Y) reboot;;
+					*)	clear;;
+				esac
+			fi
 			echo "";
 			echo "";
 			echo -n "Press EnterKey to exit.";
