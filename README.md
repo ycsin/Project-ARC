@@ -8,6 +8,8 @@
 5. Immersive Mode
 6. Set DNS
 7. [Powercfg](https://github.com/yc9559/cpufreq-interactive-opt "Powercfg") by yc9559 @ CoolApk **[EXY8895 ONLY]**
+8. Reboot
+9. Reboot Recovery
 
 ### Usage
 ```shell
