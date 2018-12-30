@@ -728,8 +728,10 @@ do
 	echo " 7. Powercfg by yc9559@CoolApk [EXY8895]";
 	echo " 8. Host File Based AdBlock";
 	echo " 9. Service Disabler";
-	echo "88. Reboot Device";
-	echo "99. Reboot Recovery";
+	echo "66. Reboot Device";
+	echo "77. Reboot Recovery";
+	echo "88. Reboot Bootloader";
+	echo "99. Power Off";
 	echo " 0. Exit";
 	echo -n "Enter option : ";
 	read opt
@@ -744,8 +746,10 @@ do
 		7)	set_powercfg;;
 		8)	adblock;;
 		9)	service_toggle;;
-		88)	reboot &>/dev/null;;
-		99) reboot recovery &>/dev/null;;
+		66)	reboot &>/dev/null;;
+		77)	reboot recovery &>/dev/null;;
+		88)	reboot download &>/dev/null;;
+		99) poweroff;;
 		0)	clear;
 			if [ "$REBOOT_REQUIRED" -eq 1 ]; then
 				echo "You have made changes that require a reboot to apply";
