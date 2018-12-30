@@ -7,9 +7,33 @@
 CMD=/system/bin/cmd
 REBOOT_REQUIRED=0;
 
+fix_permissions()
+{
+	chmod 777 /system/bin/cfg
+	chmod 777 /system/bin/powercfg
+	chmod 777 /system/bin/set_key
+	chmod 777 /system/bin/set_prop
+	chmod 777 /system/xbin/dss
+	chmod 777 /system/xbin/dss2
+	chmod 777 /system/xbin/hl
+	chmod 777 /system/xbin/hm
+	chmod 777 /system/xbin/hs
+	chmod 755 /system/etc/init.d/LS00resetprop
+	chmod 755 /system/etc/services.d/LS99powercfg
+	chmod 644 /system/etc/hosts.long
+	chmod 644 /system/etc/hosts.medium
+	chmod 644 /system/etc/hosts.short
+	chmod 644 /system/usr/keylayout/Generic.kl
+}
+
+press_enter()
+{
+	echo -n "Press EnterKey to continue.";
+	read enterKey
+}
+
 edit_bixby()
 {
-	REBOOT_REQUIRED=1
 	while :
 	do
 		clear;
@@ -54,107 +78,88 @@ edit_bixby()
 				echo "Bixby btn is mapped to: ";
 				echo $arg
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;
 			fi
 		elif [[ "$bixby" -lt 0 || "$bixby" -gt 18 ]] ; then
 			clear;
 			echo "Invalid Option";
-			echo -n "Press EnterKey to continue. ";
-			read enterKey
+			press_enter
 		else
+			REBOOT_REQUIRED=1
 			clear;
 			case $bixby in
 				1)	set_key 703 HOME
 					echo "Bixby btn remapped to [Home Btn]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				2)	set_key 703 POWER
 					echo "Bixby btn remapped to [Power Btn]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				3)	set_key 703 MUSIC
 					echo "Bixby btn remapped to [Music Player]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				4)	set_key 703 MEDIA_PLAY_PAUSE
 					echo "Bixby btn remapped to [Play/Pause]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				5)	set_key 703 VOLUME_UP
 					echo "Bixby btn remapped to [Vol Up]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				6)	set_key 703 VOLUME_DOWN
 					echo "Bixby btn remapped to [Vol Dn]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				7)	set_key 703 VOLUME_MUTE
 					echo "Bixby btn remapped to [Vol Mute]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				8)	set_key 703 CAMERA
 					echo "Bixby btn remapped to [Camera]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				9)	set_key 703 APP_SWITCH
 					echo "Bixby btn remapped to [Recent Btn]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				10)	set_key 703 ASSIST
 					echo "Bixby btn remapped to [Google Assistant";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				11)	set_key 703 VOICE_ASSIST
 					echo "Bixby btn remapped to [Voice Assistant]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				12)	set_key 703 QPANEL_ON_OFF
 					echo "Bixby btn remapped to [Toggle Quick Panel]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				13)	set_key 703 EXPLORER
 					echo "Bixby btn remapped to [Browser]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				14)	set_key 703 SYSRQ
 					echo "Bixby btn remapped to [Screenshot]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				15)	set_key 703 CALCULATOR
 					echo "Bixby btn remapped to [Calculator]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				16)	set_key 703 CALENDAR
 					echo "Bixby btn remapped to [Calendar]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				17)	set_key 703 CONTACTS
 					echo "Bixby btn remapped to [Contacts]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				18)	set_key 703 CALL
 					echo "Bixby btn remapped to [Call]";
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 			esac
 		fi
@@ -163,7 +168,6 @@ edit_bixby()
 
 edit_device()
 {
-	REBOOT_REQUIRED=1
 	FILE=/system/etc/init.d/LS00resetprop
 	while :
 	do
@@ -190,6 +194,7 @@ edit_device()
 		if [ "$opt" -eq 0 ] ; then
 			break;
 		elif [ "$opt" -eq 99 ] ; then
+			REBOOT_REQUIRED=1
 			clear;
 			echo -n "Enter custom model [Type 0 to exit]: ";
 			read arg
@@ -215,8 +220,7 @@ edit_device()
 				read arg
 				sed -i  "10 cdoresetprop ro.product.brand $arg" $FILE
 				clear;
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;
 			fi
 		elif [[ "$opt" -lt 0 || "$opt" -gt 9 ]] ; then
@@ -225,6 +229,7 @@ edit_device()
 			echo -n "Press EnterKey to continue. ";
 			read enterKey
 		else
+			REBOOT_REQUIRED=1
 			clear;
 			case $opt in
 				1)	clear;
@@ -234,8 +239,7 @@ edit_device()
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'walleye'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'walleye'" $FILE
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				2)	clear;
 					echo "Resetting to Google Pixel 2 XL";
@@ -244,8 +248,7 @@ edit_device()
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'taimen'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'taimen'" $FILE
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				3)	clear;
 					echo "Resetting to Google Pixel 3";
@@ -254,8 +257,7 @@ edit_device()
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'blueline'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'blueline'" $FILE
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				4)	clear;
 					echo "Resetting to Google Pixel 3 XL";
@@ -264,8 +266,7 @@ edit_device()
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'crosshatch'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'crosshatch'" $FILE
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				5)	clear;
 					echo "Resetting to Samsung Galaxy S8";
@@ -274,8 +275,7 @@ edit_device()
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'dreamltexx'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'dreamlte'" $FILE
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				6)	clear;
 					echo "Resetting to Samsung Galaxy S8+";
@@ -284,8 +284,7 @@ edit_device()
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'dream2ltexx'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'dream2lte'" $FILE
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				7)	clear;
 					echo "Resetting to Samsung Galaxy S9";
@@ -294,8 +293,7 @@ edit_device()
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'starltexx'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'starlte'" $FILE
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				8)	clear;
 					echo "Resetting to Samsung Galaxy S9+";
@@ -304,8 +302,7 @@ edit_device()
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'star2ltexx'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'star2lte'" $FILE
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 				9)	clear;
 					echo "Resetting to Samsung Galaxy Note 9";
@@ -314,8 +311,7 @@ edit_device()
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'crownltexx'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'crownlte'" $FILE
-					echo -n "Press EnterKey to continue.";
-					read enterKey
+					press_enter
 					break;;
 			esac
 		fi
@@ -324,7 +320,6 @@ edit_device()
 
 max_vol_warning()
 {
-	REBOOT_REQUIRED=1
 	while :
 	do
 		clear;
@@ -337,21 +332,21 @@ max_vol_warning()
 		case $opt in
 			1)	settings put global audio_safe_volume_state 3
 				settings put secure unsafe_volume_music_active_ms 72000000
+				REBOOT_REQUIRED=1
 				clear;
 				echo "Max Volume Warning enabled.";
 				echo "Active time: 20 hours";
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			2)	settings put global audio_safe_volume_state 2
 				settings put secure unsafe_volume_music_active_ms -1
+				REBOOT_REQUIRED=1
 				clear;
 				echo "Max Volume Warning disabled.";
 				echo "Active time: Forever";
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			0)	break;;
 			*)	clear;
@@ -363,7 +358,6 @@ max_vol_warning()
 
 navbar_toggle()
 {
-	REBOOT_REQUIRED=1
 	while :
 	do
 		clear;
@@ -375,20 +369,20 @@ navbar_toggle()
 		read opt
 		case $opt in
 			1)	set_prop qemu.hw.mainkeys 0
+				REBOOT_REQUIRED=1
 				clear;
 				echo "Navigation Bar enabled.";
 				echo "Reboot device to apply.";
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			2)	set_prop qemu.hw.mainkeys 1
+				REBOOT_REQUIRED=1
 				clear;
 				echo "Navigation Bar disabled.";
 				echo "Reboot device to apply.";
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			0)	break;;
 			*)	clear;
@@ -415,23 +409,20 @@ immersive_mode()
 				clear;
 				echo "Enabled navigation only immersive mode.";
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			2)	$CMD settings put global policy_control immersive.full=*
 				clear;
 				echo "Enabled full immersive mode";
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			3)	$CMD settings put global policy_control immersive.navigation=
 				$CMD settings put global policy_control immersive.full=
 				clear;
 				echo "Disabled immersive mode";
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			0)	break;;
 			*)	clear;
@@ -443,7 +434,6 @@ immersive_mode()
 
 set_dns()
 {
-	REBOOT_REQUIRED=1
 	while :
 	do
 		clear;
@@ -466,12 +456,12 @@ set_dns()
 				set_prop net.rmnet1.dns2 1.0.0.1
 				set_prop net.pdpbr1.dns1 1.1.1.1
 				set_prop net.pdpbr1.dns2 1.0.0.1
+				REBOOT_REQUIRED=1
 				clear;
 				echo "Enabled CloudFlare DNS.";
 				echo "Reboot device to apply.";
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			2)	set_prop net.eth0.dns1 8.8.8.8
 				set_prop net.eth0.dns2 8.8.4.4
@@ -485,12 +475,12 @@ set_dns()
 				set_prop net.rmnet1.dns2 8.8.4.4
 				set_prop net.pdpbr1.dns1 8.8.8.8
 				set_prop net.pdpbr1.dns2 8.8.4.4
+				REBOOT_REQUIRED=1
 				clear;
 				echo "Enabled Google DNS.";
 				echo "Reboot device to apply.";
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			0)	break;;
 			*)	clear;
@@ -500,9 +490,54 @@ set_dns()
 	done
 }
 
+function verify_param() 
+{
+	# Taken from yc9559's Project WIPE 
+	# powercfg script
+	
+	expected_target=/sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
+	if [ "$action" = "powersave" ]; then
+		expected_value="80 680000:27 780000:39 880000:61 980000:68 1380000:98 1680000:94"
+	elif [ "$action" = "balance" ]; then
+		expected_value="80 780000:53 880000:70 980000:50 1180000:71 1380000:97 1680000:92"
+	elif [ "$action" = "performance" ]; then
+		expected_value="80 780000:31 880000:62 980000:42 1180000:69 1380000:95 1680000:78"
+	elif [ "$action" = "fast" ]; then
+		expected_value="80 1680000:90"
+	fi
+	
+	if [ "`cat ${expected_target}`" = "${expected_value}" ]; then
+		echo "${action} OK"
+	else
+		echo "${action} FAIL"
+	fi
+}
+
 set_powercfg()
 {
 	FILE=/system/etc/services.d/LS99powercfg
+	# ===================================================================================================
+	# Values taken from yc9559's Project WIPE 
+	# powercfg script
+	# verify_param() function
+	powersave_value="80 680000:27 780000:39 880000:61 980000:68 1380000:98 1680000:94"
+	balance_value="80 780000:53 880000:70 980000:50 1180000:71 1380000:97 1680000:92"
+	performance_value="80 780000:31 880000:62 980000:42 1180000:69 1380000:95 1680000:78"
+	fast_value="80 1680000:90"
+	# ===================================================================================================
+	expected_target=/sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
+	if [ "`cat ${expected_target}`" = "${powersave_value}" ]; then
+		CURRENT="powersave"
+	elif [ "`cat ${expected_target}`" = "${balance_value}" ]; then
+		CURRENT="balance"
+	elif [ "`cat ${expected_target}`" = "${performance_value}" ]; then
+		CURRENT="performance"
+	elif [ "`cat ${expected_target}`" = "${fast_value}" ]; then
+		CURRENT="fast"
+	else
+		CURRENT="kernel_default"
+	fi
+	sed -i  "3 cpowercfg ${CURRENT}" $FILE
 	while :
 	do
 		clear;
@@ -510,10 +545,14 @@ set_powercfg()
 		echo "Github: github.com/yc9559/cpufreq-interactive-opt/";
 		echo "Ver: 20180603.2 [Thu Jun 28 04:26:24 2018]";
 		echo "";
+		echo "";
+		echo "Current config: ${CURRENT}";
+		echo "";
 		echo " 1. Powersave";
 		echo " 2. Balance";
 		echo " 3. Performance";
 		echo " 4. Fast";
+		echo " 5. Restore Kernel Default";
 		echo " 0. Exit";
 		echo "";
 		echo -n "Enter Option: ";
@@ -523,37 +562,48 @@ set_powercfg()
 				echo "Setting power config to [Powersave].";
 				echo "";
 				powercfg powersave
+				mount -o rw,remount /system
 				sed -i  "3 cpowercfg powersave" $FILE
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			2)	clear;
 				echo "Setting power config to [Balance].";
 				echo "";
 				powercfg balance
+				mount -o rw,remount /system
 				sed -i  "3 cpowercfg balance" $FILE
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			3)	clear;
 				echo "Setting power config to [Performance].";
 				echo "";
 				powercfg performance
+				mount -o rw,remount /system
 				sed -i  "3 cpowercfg performance" $FILE
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			4)	clear;
 				echo "Setting power config to [Fast].";
 				echo "";
 				powercfg fast
+				mount -o rw,remount /system
 				sed -i  "3 cpowercfg fast" $FILE
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
+				break;;
+			5)	clear;
+				REBOOT_REQUIRED=1
+				echo "Setting power config to [kernel_default].";
+				echo "Reboot to apply setting.";
+				echo "";
+				powercfg kernel_default
+				mount -o rw,remount /system
+				sed -i  "3 cpowercfg kernel_default" $FILE
+				echo "";
+				press_enter
 				break;;
 			0)	break;;
 			*)	clear;
@@ -565,7 +615,6 @@ set_powercfg()
 
 adblock()
 {
-	REBOOT_REQUIRED=1
 	while :
 	do
 		clear;
@@ -578,28 +627,28 @@ adblock()
 		read opt
 		case $opt in
 			1)	hl
+				REBOOT_REQUIRED=1
 				clear;
 				echo "Enabled aggresive adblock.";
 				echo "";
 				echo "Reboot device to apply.";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			2)	hm
+				REBOOT_REQUIRED=1
 				clear;
 				echo "Enabled moderate adblock";
 				echo "";
 				echo "Reboot device to apply.";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			3)	hs
+				REBOOT_REQUIRED=1
 				clear;
 				echo "Disabled adblock";
 				echo "";
 				echo "Reboot device to apply.";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			0)	break;;
 			*)	clear;
@@ -628,31 +677,31 @@ service_toggle()
 		read opt
 		case $opt in
 			1)	clear;
-				echo "This can take a while.";
-				dss disable
+				echo "This can take up to 5 minutes";
+				echo "Do not interrupt the process";
+				dss disable &>/dev/null
 				clear;
 				echo "All done.";
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			2)	clear;
-				echo "This can take a while.";
-				dss2 disable
+				echo "This can take up to 5 minutes";
+				echo "Do not interrupt the process";
+				dss2 disable &>/dev/null
 				clear;
 				echo "All done.";
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			3)	clear;
-				echo "This can take a while.";
-				dss enable
+				echo "This can take up to 5 minutes";
+				echo "Do not interrupt the process";
+				dss enable &>/dev/null
 				clear;
 				echo "All done.";
 				echo "";
-				echo -n "Press EnterKey to continue.";
-				read enterKey
+				press_enter
 				break;;
 			0)	break;;
 			*)	clear;
@@ -663,6 +712,7 @@ service_toggle()
 }
 
 mount -o rw,remount /system
+fix_permissions
 
 while :
 do
@@ -694,8 +744,8 @@ do
 		7)	set_powercfg;;
 		8)	adblock;;
 		9)	service_toggle;;
-		88)	reboot;;
-		99) reboot recovery;;
+		88)	reboot &>/dev/null;;
+		99) reboot recovery &>/dev/null;;
 		0)	clear;
 			if [ "$REBOOT_REQUIRED" -eq 1 ]; then
 				echo "You have made changes that require a reboot to apply";
@@ -703,14 +753,10 @@ do
 				echo -n "Do you want to reboot now? (y/n): ";
 				read opt
 				case $opt in
-					y|Y) reboot;;
+					y|Y) reboot &>/dev/null;;
 					*)	clear;;
 				esac
 			fi
-			echo "";
-			echo "";
-			echo -n "Press EnterKey to exit.";
-			read enterKey
 			clear;
 			break;;
 		*)	clear;
