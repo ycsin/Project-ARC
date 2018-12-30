@@ -171,6 +171,8 @@ elif [ "$action" = "balance" ]; then :
 elif [ "$action" = "performance" ]; then :
 elif [ "$action" = "fast" ]; then :
 elif [ "$action" = "powersave" ]; then :
+elif [ "$action" = "kernel_default" ]; then
+	exit 0
 else
 	action="balance";
 fi
