@@ -1,4 +1,4 @@
-# AdrenalineROM Custom Menu
+# Custom Menu Shell Script
 
 ### Current Functions
 1. Remap Bixby Key
