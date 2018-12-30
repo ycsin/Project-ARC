@@ -1,4 +1,4 @@
-# Custom Menu Shell Script
+# Shell Script Advanced Features
 
 ### Current Functions
 1. Remap Bixby Key
