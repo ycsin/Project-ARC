@@ -688,7 +688,7 @@ function service_toggle()
 	while :
 	do
 		clear;
-		echo "[ WARNING ]";
+		echo "${RED}${BOLD}[ WARNING ]${NONE}";
 		echo "This function might break stuffs in";
 		echo "an unexpected and terrible way.";
 		echo "";
@@ -736,6 +736,68 @@ function service_toggle()
 	done
 }
 
+function cpu_big_tuning()
+{
+# TODO: Check if frequency is actually valid
+# Would be great if we can have a dynamic menu but it is beyond my current ability
+	cur_max_file=/sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+	while :
+	do
+		BIG_FREQ=0
+		CUR_MAX=`cat $cur_max_file`
+		clear;
+		echo "${BOLD}${GREEN}BIG cluster max frequency${NONE}";
+		echo "Current Freq: ${CYAN}$CUR_MAX${NONE}";
+		echo "";
+		echo " 1. 2652 MHz";
+		echo " 2. 2574 MHz";
+		echo " 3. 2496 MHz [Default]";
+		echo " 4. 2314 MHz";
+		echo " 5. 2158 MHz";
+		echo " 6. 2002 MHz";
+		echo " 7. 1937 MHz";
+		echo " 8. 1807 MHz";
+		echo " 0. Exit";
+		echo "";
+		echo "Frequency will reset after a reboot";
+		echo -n "Enter Option: ";
+		read opt
+		if [ "$opt" -eq 1 ] ; then
+			BIG_FREQ=2652000;
+		elif [ "$opt" -eq 2 ] ; then
+			BIG_FREQ=2574000;
+		elif [ "$opt" -eq 3 ] ; then
+			BIG_FREQ=2496000;
+		elif [ "$opt" -eq 4 ] ; then
+			BIG_FREQ=2314000;
+		elif [ "$opt" -eq 5 ] ; then
+			BIG_FREQ=2158000;
+		elif [ "$opt" -eq 6 ] ; then
+			BIG_FREQ=2002000;
+		elif [ "$opt" -eq 7 ] ; then
+			BIG_FREQ=1937000;
+		elif [ "$opt" -eq 8 ] ; then
+			BIG_FREQ=1807000;
+		elif [ "$opt" -eq 0 ] ; then
+			break;
+		fi
+		
+		if [ "$BIG_FREQ" -gt 1703000 ] ; then
+			for i in 4 5 6 7; do
+				/system/xbin/sysrw
+				chmod 777 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				echo "$BIG_FREQ" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				/system/xbin/sysro
+			done
+		else
+			clear
+			echo "Invalid option";
+			sleep 2
+			clear
+		fi
+	done
+}
+
 check_root
 mount -o rw,remount /system
 fix_permissions
@@ -754,6 +816,7 @@ do
 	echo " 7. Powercfg by yc9559@CoolApk [EXY8895]";
 	echo " 8. Host File Based AdBlock";
 	echo " 9. Service Disabler";
+	echo "10. Set BIG Cluster Max Frequency";
 	echo "66. Reboot Device";
 	echo "77. Reboot Recovery";
 	echo "88. Reboot Bootloader";
@@ -773,6 +836,7 @@ do
 		7)	set_powercfg;;
 		8)	adblock;;
 		9)	service_toggle;;
+		10)	cpu_big_tuning;;
 		66)	reboot &>/dev/null;;
 		77)	reboot recovery &>/dev/null;;
 		88)	reboot download &>/dev/null;;
