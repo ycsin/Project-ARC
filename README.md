@@ -25,3 +25,5 @@ cfg
 - [foobar66 @ XDA](https://forum.xda-developers.com/member.php?u=3463514 "foobar66 @ XDA") for scripts as ref
 - [xpirt @ XDA](https://forum.xda-developers.com/member.php?u=5132229 "xpirt @ XDA") for scripts as ref
 - [Editor.md](https://pandao.github.io/editor.md/ "Editor.md") for the formatting of README.md
+- [George M @ StackExchange](https://unix.stackexchange.com/users/17810/george-m "George M @ StackExchange") for color definitions
+- [GokulNC @ XDA](https://forum.xda-developers.com/general/xda-university/guide-how-to-change-dns-android-device-t3273769 "GokulNC @ XDA") for DNS changer
