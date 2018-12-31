@@ -8,8 +8,11 @@
 5. Immersive Mode
 6. Set DNS
 7. [Powercfg](https://github.com/yc9559/cpufreq-interactive-opt "Powercfg") by yc9559 @ CoolApk **[EXY8895 ONLY]**
-8. Reboot
-9. Reboot Recovery
+8. Adblock
+9. Service Disabler
+10. Set big Cluster Max Frequency
+11. Reboot
+12. Reboot Recovery
 
 ### Usage
 ```shell
