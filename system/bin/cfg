@@ -24,7 +24,7 @@ function press_enter()
 	read enterKey
 }
 
-check_root()
+function check_root()
 {
 	if [[ $(id -u) -ne 0 ]] ; then
 		clear
@@ -37,7 +37,7 @@ check_root()
 	fi
 }
 
-fix_permissions()
+function fix_permissions()
 {
 	chmod 777 /system/bin/cfg
 	chmod 777 /system/bin/powercfg
@@ -45,9 +45,6 @@ fix_permissions()
 	chmod 777 /system/bin/set_prop
 	chmod 777 /system/xbin/dss
 	chmod 777 /system/xbin/dss2
-	chmod 777 /system/xbin/hl
-	chmod 777 /system/xbin/hm
-	chmod 777 /system/xbin/hs
 	chmod 755 /system/etc/init.d/LS00resetprop
 	chmod 755 /system/etc/init.d/LS00powercfg
 	chmod 755 /system/etc/init.d/LS00resetdns
@@ -57,7 +54,7 @@ fix_permissions()
 	chmod 644 /system/usr/keylayout/Generic.kl
 }
 
-edit_bixby()
+function edit_bixby()
 {
 	while :
 	do
@@ -191,7 +188,7 @@ edit_bixby()
 	done
 }
 
-edit_device()
+function edit_device()
 {
 	FILE=/system/etc/init.d/LS00resetprop
 	while :
@@ -343,7 +340,7 @@ edit_device()
 	done
 }
 
-max_vol_warning()
+function max_vol_warning()
 {
 	while :
 	do
@@ -381,7 +378,7 @@ max_vol_warning()
 	done
 }
 
-navbar_toggle()
+function navbar_toggle()
 {
 	while :
 	do
@@ -417,7 +414,7 @@ navbar_toggle()
 	done
 }
 
-immersive_mode()
+function immersive_mode()
 {
 	while :
 	do
@@ -457,7 +454,7 @@ immersive_mode()
 	done
 }
 
-set_dns()
+function set_dns()
 {
 	FILE=/system/etc/init.d/LS00resetdns
 	while :
@@ -535,7 +532,7 @@ function verify_param()
 	fi
 }
 
-set_powercfg()
+function set_powercfg()
 {
 	FILE=/system/etc/init.d/LS00powercfg
 	# ===================================================================================================
@@ -635,7 +632,7 @@ set_powercfg()
 	done
 }
 
-adblock()
+function adblock()
 {
 	while :
 	do
@@ -648,7 +645,9 @@ adblock()
 		echo -n "Enter Option: ";
 		read opt
 		case $opt in
-			1)	hl
+			1)	/system/xbin/sysrw
+				cp /system/etc/hosts.long /system/etc/hosts
+				/system/xbin/sysro
 				REBOOT_REQUIRED=1
 				clear;
 				echo "Enabled aggresive adblock.";
@@ -656,7 +655,9 @@ adblock()
 				echo "Reboot device to apply.";
 				press_enter
 				break;;
-			2)	hm
+			2)	/system/xbin/sysrw
+				cp /system/etc/hosts.medium /system/etc/hosts
+				/system/xbin/sysro
 				REBOOT_REQUIRED=1
 				clear;
 				echo "Enabled moderate adblock";
@@ -664,7 +665,9 @@ adblock()
 				echo "Reboot device to apply.";
 				press_enter
 				break;;
-			3)	hs
+			3)	/system/xbin/sysrw
+				cp /system/etc/hosts.short /system/etc/hosts
+				/system/xbin/sysro
 				REBOOT_REQUIRED=1
 				clear;
 				echo "Disabled adblock";
@@ -680,7 +683,7 @@ adblock()
 	done
 }
 
-service_toggle()
+function service_toggle()
 {
 	while :
 	do

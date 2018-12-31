@@ -1,4 +1,0 @@
-echo "Copying /etc/hosts.medium to /etc/hosts"
-/system/xbin/sysrw
-cp /system/etc/hosts.medium /system/etc/hosts
-/system/xbin/sysro
