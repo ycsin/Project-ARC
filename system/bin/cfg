@@ -1,11 +1,41 @@
 #==============================================================
-#       FILE: config
+#       FILE: cfg
 #       AUTHOR: ImbaWind @ XDA
-#       DESCRIPTION: Adrenaline ROM additional functions
-#       USAGE: config
+#       DESCRIPTION: Shell Script Advanced Features
+#       USAGE: cfg
 #==============================================================
+
+NONE='\033[00m'
+RED='\033[01;31m'
+GREEN='\033[01;32m'
+YELLOW='\033[01;33m'
+PURPLE='\033[01;35m'
+CYAN='\033[01;36m'
+WHITE='\033[01;37m'
+BOLD='\033[1m'
+UNDERLINE='\033[4m'
+
 CMD=/system/bin/cmd
 REBOOT_REQUIRED=0;
+
+function press_enter()
+{
+	echo -n "Press EnterKey to continue.";
+	read enterKey
+}
+
+check_root()
+{
+	if [[ $(id -u) -ne 0 ]] ; then
+		clear
+		echo "This script requires root access to execute";
+		echo "Type  su  first before  cfg";
+		echo "";
+		sleep 2
+		press_enter
+		exit 0
+	fi
+}
 
 fix_permissions()
 {
@@ -19,17 +49,12 @@ fix_permissions()
 	chmod 777 /system/xbin/hm
 	chmod 777 /system/xbin/hs
 	chmod 755 /system/etc/init.d/LS00resetprop
-	chmod 755 /system/etc/services.d/LS99powercfg
+	chmod 755 /system/etc/init.d/LS00powercfg
+	chmod 755 /system/etc/init.d/LS00resetdns
 	chmod 644 /system/etc/hosts.long
 	chmod 644 /system/etc/hosts.medium
 	chmod 644 /system/etc/hosts.short
 	chmod 644 /system/usr/keylayout/Generic.kl
-}
-
-press_enter()
-{
-	echo -n "Press EnterKey to continue.";
-	read enterKey
 }
 
 edit_bixby()
@@ -434,6 +459,7 @@ immersive_mode()
 
 set_dns()
 {
+	FILE=/system/etc/init.d/LS00resetdns
 	while :
 	do
 		clear;
@@ -444,41 +470,37 @@ set_dns()
 		echo -n "Enter Option: ";
 		read opt
 		case $opt in
-			1)	set_prop net.eth0.dns1 1.1.1.1
-				set_prop net.eth0.dns2 1.0.0.1
-				set_prop net.dns1 1.1.1.1
-				set_prop net.dns2 1.0.0.1
-				set_prop net.ppp0.dns1 1.1.1.1
-				set_prop net.ppp0.dns2 1.0.0.1
-				set_prop net.rmnet0.dns1 1.1.1.1
-				set_prop net.rmnet0.dns2 1.0.0.1
-				set_prop net.rmnet1.dns1 1.1.1.1
-				set_prop net.rmnet1.dns2 1.0.0.1
-				set_prop net.pdpbr1.dns1 1.1.1.1
-				set_prop net.pdpbr1.dns2 1.0.0.1
-				REBOOT_REQUIRED=1
+			1)	iptables -t nat -A OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53
+				iptables -t nat -A OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53
+				iptables -t nat -D OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53 || true
+				iptables -t nat -D OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53 || true
+				iptables -t nat -I OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53
+				iptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53
+				sed -i  "3 ciptables -t nat -A OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53" $FILE
+				sed -i  "4 ciptables -t nat -A OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53" $FILE
+				sed -i  "5 ciptables -t nat -D OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53 || true" $FILE
+				sed -i  "6 ciptables -t nat -D OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53 || true" $FILE
+				sed -i  "7 ciptables -t nat -I OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53" $FILE
+				sed -i  "8 ciptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53" $FILE
 				clear;
 				echo "Enabled CloudFlare DNS.";
-				echo "Reboot device to apply.";
 				echo "";
 				press_enter
 				break;;
-			2)	set_prop net.eth0.dns1 8.8.8.8
-				set_prop net.eth0.dns2 8.8.4.4
-				set_prop net.dns1 8.8.8.8
-				set_prop net.dns2 8.8.4.4
-				set_prop net.ppp0.dns1 8.8.8.8
-				set_prop net.ppp0.dns2 8.8.4.4
-				set_prop net.rmnet0.dns1 8.8.8.8
-				set_prop net.rmnet0.dns2 8.8.4.4
-				set_prop net.rmnet1.dns1 8.8.8.8
-				set_prop net.rmnet1.dns2 8.8.4.4
-				set_prop net.pdpbr1.dns1 8.8.8.8
-				set_prop net.pdpbr1.dns2 8.8.4.4
-				REBOOT_REQUIRED=1
+			2)	iptables -t nat -A OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53
+				iptables -t nat -A OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53
+				iptables -t nat -D OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53 || true
+				iptables -t nat -D OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53 || true
+				iptables -t nat -I OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53
+				iptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53
+				sed -i  "3 ciptables -t nat -A OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53" $FILE
+				sed -i  "4 ciptables -t nat -A OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53" $FILE
+				sed -i  "5 ciptables -t nat -D OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53 || true" $FILE
+				sed -i  "6 ciptables -t nat -D OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53 || true" $FILE
+				sed -i  "7 ciptables -t nat -I OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53" $FILE
+				sed -i  "8 ciptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53" $FILE
 				clear;
 				echo "Enabled Google DNS.";
-				echo "Reboot device to apply.";
 				echo "";
 				press_enter
 				break;;
@@ -515,7 +537,7 @@ function verify_param()
 
 set_powercfg()
 {
-	FILE=/system/etc/services.d/LS99powercfg
+	FILE=/system/etc/init.d/LS00powercfg
 	# ===================================================================================================
 	# Values taken from yc9559's Project WIPE 
 	# powercfg script
@@ -711,13 +733,14 @@ service_toggle()
 	done
 }
 
+check_root
 mount -o rw,remount /system
 fix_permissions
 
 while :
 do
 	clear;
-	echo "Adrenaline ROM Menu";
+	echo -e "${GREEN}${BOLD}Shell Script Advanced Features${NONE}";
 	echo "";
 	echo " 1. Remap Bixby Key";
 	echo " 2. Change Device Name";
@@ -733,6 +756,7 @@ do
 	echo "88. Reboot Bootloader";
 	echo "99. Power Off";
 	echo " 0. Exit";
+	echo "";
 	echo -n "Enter option : ";
 	read opt
 	echo "";
