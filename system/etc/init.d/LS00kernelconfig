@@ -1,0 +1,19 @@
+#!/system/bin/sh
+
+function MOUNT_RW()
+{
+	/system/xbin/sysrw
+}
+
+function MOUNT_RO()
+{
+	/system/xbin/sysro
+}
+
+for i in 4 5 6 7; do
+	MOUNT_RW
+	chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+	echo 2496000 > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+	chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+	MOUNT_RO
+done

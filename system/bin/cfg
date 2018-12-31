@@ -18,6 +18,16 @@ UNDERLINE='\033[4m'
 CMD=/system/bin/cmd
 REBOOT_REQUIRED=0;
 
+function MOUNT_RW()
+{
+	/system/xbin/sysrw
+}
+
+function MOUNT_RO()
+{
+	/system/xbin/sysro
+}
+
 function press_enter()
 {
 	echo -n "Press EnterKey to continue.";
@@ -48,6 +58,7 @@ function fix_permissions()
 	chmod 755 /system/etc/init.d/LS00resetprop
 	chmod 755 /system/etc/init.d/LS00powercfg
 	chmod 755 /system/etc/init.d/LS00resetdns
+	chmod 755 /system/etc/init.d/LS00kernelconfig
 	chmod 644 /system/etc/hosts.long
 	chmod 644 /system/etc/hosts.medium
 	chmod 644 /system/etc/hosts.short
@@ -59,7 +70,7 @@ function edit_bixby()
 	while :
 	do
 		clear;
-		echo "Remap Bixby key to:";
+		echo "${GREEN}Remap Bixby key to:${NONE}";
 		echo ""
 		echo " 1. Home Btn [HOME]";
 		echo " 2. Power Btn [POWER]";
@@ -84,13 +95,13 @@ function edit_bixby()
 		echo " 0. Exit ";
 		echo "";
 		echo "Reboot to apply changes.";
-        echo -n -n "Enter option: "
+        echo -n -n "${YELLOW}Enter option: ${NONE}"
 		read bixby
 		if [ "$bixby" -eq 0 ] ; then
 			break;
 		elif [ "$bixby" -eq 99 ] ; then
 			clear;
-			echo -n "Enter custom function [Type 0 to exit]: ";
+			echo -n "${YELLOW}Enter custom function [Type 0 to exit]: ${NONE}";
 			read arg
 			if [ "$arg" -eq 0 ] ; then
 				break;
@@ -105,7 +116,7 @@ function edit_bixby()
 			fi
 		elif [[ "$bixby" -lt 0 || "$bixby" -gt 18 ]] ; then
 			clear;
-			echo "Invalid Option";
+			echo "${RED}Invalid Option${NONE}";
 			press_enter
 		else
 			REBOOT_REQUIRED=1
@@ -194,7 +205,7 @@ function edit_device()
 	while :
 	do
 		clear;
-		echo "Change device name to:";
+		echo "${GREEN}Change device name to:${NONE}";
 		echo "";
 		echo " 1. Google Pixel 2";
 		echo " 2. Google Pixel 2 XL";
@@ -211,14 +222,14 @@ function edit_device()
 		echo "";
 		echo "Reboot to apply changes";
 		echo "";
-		echo -n "Enter option: ";
+		echo -n "${YELLOW}Enter option: ${NONE}";
 		read opt
 		if [ "$opt" -eq 0 ] ; then
 			break;
 		elif [ "$opt" -eq 99 ] ; then
 			REBOOT_REQUIRED=1
 			clear;
-			echo -n "Enter custom model [Type 0 to exit]: ";
+			echo -n "${YELLOW}Enter custom model [Type 0 to exit]: ${NONE}";
 			read arg
 			if [ "$arg" -eq 0 ] ; then
 				break;
@@ -247,7 +258,7 @@ function edit_device()
 			fi
 		elif [[ "$opt" -lt 0 || "$opt" -gt 9 ]] ; then
 			clear;
-			echo "Invalid Option";
+			echo "${RED}Invalid Option${NONE}";
 			echo -n "Press EnterKey to continue. ";
 			read enterKey
 		else
@@ -345,11 +356,13 @@ function max_vol_warning()
 	while :
 	do
 		clear;
+		echo "${GREEN}Max Vol Warning Toggle${NONE}";
+		echo "";
 		echo " 1. Enable Max Volume Warning";
 		echo " 2. Disable Max Volume Warning";
 		echo " 0. Exit";
 		echo "";
-		echo -n "Enter Option: ";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
 		read opt
 		case $opt in
 			1)	settings put global audio_safe_volume_state 3
@@ -372,7 +385,7 @@ function max_vol_warning()
 				break;;
 			0)	break;;
 			*)	clear;
-				echo "Invalid option.";
+				echo "${RED}Invalid option.${NONE}";
 				sleep 1
 		esac
 	done
@@ -383,11 +396,13 @@ function navbar_toggle()
 	while :
 	do
 		clear;
+		echo "${GREEN}Navigation Bar Toggle${NONE}";
+		echo "";
 		echo " 1. Enable Navigation Bar";
 		echo " 2. Disable Navigation Bar";
 		echo " 0. Exit";
 		echo "";
-		echo -n "Enter Option: ";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
 		read opt
 		case $opt in
 			1)	set_prop qemu.hw.mainkeys 0
@@ -408,7 +423,7 @@ function navbar_toggle()
 				break;;
 			0)	break;;
 			*)	clear;
-				echo "Invalid option.";
+				echo "${RED}Invalid option.${NONE}";
 				sleep 1
 		esac
 	done
@@ -419,12 +434,14 @@ function immersive_mode()
 	while :
 	do
 		clear;
+		echo "${GREEN}Immersive Mode Toggle${NONE}";
+		echo "";
 		echo " 1. Navigation Only Immersive Mode";
 		echo " 2. Full Immersive Mode";
 		echo " 3. Disable Immersive Mode";
 		echo " 0. Exit";
 		echo "";
-		echo -n "Enter Option: ";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
 		read opt
 		case $opt in
 			1)	$CMD settings put global policy_control immersive.navigation=*
@@ -448,7 +465,7 @@ function immersive_mode()
 				break;;
 			0)	break;;
 			*)	clear;
-				echo "Invalid option.";
+				echo "${RED}Invalid option.${NONE}";
 				sleep 1
 		esac
 	done
@@ -460,11 +477,13 @@ function set_dns()
 	while :
 	do
 		clear;
+		echo "${GREEN}DNS Changer${NONE}";
+		echo ""
 		echo " 1. CloudFlare DNS";
 		echo " 2. Google DNS";
 		echo " 0. Exit";
 		echo "";
-		echo -n "Enter Option: ";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
 		read opt
 		case $opt in
 			1)	iptables -t nat -A OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53
@@ -503,7 +522,7 @@ function set_dns()
 				break;;
 			0)	break;;
 			*)	clear;
-				echo "Invalid option.";
+				echo "${RED}Invalid option.${NONE}";
 				sleep 1
 		esac
 	done
@@ -526,9 +545,9 @@ function verify_param()
 	fi
 	
 	if [ "`cat ${expected_target}`" = "${expected_value}" ]; then
-		echo "${action} OK"
+		echo "${action} ${CYAN}OK${NONE}"
 	else
-		echo "${action} FAIL"
+		echo "${action} ${RED}FAIL${NONE}"
 	fi
 }
 
@@ -560,12 +579,12 @@ function set_powercfg()
 	while :
 	do
 		clear;
-		echo "Project WIPE by yc9559 @ CoolApk";
-		echo "Github: github.com/yc9559/cpufreq-interactive-opt/";
-		echo "Ver: 20180603.2 [Thu Jun 28 04:26:24 2018]";
+		echo "${GREEN}Project WIPE by yc9559 @ CoolApk${NONE}";
+		echo "${GREEN}Github: github.com/yc9559/cpufreq-interactive-opt/${NONE}";
+		echo "${GREEN}Ver: 20180603.2 [Thu Jun 28 04:26:24 2018]${NONE}";
 		echo "";
 		echo "";
-		echo "Current config: ${CURRENT}";
+		echo "Current config: ${CYAN}${CURRENT}${NONE}";
 		echo "";
 		echo " 1. Powersave";
 		echo " 2. Balance";
@@ -574,59 +593,59 @@ function set_powercfg()
 		echo " 5. Restore Kernel Default";
 		echo " 0. Exit";
 		echo "";
-		echo -n "Enter Option: ";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
 		read opt
 		case $opt in
 			1)	clear;
-				echo "Setting power config to [Powersave].";
+				echo "Setting power config to ${CYAN}[Powersave]${NONE}.";
 				echo "";
 				powercfg powersave
-				mount -o rw,remount /system
+				MOUNT_RW
 				sed -i  "3 cpowercfg powersave" $FILE
 				echo "";
 				press_enter
 				break;;
 			2)	clear;
-				echo "Setting power config to [Balance].";
+				echo "Setting power config to ${CYAN}[Balance]${NONE}.";
 				echo "";
 				powercfg balance
-				mount -o rw,remount /system
+				MOUNT_RW
 				sed -i  "3 cpowercfg balance" $FILE
 				echo "";
 				press_enter
 				break;;
 			3)	clear;
-				echo "Setting power config to [Performance].";
+				echo "Setting power config to ${CYAN}[Performance]${NONE}.";
 				echo "";
 				powercfg performance
-				mount -o rw,remount /system
+				MOUNT_RW
 				sed -i  "3 cpowercfg performance" $FILE
 				echo "";
 				press_enter
 				break;;
 			4)	clear;
-				echo "Setting power config to [Fast].";
+				echo "Setting power config to ${CYAN}[Fast]${NONE}.";
 				echo "";
 				powercfg fast
-				mount -o rw,remount /system
+				MOUNT_RW
 				sed -i  "3 cpowercfg fast" $FILE
 				echo "";
 				press_enter
 				break;;
 			5)	clear;
 				REBOOT_REQUIRED=1
-				echo "Setting power config to [kernel_default].";
+				echo "Setting power config to ${CYAN}[kernel_default]${NONE}.";
 				echo "Reboot to apply setting.";
 				echo "";
 				powercfg kernel_default
-				mount -o rw,remount /system
+				MOUNT_RW
 				sed -i  "3 cpowercfg kernel_default" $FILE
 				echo "";
 				press_enter
 				break;;
 			0)	break;;
 			*)	clear;
-				echo "Invalid option.";
+				echo "${RED}Invalid option.${NONE}";
 				sleep 1
 		esac
 	done
@@ -637,37 +656,39 @@ function adblock()
 	while :
 	do
 		clear;
+		echo "${GREEN}Ads Block${NONE}";
+		echo "";
 		echo " 1. Aggresive Adblock";
 		echo " 2. Moderate Adblock";
 		echo " 3. Disable Adblock";
 		echo " 0. Exit";
 		echo "";
-		echo -n "Enter Option: ";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
 		read opt
 		case $opt in
-			1)	/system/xbin/sysrw
+			1)	MOUNT_RW
 				cp /system/etc/hosts.long /system/etc/hosts
-				/system/xbin/sysro
+				MOUNT_RO
 				REBOOT_REQUIRED=1
 				clear;
-				echo "Enabled aggresive adblock.";
+				echo "Enabled ${CYAN}aggresive${NONE} adblock.";
 				echo "";
 				echo "Reboot device to apply.";
 				press_enter
 				break;;
-			2)	/system/xbin/sysrw
+			2)	MOUNT_RW
 				cp /system/etc/hosts.medium /system/etc/hosts
-				/system/xbin/sysro
+				MOUNT_RO
 				REBOOT_REQUIRED=1
 				clear;
-				echo "Enabled moderate adblock";
+				echo "Enabled ${CYAN}moderate${NONE} adblock";
 				echo "";
 				echo "Reboot device to apply.";
 				press_enter
 				break;;
-			3)	/system/xbin/sysrw
+			3)	MOUNT_RW
 				cp /system/etc/hosts.short /system/etc/hosts
-				/system/xbin/sysro
+				MOUNT_RO
 				REBOOT_REQUIRED=1
 				clear;
 				echo "Disabled adblock";
@@ -677,7 +698,7 @@ function adblock()
 				break;;
 			0)	break;;
 			*)	clear;
-				echo "Invalid option.";
+				echo "${RED}Invalid option.${NONE}";
 				sleep 1
 		esac
 	done
@@ -689,8 +710,8 @@ function service_toggle()
 	do
 		clear;
 		echo "${RED}${BOLD}[ WARNING ]${NONE}";
-		echo "This function might break stuffs in";
-		echo "an unexpected and terrible way.";
+		echo "${GREEN}This function might break stuffs in${NONE}";
+		echo "${GREEN}an unexpected and terrible way.${NONE}";
 		echo "";
 		sleep 1;
 		echo " 1. Aggresive Service Disabler";
@@ -698,7 +719,7 @@ function service_toggle()
 		echo " 3. Disable Service Disabler";
 		echo " 0. Exit";
 		echo "";
-		echo -n "Enter Option: ";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
 		read opt
 		case $opt in
 			1)	clear;
@@ -730,7 +751,7 @@ function service_toggle()
 				break;;
 			0)	break;;
 			*)	clear;
-				echo "Invalid option.";
+				echo "${RED}Invalid option.${NONE}";
 				sleep 1
 		esac
 	done
@@ -741,6 +762,7 @@ function cpu_big_tuning()
 # TODO: Check if frequency is actually valid
 # Would be great if we can have a dynamic menu but it is beyond my current ability
 	cur_max_file=/sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+	FILE=/system/etc/init.d/LS00kernelconfig
 	while :
 	do
 		BIG_FREQ=0
@@ -759,8 +781,7 @@ function cpu_big_tuning()
 		echo " 8. 1807 MHz";
 		echo " 0. Exit";
 		echo "";
-		echo "Frequency will reset after a reboot";
-		echo -n "Enter Option: ";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
 		read opt
 		if [ "$opt" -eq 1 ] ; then
 			BIG_FREQ=2652000;
@@ -784,14 +805,16 @@ function cpu_big_tuning()
 		
 		if [ "$BIG_FREQ" -gt 1703000 ] ; then
 			for i in 4 5 6 7; do
-				/system/xbin/sysrw
-				chmod 777 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				MOUNT_RW
+				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 				echo "$BIG_FREQ" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
-				/system/xbin/sysro
+				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				sed -i  "16 cecho ${BIG_FREQ} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
+				MOUNT_RO
 			done
 		else
 			clear
-			echo "Invalid option";
+			echo "${RED}Invalid option${NONE}";
 			sleep 2
 			clear
 		fi
@@ -799,7 +822,7 @@ function cpu_big_tuning()
 }
 
 check_root
-mount -o rw,remount /system
+MOUNT_RW
 fix_permissions
 
 while :
@@ -823,7 +846,7 @@ do
 	echo "99. Power Off";
 	echo " 0. Exit";
 	echo "";
-	echo -n "Enter option : ";
+	echo -n "${YELLOW}Enter option : ${NONE}";
 	read opt
 	echo "";
 	case $opt in
@@ -842,6 +865,7 @@ do
 		88)	reboot download &>/dev/null;;
 		99) poweroff;;
 		0)	clear;
+			MOUNT_RO
 			if [ "$REBOOT_REQUIRED" -eq 1 ]; then
 				echo "You have made changes that require a reboot to apply";
 				echo "";
@@ -855,7 +879,7 @@ do
 			clear;
 			break;;
 		*)	clear;
-			echo "Invalid option"
+			echo "${RED}Invalid option${NONE}"
 			sleep 1;;
 	esac
 done
