@@ -10,26 +10,22 @@ C0_CPUFREQ_DIR="/sys/devices/system/cpu/cpu0/cpufreq"
 C1_CPUFREQ_DIR="/sys/devices/system/cpu/cpu4/cpufreq"
 
 # $1:timer_rate $2:value
-function set_param_little() 
-{
-	echo ${2} > ${C0_GOVERNOR_DIR}/${1}
+function set_param_little() {
+	echo ${2} >${C0_GOVERNOR_DIR}/${1}
 }
 
 # $1:timer_rate $2:value
-function set_param_big() 
-{
-	echo ${2} > ${C1_GOVERNOR_DIR}/${1}
+function set_param_big() {
+	echo ${2} >${C1_GOVERNOR_DIR}/${1}
 }
 
 # $1:timer_rate
-function print_param() 
-{
+function print_param() {
 	print_value "LITTLE: ${1}" ${C0_GOVERNOR_DIR}/${1}
 	print_value "big: ${1}" ${C1_GOVERNOR_DIR}/${1}
 }
 
-function unify_environment() 
-{
+function unify_environment() {
 	# SELinux permissive
 	setenforce 0
 	# Exynos hotplug
@@ -44,8 +40,7 @@ function unify_environment()
 	lock_value "interactive" ${C1_CPUFREQ_DIR}/scaling_governor
 }
 
-function runonce_custom()
-{
+function runonce_custom() {
 	# avoid permission problem, do not set 0444
 	set_value 2-3 /dev/cpuset/background/cpus
 	set_value 0-3 /dev/cpuset/system-background/cpus
@@ -62,73 +57,62 @@ function runonce_custom()
 	lock_value 0 /sys/kernel/hmp/boost
 }
 
-function before_modify()
-{
+function before_modify() {
 	chown 0.0 ${C0_GOVERNOR_DIR}/*
 	chmod 0666 ${C0_GOVERNOR_DIR}/*
 	lock_value 580000 ${C0_CPUFREQ_DIR}/scaling_min_freq
 
-#	set_value 1 /sys/devices/system/cpu/cpu4/online
+	#	set_value 1 /sys/devices/system/cpu/cpu4/online
 	chown 0.0 ${C1_GOVERNOR_DIR}/*
 	chmod 0666 ${C1_GOVERNOR_DIR}/*
 	lock_value 680000 ${C1_CPUFREQ_DIR}/scaling_min_freq
 }
 
-function after_modify()
-{
+function after_modify() {
 	chmod 0444 ${C0_GOVERNOR_DIR}/*
 	chmod 0444 ${C1_GOVERNOR_DIR}/*
 	verify_param
 }
 
-function powersave_custom()
-{
+function powersave_custom() {
 	:
 }
 
-function balance_custom()
-{
+function balance_custom() {
 	:
 }
 
-function performance_custom()
-{
+function performance_custom() {
 	:
 }
 
-function fast_custom()
-{
+function fast_custom() {
 	:
 }
-
-
 
 # $1:value $2:file path
-function set_value() 
-{
+function set_value() {
 	if [ -f $2 ]; then
-		echo $1 > $2
+		echo $1 >$2
 	fi
 }
 
 # $1:value $2:file path
-function lock_value() 
-{
+function lock_value() {
 	if [ -f $2 ]; then
 		# chown 0.0 $2
 		chmod 0666 $2
-		echo $1 > $2
+		echo $1 >$2
 		chmod 0444 $2
 	fi
 }
 
 # $1:io-scheduler $2:block-path
-function set_io() 
-{
+function set_io() {
 	if [ -f $2/queue/scheduler ]; then
-		if [ `grep -c $1 $2/queue/scheduler` = 1 ]; then
-			echo $1 > $2/queue/scheduler
-			echo 512 > $2/queue/read_ahead_kb
+		if [ $(grep -c $1 $2/queue/scheduler) = 1 ]; then
+			echo $1 >$2/queue/scheduler
+			echo 512 >$2/queue/read_ahead_kb
 			lock_value 0 $2/queue/iostats
 			lock_value 256 $2/queue/nr_requests
 			lock_value 0 $2/queue/iosched/slice_idle
@@ -137,16 +121,14 @@ function set_io()
 }
 
 # $1:display-name $2:file path
-function print_value() 
-{
+function print_value() {
 	if [ -f $2 ]; then
 		echo $1
 		cat $2
 	fi
 }
 
-function verify_param() 
-{
+function verify_param() {
 	expected_target=${C0_GOVERNOR_DIR}/target_loads
 	if [ "$action" = "powersave" ]; then
 		expected_value="80 680000:27 780000:39 880000:61 980000:68 1380000:98 1680000:94"
@@ -157,7 +139,7 @@ function verify_param()
 	elif [ "$action" = "fast" ]; then
 		expected_value="80 1680000:90"
 	fi
-	if [ "`cat ${expected_target}`" = "${expected_value}" ]; then
+	if [ "$(cat ${expected_target})" = "${expected_value}" ]; then
 		echo "${action} OK"
 	else
 		echo "${action} FAIL"
@@ -166,15 +148,20 @@ function verify_param()
 
 action=$1
 
-if [ "$action" = "debug" ]; then :
-elif [ "$action" = "balance" ]; then :
-elif [ "$action" = "performance" ]; then :
-elif [ "$action" = "fast" ]; then :
-elif [ "$action" = "powersave" ]; then :
+if [ "$action" = "debug" ]; then
+	:
+elif [ "$action" = "balance" ]; then
+	:
+elif [ "$action" = "performance" ]; then
+	:
+elif [ "$action" = "fast" ]; then
+	:
+elif [ "$action" = "powersave" ]; then
+	:
 elif [ "$action" = "kernel_default" ]; then
 	exit 0
 else
-	action="balance";
+	action="balance"
 fi
 
 if [ "$action" = "debug" ]; then

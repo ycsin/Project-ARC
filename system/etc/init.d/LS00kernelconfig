@@ -10,6 +10,14 @@ function MOUNT_RO()
 	/system/xbin/sysro
 }
 
+for i in 0 1 2 3; do
+	MOUNT_RW
+	chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+	echo 1690000 > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+	chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+	MOUNT_RO
+done
+
 for i in 4 5 6 7; do
 	MOUNT_RW
 	chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq

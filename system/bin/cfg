@@ -1,3 +1,4 @@
+#!/system/bin/sh
 #==============================================================
 #       FILE: cfg
 #       AUTHOR: ImbaWind @ XDA
@@ -759,57 +760,101 @@ function service_toggle()
 
 function cpu_big_tuning()
 {
-# TODO: Check if frequency is actually valid
-# Would be great if we can have a dynamic menu but it is beyond my current ability
-	cur_max_file=/sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+	cpu_dir=/sys/devices/system/cpu/cpu4/cpufreq/
+	cur_max_file=${cpu_dir}/scaling_max_freq
 	FILE=/system/etc/init.d/LS00kernelconfig
 	while :
 	do
-		BIG_FREQ=0
 		CUR_MAX=`cat $cur_max_file`
 		clear;
-		echo "${BOLD}${GREEN}BIG cluster max frequency${NONE}";
-		echo "Current Freq: ${CYAN}$CUR_MAX${NONE}";
+		echo "${BOLD}${GREEN}big cluster max frequency${NONE}";
+		echo "Current Freq: ${CYAN}$(($CUR_MAX / 1000)) MHz${NONE}";
 		echo "";
-		echo " 1. 2652 MHz";
-		echo " 2. 2574 MHz";
-		echo " 3. 2496 MHz [Default]";
-		echo " 4. 2314 MHz";
-		echo " 5. 2158 MHz";
-		echo " 6. 2002 MHz";
-		echo " 7. 1937 MHz";
-		echo " 8. 1807 MHz";
+		i=0
+		vAvailableFrequencies=($(cat $cpu_dir/scaling_available_frequencies))
+		nAvailableFrequencies=${#vAvailableFrequencies[@]}
+		while :
+		do
+			if [ "${vAvailableFrequencies[i]}" -gt 0 ] ; then
+				echo "$(($i+1)).\t$((${vAvailableFrequencies[i]} / 1000))\tMHz";
+				i=$((i + 1));
+			else
+				break;
+			fi
+		done
+		echo "";
 		echo " 0. Exit";
 		echo "";
 		echo -n "${YELLOW}Enter Option: ${NONE}";
 		read opt
-		if [ "$opt" -eq 1 ] ; then
-			BIG_FREQ=2652000;
-		elif [ "$opt" -eq 2 ] ; then
-			BIG_FREQ=2574000;
-		elif [ "$opt" -eq 3 ] ; then
-			BIG_FREQ=2496000;
-		elif [ "$opt" -eq 4 ] ; then
-			BIG_FREQ=2314000;
-		elif [ "$opt" -eq 5 ] ; then
-			BIG_FREQ=2158000;
-		elif [ "$opt" -eq 6 ] ; then
-			BIG_FREQ=2002000;
-		elif [ "$opt" -eq 7 ] ; then
-			BIG_FREQ=1937000;
-		elif [ "$opt" -eq 8 ] ; then
-			BIG_FREQ=1807000;
-		elif [ "$opt" -eq 0 ] ; then
+
+		if [ "$opt" -eq 0 ] ; then
 			break;
+		else
+			opt=$((opt - 1));
 		fi
-		
-		if [ "$BIG_FREQ" -gt 1703000 ] ; then
+
+		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
 			for i in 4 5 6 7; do
 				MOUNT_RW
 				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
-				echo "$BIG_FREQ" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
-				sed -i  "16 cecho ${BIG_FREQ} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
+				sed -i  "24 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
+				MOUNT_RO
+			done
+		else
+			clear
+			echo "${RED}Invalid option${NONE}";
+			sleep 2
+			clear
+		fi
+	done
+}
+
+function cpu_little_tuning()
+{
+	cpu_dir=/sys/devices/system/cpu/cpu0/cpufreq/
+	cur_max_file=${cpu_dir}/scaling_max_freq
+	FILE=/system/etc/init.d/LS00kernelconfig
+	while :
+	do
+		CUR_MAX=`cat $cur_max_file`
+		clear;
+		echo "${BOLD}${GREEN}LITTLE cluster max frequency${NONE}";
+		echo "Current Freq: ${CYAN}$(($CUR_MAX / 1000)) MHz${NONE}";
+		echo "";
+		i=0
+		vAvailableFrequencies=($(cat $cpu_dir/scaling_available_frequencies))
+		nAvailableFrequencies=${#vAvailableFrequencies[@]}
+		while :
+		do
+			if [ "${vAvailableFrequencies[i]}" -gt 0 ] ; then
+				echo "$(($i+1)).\t$((${vAvailableFrequencies[i]} / 1000))\tMHz";
+				i=$((i + 1));
+			else
+				break;
+			fi
+		done
+		echo "";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+
+		if [ "$opt" -eq 0 ] ; then
+			break;
+		else
+			opt=$((opt - 1));
+		fi
+
+		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
+			for i in 0 1 2 3; do
+				MOUNT_RW
+				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				sed -i  "16 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
 				MOUNT_RO
 			done
 		else
@@ -839,7 +884,8 @@ do
 	echo " 7. Powercfg by yc9559@CoolApk [EXY8895]";
 	echo " 8. Host File Based AdBlock";
 	echo " 9. Service Disabler";
-	echo "10. Set BIG Cluster Max Frequency";
+	echo "10. Set big Cluster Max Frequency";
+	echo "11. Set LITTLE Cluster Max Frequency";
 	echo "66. Reboot Device";
 	echo "77. Reboot Recovery";
 	echo "88. Reboot Bootloader";
@@ -860,6 +906,7 @@ do
 		8)	adblock;;
 		9)	service_toggle;;
 		10)	cpu_big_tuning;;
+		11)	cpu_little_tuning;;
 		66)	reboot &>/dev/null;;
 		77)	reboot recovery &>/dev/null;;
 		88)	reboot download &>/dev/null;;
