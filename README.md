@@ -1,7 +1,7 @@
 # Shell Script Advanced Features
 
 ### Version
-#### Pre-released
+Pre-released
 
 ### Current Functions
 1. Remap Bixby Key
