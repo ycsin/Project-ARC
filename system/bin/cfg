@@ -6,6 +6,8 @@
 #       USAGE: cfg
 #==============================================================
 
+SCRIPT_VERSION="PRE-RELEASED"
+
 NONE='\033[00m'
 RED='\033[01;31m'
 GREEN='\033[01;32m'
@@ -21,12 +23,18 @@ REBOOT_REQUIRED=0;
 
 function MOUNT_RW()
 {
-	/system/xbin/sysrw
+	if [ ! -f "/system/xbin/sysrw" ]; then
+		mount -o rw,remount /system
+	else
+		/system/xbin/sysrw
+	fi
 }
 
 function MOUNT_RO()
 {
-	/system/xbin/sysro
+	if [ -f "/system/xbin/sysro" ]; then
+		/system/xbin/sysro
+	fi
 }
 
 function press_enter()
@@ -37,8 +45,8 @@ function press_enter()
 
 function check_root()
 {
+	clear;
 	if [[ $(id -u) -ne 0 ]] ; then
-		clear
 		echo "This script requires root access to execute";
 		echo "Type  su  first before  cfg";
 		echo "";
@@ -48,15 +56,231 @@ function check_root()
 	fi
 }
 
-function fix_permissions()
+function verify_files()
 {
+	clear
+	FILES_UPDATED=0
+
+# ========================================================
+# Download missing files
+# ========================================================
+	if [ ! -f "/system/bin/powercfg" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading powercfg...";
+		MOUNT_RW
+		wget -O /system/bin/powercfg https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/bin/powercfg
+		MOUNT_RO
+		echo "";
+	fi
+	if [ ! -f "/system/bin/set_key" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading set_key...";
+		MOUNT_RW
+		wget -O /system/bin/set_key https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/bin/set_key
+		MOUNT_RO
+		echo "";
+	fi
+	if [ ! -f "/system/bin/set_prop" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading set_prop...";
+		MOUNT_RW
+		wget -O /system/bin/set_prop https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/bin/set_prop
+		MOUNT_RO
+		echo "";
+	fi
+	if [ ! -f "/system/xbin/dss" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading dss...";
+		MOUNT_RW
+		wget -O /system/xbin/dss https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/xbin/dss
+		MOUNT_RO
+		echo "";
+	fi
+	if [ ! -f "/system/xbin/dss2" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading dss2...";
+		MOUNT_RW
+		wget -O /system/xbin/dss2 https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/xbin/dss2
+		MOUNT_RO
+		echo "";
+	fi
+	if [ ! -f "/system/etc/init.d/LS00devicename" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading LS00devicename...";
+		MOUNT_RW
+		wget -O /system/etc/init.d/LS00devicename https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00devicename
+		sed -i  "6 cdoresetprop ro.product.model '`getprop ro.product.model`'" /system/etc/init.d/LS00devicename
+		sed -i  "7 cdoresetprop ro.product.brand '`getprop ro.product.brand`'" /system/etc/init.d/LS00devicename
+		sed -i  "8 cdoresetprop ro.product.manufacturer '`getprop ro.product.manufacturer`'" /system/etc/init.d/LS00devicename
+		sed -i  "9 cdoresetprop ro.product.name '`getprop ro.product.name`'" /system/etc/init.d/LS00devicename
+		sed -i  "10 cdoresetprop ro.product.device '`getprop ro.product.device`'" /system/etc/init.d/LS00devicename
+		MOUNT_RO
+		echo "";
+	fi
+	if [ ! -f "/system/etc/init.d/LS00powercfg" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading LS00powercfg...";
+		MOUNT_RW
+		wget -O /system/etc/init.d/LS00powercfg https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00powercfg
+		MOUNT_RO
+		echo "";
+	fi
+	if [ ! -f "/system/etc/init.d/LS00resetdns" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading LS00resetdns...";
+		MOUNT_RW
+		wget -O /system/etc/init.d/LS00resetdns https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00resetdns
+		MOUNT_RO
+		echo "";
+	fi
+	if [ ! -f "/system/etc/init.d/LS00kernelconfig" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading LS00kernelconfig...";
+		MOUNT_RW
+		wget -O /system/etc/init.d/LS00kernelconfig https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00kernelconfig
+		sed -i  "24 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
+		sed -i  "16 cecho `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
+		MOUNT_RO
+		echo "";
+	fi
+	if [ ! -f "/system/etc/hosts.long" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading hosts.long...";
+		MOUNT_RW
+		wget -O /system/etc/hosts.long https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/hosts.long
+		MOUNT_RO
+		echo "";
+	fi
+	if [ ! -f "/system/etc/hosts.medium" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading hosts.medium...";
+		MOUNT_RW
+		wget -O /system/etc/hosts.medium https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/hosts.medium
+		MOUNT_RO
+		echo "";
+	fi
+	if [ ! -f "/system/etc/hosts.short" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading hosts.short...";
+		MOUNT_RW
+		wget -O /system/etc/hosts.short https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/hosts.short
+		MOUNT_RO
+		echo "";
+	fi
+	if [ ! -f "/system/usr/keylayout/Generic.kl" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading Generic.kl...";
+		MOUNT_RW
+		wget -O /system/usr/keylayout/Generic.kl https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/usr/keylayout/Generic.kl
+		MOUNT_RO
+		echo "";
+	fi
+
+	if [ "$FILES_UPDATED" -eq 1 ]; then
+		if [ ! -f "/system/bin/powercfg" ]; then
+			echo "E: /system/bin/powercfg"
+			press_enter
+			exit 0
+		fi
+		echo "powercfg ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/bin/set_key" ]; then
+			echo "E: /system/bin/set_key"
+			press_enter
+			exit 0
+		fi
+		echo "set_key ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/bin/set_prop" ]; then
+			echo "E: /system/bin/set_prop"
+			press_enter
+			exit 0
+		fi
+		echo "set_prop ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/xbin/dss" ]; then
+			echo "E: /system/xbin/dss"
+			press_enter
+			exit 0
+		fi
+		echo "dss ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/xbin/dss2" ]; then
+			echo "E: /system/xbin/dss"
+			press_enter
+			exit 0
+		fi
+		echo "dss2 ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/etc/init.d/LS00devicename" ]; then
+			echo "E: /system/etc/init.d/LS00devicename"
+			press_enter
+			exit 0
+		fi
+		echo "LS00devicename ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/etc/init.d/LS00powercfg" ]; then
+			echo "E: /system/etc/init.d/LS00powercfg"
+			press_enter
+			exit 0
+		fi
+		echo "LS00powercfg ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/etc/init.d/LS00resetdns" ]; then
+			echo "E: /system/etc/init.d/LS00resetdns"
+			press_enter
+			exit 0
+		fi
+		echo "LS00resetdns ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/etc/init.d/LS00kernelconfig" ]; then
+			echo "E: /system/etc/init.d/LS00kernelconfig"
+			press_enter
+			exit 0
+		fi
+		echo "LS00kernelconfig ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/etc/hosts.long" ]; then
+			echo "E: /system/etc/hosts.long"
+			press_enter
+			exit 0
+		fi
+		echo "hosts.long ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/etc/hosts.medium" ]; then
+			echo "E: /system/etc/hosts.medium"
+			press_enter
+			exit 0
+		fi
+		echo "hosts.medium ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/etc/hosts.short" ]; then
+			echo "E: /system/etc/hosts.short"
+			press_enter
+			exit 0
+		fi
+		echo "hosts.short ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/usr/keylayout/Generic.kl" ]; then
+			echo "E: /system/usr/keylayout/Generic.kl"
+			press_enter
+			exit 0
+		fi
+		echo "Generic.kl ${GREEN}OK${NONE}";
+		echo "";
+	fi
+
+# ========================================================
+# Fix permissions
+# ========================================================
+	MOUNT_RW
 	chmod 777 /system/bin/cfg
 	chmod 777 /system/bin/powercfg
 	chmod 777 /system/bin/set_key
 	chmod 777 /system/bin/set_prop
 	chmod 777 /system/xbin/dss
 	chmod 777 /system/xbin/dss2
-	chmod 755 /system/etc/init.d/LS00resetprop
+	chmod 755 /system/etc/init.d/LS00devicename
 	chmod 755 /system/etc/init.d/LS00powercfg
 	chmod 755 /system/etc/init.d/LS00resetdns
 	chmod 755 /system/etc/init.d/LS00kernelconfig
@@ -64,6 +288,9 @@ function fix_permissions()
 	chmod 644 /system/etc/hosts.medium
 	chmod 644 /system/etc/hosts.short
 	chmod 644 /system/usr/keylayout/Generic.kl
+	MOUNT_RO
+
+	if [ "$FILES_UPDATED" -eq 1 ]; then press_enter; fi
 }
 
 function edit_bixby()
@@ -202,7 +429,7 @@ function edit_bixby()
 
 function edit_device()
 {
-	FILE=/system/etc/init.d/LS00resetprop
+	FILE=/system/etc/init.d/LS00devicename
 	while :
 	do
 		clear;
@@ -236,23 +463,33 @@ function edit_device()
 				break;
 			else
 				clear;
+				MOUNT_RW
 				sed -i  "6 cdoresetprop ro.product.model $arg" $FILE
+				MOUNT_RO
 				clear;
 				echo -n "Enter custom brand: ";
 				read arg
+				MOUNT_RW
 				sed -i  "7 cdoresetprop ro.product.brand $arg" $FILE
+				MOUNT_RO
 				clear;
 				echo -n "Enter custom manufacturer: ";
 				read arg
+				MOUNT_RW
 				sed -i  "8 cdoresetprop ro.product.manufacturer $arg" $FILE
+				MOUNT_RO
 				clear;
 				echo -n "Enter custom name: ";
 				read arg
+				MOUNT_RW
 				sed -i  "9 cdoresetprop ro.product.name $arg" $FILE
+				MOUNT_RO
 				clear;
 				echo -n "Enter custom device: ";
 				read arg
+				MOUNT_RW
 				sed -i  "10 cdoresetprop ro.product.brand $arg" $FILE
+				MOUNT_RO
 				clear;
 				press_enter
 				break;
@@ -268,83 +505,101 @@ function edit_device()
 			case $opt in
 				1)	clear;
 					echo "Resetting to Google Pixel 2";
+					MOUNT_RW
 					sed -i  "6 cdoresetprop ro.product.model 'Pixel 2'" $FILE
 					sed -i  "7 cdoresetprop ro.product.brand 'Google'" $FILE
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'walleye'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'walleye'" $FILE
+					MOUNT_RO
 					press_enter
 					break;;
 				2)	clear;
 					echo "Resetting to Google Pixel 2 XL";
+					MOUNT_RW
 					sed -i  "6 cdoresetprop ro.product.model 'Pixel 2'" $FILE
 					sed -i  "7 cdoresetprop ro.product.brand 'Google'" $FILE
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'taimen'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'taimen'" $FILE
+					MOUNT_RO
 					press_enter
 					break;;
 				3)	clear;
 					echo "Resetting to Google Pixel 3";
+					MOUNT_RW
 					sed -i  "6 cdoresetprop ro.product.model 'Pixel 3'" $FILE
 					sed -i  "7 cdoresetprop ro.product.brand 'Google'" $FILE
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'blueline'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'blueline'" $FILE
+					MOUNT_RO
 					press_enter
 					break;;
 				4)	clear;
 					echo "Resetting to Google Pixel 3 XL";
+					MOUNT_RW
 					sed -i  "6 cdoresetprop ro.product.model 'Pixel 3 XL'" $FILE
 					sed -i  "7 cdoresetprop ro.product.brand 'Google'" $FILE
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'crosshatch'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'crosshatch'" $FILE
+					MOUNT_RO
 					press_enter
 					break;;
 				5)	clear;
 					echo "Resetting to Samsung Galaxy S8";
+					MOUNT_RW
 					sed -i  "6 cdoresetprop ro.product.model 'SM-G950F'" $FILE
 					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'dreamltexx'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'dreamlte'" $FILE
+					MOUNT_RO
 					press_enter
 					break;;
 				6)	clear;
 					echo "Resetting to Samsung Galaxy S8+";
+					MOUNT_RW
 					sed -i  "6 cdoresetprop ro.product.model 'SM-G955F'" $FILE
 					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'dream2ltexx'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'dream2lte'" $FILE
+					MOUNT_RO
 					press_enter
 					break;;
 				7)	clear;
 					echo "Resetting to Samsung Galaxy S9";
+					MOUNT_RW
 					sed -i  "6 cdoresetprop ro.product.model 'SM-G960F'" $FILE
 					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'starltexx'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'starlte'" $FILE
+					MOUNT_RO
 					press_enter
 					break;;
 				8)	clear;
 					echo "Resetting to Samsung Galaxy S9+";
+					MOUNT_RW
 					sed -i  "6 cdoresetprop ro.product.model 'SM-G965F'" $FILE
 					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'star2ltexx'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'star2lte'" $FILE
+					MOUNT_RO
 					press_enter
 					break;;
 				9)	clear;
 					echo "Resetting to Samsung Galaxy Note 9";
+					MOUNT_RW
 					sed -i  "6 cdoresetprop ro.product.model 'SM-N960F'" $FILE
 					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
 					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
 					sed -i  "9 cdoresetprop ro.product.name 'crownltexx'" $FILE
 					sed -i  "10 cdoresetprop ro.product.device 'crownlte'" $FILE
+					MOUNT_RO
 					press_enter
 					break;;
 			esac
@@ -493,12 +748,14 @@ function set_dns()
 				iptables -t nat -D OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53 || true
 				iptables -t nat -I OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53
 				iptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53
+				MOUNT_RW
 				sed -i  "3 ciptables -t nat -A OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53" $FILE
 				sed -i  "4 ciptables -t nat -A OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53" $FILE
 				sed -i  "5 ciptables -t nat -D OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53 || true" $FILE
 				sed -i  "6 ciptables -t nat -D OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53 || true" $FILE
 				sed -i  "7 ciptables -t nat -I OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53" $FILE
 				sed -i  "8 ciptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53" $FILE
+				MOUNT_RO
 				clear;
 				echo "Enabled CloudFlare DNS.";
 				echo "";
@@ -510,12 +767,14 @@ function set_dns()
 				iptables -t nat -D OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53 || true
 				iptables -t nat -I OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53
 				iptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53
+				MOUNT_RW
 				sed -i  "3 ciptables -t nat -A OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53" $FILE
 				sed -i  "4 ciptables -t nat -A OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53" $FILE
 				sed -i  "5 ciptables -t nat -D OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53 || true" $FILE
 				sed -i  "6 ciptables -t nat -D OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53 || true" $FILE
 				sed -i  "7 ciptables -t nat -I OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53" $FILE
 				sed -i  "8 ciptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53" $FILE
+				MOUNT_RO
 				clear;
 				echo "Enabled Google DNS.";
 				echo "";
@@ -576,7 +835,9 @@ function set_powercfg()
 	else
 		CURRENT="kernel_default"
 	fi
+	MOUNT_RW
 	sed -i  "3 cpowercfg ${CURRENT}" $FILE
+	MOUNT_RO
 	while :
 	do
 		clear;
@@ -600,36 +861,40 @@ function set_powercfg()
 			1)	clear;
 				echo "Setting power config to ${CYAN}[Powersave]${NONE}.";
 				echo "";
-				powercfg powersave
 				MOUNT_RW
+				powercfg powersave
 				sed -i  "3 cpowercfg powersave" $FILE
+				MOUNT_RO
 				echo "";
 				press_enter
 				break;;
 			2)	clear;
 				echo "Setting power config to ${CYAN}[Balance]${NONE}.";
 				echo "";
-				powercfg balance
 				MOUNT_RW
+				powercfg balance
 				sed -i  "3 cpowercfg balance" $FILE
+				MOUNT_RO
 				echo "";
 				press_enter
 				break;;
 			3)	clear;
 				echo "Setting power config to ${CYAN}[Performance]${NONE}.";
 				echo "";
-				powercfg performance
 				MOUNT_RW
+				powercfg performance
 				sed -i  "3 cpowercfg performance" $FILE
+				MOUNT_RO
 				echo "";
 				press_enter
 				break;;
 			4)	clear;
 				echo "Setting power config to ${CYAN}[Fast]${NONE}.";
 				echo "";
-				powercfg fast
 				MOUNT_RW
+				powercfg fast
 				sed -i  "3 cpowercfg fast" $FILE
+				MOUNT_RO
 				echo "";
 				press_enter
 				break;;
@@ -638,9 +903,10 @@ function set_powercfg()
 				echo "Setting power config to ${CYAN}[kernel_default]${NONE}.";
 				echo "Reboot to apply setting.";
 				echo "";
-				powercfg kernel_default
 				MOUNT_RW
+				powercfg kernel_default
 				sed -i  "3 cpowercfg kernel_default" $FILE
+				MOUNT_RO
 				echo "";
 				press_enter
 				break;;
@@ -800,9 +1066,9 @@ function cpu_big_tuning()
 				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+			done
 				sed -i  "24 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
 				MOUNT_RO
-			done
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -854,9 +1120,9 @@ function cpu_little_tuning()
 				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
-				sed -i  "16 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
-				MOUNT_RO
 			done
+				sed -i  "16 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" $FILE
+				MOUNT_RO
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -867,13 +1133,13 @@ function cpu_little_tuning()
 }
 
 check_root
-MOUNT_RW
-fix_permissions
+verify_files
 
 while :
 do
 	clear;
 	echo -e "${GREEN}${BOLD}Shell Script Advanced Features${NONE}";
+	echo "Version: ${CYAN}$SCRIPT_VERSION${NONE}";
 	echo "";
 	echo " 1. Remap Bixby Key";
 	echo " 2. Change Device Name";

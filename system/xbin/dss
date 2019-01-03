@@ -1,5 +1,5 @@
 #!/system/bin/sh
-
+SCRIPT_VERSION=1
 CMD=enable
 
 if [ "$1" == "enable" ]; then

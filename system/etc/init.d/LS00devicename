@@ -8,3 +8,5 @@ doresetprop ro.product.brand 'samsung'
 doresetprop ro.product.manufacturer 'samsung'
 doresetprop ro.product.name 'dreamltexx'
 doresetprop ro.product.device 'dreamlte'
+
+SCRIPT_VERSION=1

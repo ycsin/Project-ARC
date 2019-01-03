@@ -6,6 +6,7 @@
 #       DESCRIPTION: Change key function
 #       USAGE: set_key <key_num> <arg>
 #====================================================
+SCRIPT_VERSION=1
 
 FILE=/system/usr/keylayout/Generic.kl
 prop=$1

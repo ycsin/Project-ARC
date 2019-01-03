@@ -3,6 +3,7 @@
 # Author: yc9559
 # Platform: exynos_8895
 # Generated at: Thu Jun 28 04:26:24 2018
+SCRIPT_VERSION=1
 
 C0_GOVERNOR_DIR="/sys/devices/system/cpu/cpu0/cpufreq/interactive"
 C1_GOVERNOR_DIR="/sys/devices/system/cpu/cpu4/cpufreq/interactive"

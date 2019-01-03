@@ -4,6 +4,7 @@
 #            AUTHOR: xpirt
 #       DESCRIPTION: Change prop in file
 #====================================================
+SCRIPT_VERSION=1
 
 FILE=/system/build.prop
 prop=$1
