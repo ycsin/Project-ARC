@@ -1,0 +1,528 @@
+#!/system/bin/sh
+#====================================================
+#              FILE: SSAF_advanced_device_settings
+#            AUTHOR: ImbaWind @ XDA
+#       DESCRIPTION: Edit various device settings
+#====================================================
+NONE='\033[00m'
+RED='\033[01;31m'
+GREEN='\033[01;32m'
+YELLOW='\033[01;33m'
+PURPLE='\033[01;35m'
+CYAN='\033[01;36m'
+WHITE='\033[01;37m'
+BOLD='\033[1m'
+UNDERLINE='\033[4m'
+CMD=/system/bin/cmd
+REBOOT_REQUIRED=0
+
+SCRIPT_VERSION=1
+
+function MOUNT_RW()
+{
+	if [ ! -f "/system/xbin/sysrw" ]; then
+		mount -o rw,remount /system
+	else
+		/system/xbin/sysrw
+	fi
+}
+
+function press_enter()
+{
+	echo -n "Press EnterKey to continue.";
+	read enterKey
+}
+
+function edit_bixby()
+{
+	while :
+	do
+		clear;
+		echo "${GREEN}Remap Bixby key to:${NONE}";
+		echo ""
+		echo " 1. Home Btn [HOME]";
+		echo " 2. Power Btn [POWER]";
+		echo " 3. Launch Music Player [MUSIC]";
+		echo " 4. Media Play/Pause [MEDIA_PLAY_PAUSE]";
+		echo " 5. Vol Up [VOLUME_UP]";
+		echo " 6. Vol Down [VOLUME_DOWN]";
+		echo " 7. Vol Mute [VOLUME_MUTE]";
+		echo " 8. Launch Camera [CAMERA]";
+		echo " 9. Recent Btn [APP_SWITCH]";
+		echo "10. Google Assistant [ASSIST]";
+		echo "11. Google Voice Assist [VOICE_ASSIST]";
+		echo "12. Toggle Quick Panel [QPANEL_ON_OFF]";
+		echo "13. Launch Internet Browser [EXPLORER]";
+		echo "14. Screenshot [SYSRQ]";
+		echo "15. Launch Calculator [CALCULATOR]";
+		echo "16. Launch Calendar [CALENDAR]";
+		echo "17. Launch Contacts [CONTACTS]";
+		echo "18. Launch Call [CALL]";
+		echo "99. Custom [Advanced Only]";
+		echo "";
+		echo " 0. Exit ";
+		echo "";
+		echo "Reboot to apply changes.";
+        echo -n -n "${YELLOW}Enter option: ${NONE}"
+		read bixby
+		if [ "$bixby" -eq 0 ] ; then
+			break;
+		elif [ "$bixby" -eq 99 ] ; then
+			clear;
+			echo -n "${YELLOW}Enter custom function [Type 0 to exit]: ${NONE}";
+			read arg
+			if [ "$arg" -eq 0 ] ; then
+				break;
+			else
+				set_key 703 $arg
+				clear;
+				echo "Bixby btn is mapped to: ";
+				echo $arg
+				echo "";
+				press_enter
+				break;
+			fi
+		elif [[ "$bixby" -lt 0 || "$bixby" -gt 18 ]] ; then
+			clear;
+			echo "${RED}Invalid Option${NONE}";
+			sleep 1
+		else
+			REBOOT_REQUIRED=1
+			MOUNT_RW
+			clear;
+			case $bixby in
+				1)	set_key 703 HOME
+					echo "Bixby btn remapped to [Home Btn]";
+					press_enter
+					break;;
+				2)	set_key 703 POWER
+					echo "Bixby btn remapped to [Power Btn]";
+					press_enter
+					break;;
+				3)	set_key 703 MUSIC
+					echo "Bixby btn remapped to [Music Player]";
+					press_enter
+					break;;
+				4)	set_key 703 MEDIA_PLAY_PAUSE
+					echo "Bixby btn remapped to [Play/Pause]";
+					press_enter
+					break;;
+				5)	set_key 703 VOLUME_UP
+					echo "Bixby btn remapped to [Vol Up]";
+					press_enter
+					break;;
+				6)	set_key 703 VOLUME_DOWN
+					echo "Bixby btn remapped to [Vol Dn]";
+					press_enter
+					break;;
+				7)	set_key 703 VOLUME_MUTE
+					echo "Bixby btn remapped to [Vol Mute]";
+					press_enter
+					break;;
+				8)	set_key 703 CAMERA
+					echo "Bixby btn remapped to [Camera]";
+					press_enter
+					break;;
+				9)	set_key 703 APP_SWITCH
+					echo "Bixby btn remapped to [Recent Btn]";
+					press_enter
+					break;;
+				10)	set_key 703 ASSIST
+					echo "Bixby btn remapped to [Google Assistant";
+					press_enter
+					break;;
+				11)	set_key 703 VOICE_ASSIST
+					echo "Bixby btn remapped to [Voice Assistant]";
+					press_enter
+					break;;
+				12)	set_key 703 QPANEL_ON_OFF
+					echo "Bixby btn remapped to [Toggle Quick Panel]";
+					press_enter
+					break;;
+				13)	set_key 703 EXPLORER
+					echo "Bixby btn remapped to [Browser]";
+					press_enter
+					break;;
+				14)	set_key 703 SYSRQ
+					echo "Bixby btn remapped to [Screenshot]";
+					press_enter
+					break;;
+				15)	set_key 703 CALCULATOR
+					echo "Bixby btn remapped to [Calculator]";
+					press_enter
+					break;;
+				16)	set_key 703 CALENDAR
+					echo "Bixby btn remapped to [Calendar]";
+					press_enter
+					break;;
+				17)	set_key 703 CONTACTS
+					echo "Bixby btn remapped to [Contacts]";
+					press_enter
+					break;;
+				18)	set_key 703 CALL
+					echo "Bixby btn remapped to [Call]";
+					press_enter
+					break;;
+			esac
+		fi
+	done
+}
+
+function edit_device()
+{
+	FILE=/system/etc/init.d/LS00devicename
+	while :
+	do
+		clear;
+		echo "${GREEN}Change device name to:${NONE}";
+		echo "";
+		echo " 1. Google Pixel 2";
+		echo " 2. Google Pixel 2 XL";
+		echo " 3. Google Pixel 3";
+		echo " 4. Google Pixel 3 XL";
+		echo " 5. Samsung Galaxy S8";
+		echo " 6. Samsung Galaxy S8+";
+		echo " 7. Samsung Galaxy S9";
+		echo " 8. Samsung Galaxy S9+";
+		echo " 9. Samsung Galaxy Note 9";
+		echo " 0. Exit";
+		echo "";
+		echo "99. Custom [Advanced Only]";
+		echo "";
+		echo "Reboot to apply changes";
+		echo "";
+		echo -n "${YELLOW}Enter option: ${NONE}";
+		read opt
+		if [ "$opt" -eq 0 ] ; then
+			break;
+		elif [ "$opt" -eq 99 ] ; then
+			REBOOT_REQUIRED=1
+			MOUNT_RW
+			clear;
+			echo -n "${YELLOW}Enter custom model [Type 0 to exit]: ${NONE}";
+			read arg
+			if [ "$arg" -eq 0 ] ; then
+				break;
+			else
+				clear;
+				sed -i  "6 cdoresetprop ro.product.model $arg" $FILE
+				clear;
+				echo -n "Enter custom brand: ";
+				read arg
+				sed -i  "7 cdoresetprop ro.product.brand $arg" $FILE
+				clear;
+				echo -n "Enter custom manufacturer: ";
+				read arg
+				sed -i  "8 cdoresetprop ro.product.manufacturer $arg" $FILE
+				clear;
+				echo -n "Enter custom name: ";
+				read arg
+				sed -i  "9 cdoresetprop ro.product.name $arg" $FILE
+				clear;
+				echo -n "Enter custom device: ";
+				read arg
+				sed -i  "10 cdoresetprop ro.product.brand $arg" $FILE
+				clear;
+				press_enter
+				break;
+			fi
+		elif [[ "$opt" -lt 0 || "$opt" -gt 9 ]] ; then
+			clear;
+			echo "${RED}Invalid Option${NONE}";
+			sleep 1
+		else
+			REBOOT_REQUIRED=1
+			MOUNT_RW
+			clear;
+			case $opt in
+				1)	clear;
+					echo "Resetting to Google Pixel 2";
+					sed -i  "6 cdoresetprop ro.product.model 'Pixel 2'" $FILE
+					sed -i  "7 cdoresetprop ro.product.brand 'Google'" $FILE
+					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
+					sed -i  "9 cdoresetprop ro.product.name 'walleye'" $FILE
+					sed -i  "10 cdoresetprop ro.product.device 'walleye'" $FILE
+					press_enter
+					break;;
+				2)	clear;
+					echo "Resetting to Google Pixel 2 XL";
+					sed -i  "6 cdoresetprop ro.product.model 'Pixel 2'" $FILE
+					sed -i  "7 cdoresetprop ro.product.brand 'Google'" $FILE
+					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
+					sed -i  "9 cdoresetprop ro.product.name 'taimen'" $FILE
+					sed -i  "10 cdoresetprop ro.product.device 'taimen'" $FILE
+					press_enter
+					break;;
+				3)	clear;
+					echo "Resetting to Google Pixel 3";
+					sed -i  "6 cdoresetprop ro.product.model 'Pixel 3'" $FILE
+					sed -i  "7 cdoresetprop ro.product.brand 'Google'" $FILE
+					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
+					sed -i  "9 cdoresetprop ro.product.name 'blueline'" $FILE
+					sed -i  "10 cdoresetprop ro.product.device 'blueline'" $FILE
+					press_enter
+					break;;
+				4)	clear;
+					echo "Resetting to Google Pixel 3 XL";
+					sed -i  "6 cdoresetprop ro.product.model 'Pixel 3 XL'" $FILE
+					sed -i  "7 cdoresetprop ro.product.brand 'Google'" $FILE
+					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
+					sed -i  "9 cdoresetprop ro.product.name 'crosshatch'" $FILE
+					sed -i  "10 cdoresetprop ro.product.device 'crosshatch'" $FILE
+					press_enter
+					break;;
+				5)	clear;
+					echo "Resetting to Samsung Galaxy S8";
+					sed -i  "6 cdoresetprop ro.product.model 'SM-G950F'" $FILE
+					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
+					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
+					sed -i  "9 cdoresetprop ro.product.name 'dreamltexx'" $FILE
+					sed -i  "10 cdoresetprop ro.product.device 'dreamlte'" $FILE
+					press_enter
+					break;;
+				6)	clear;
+					echo "Resetting to Samsung Galaxy S8+";
+					sed -i  "6 cdoresetprop ro.product.model 'SM-G955F'" $FILE
+					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
+					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
+					sed -i  "9 cdoresetprop ro.product.name 'dream2ltexx'" $FILE
+					sed -i  "10 cdoresetprop ro.product.device 'dream2lte'" $FILE
+					press_enter
+					break;;
+				7)	clear;
+					echo "Resetting to Samsung Galaxy S9";
+					sed -i  "6 cdoresetprop ro.product.model 'SM-G960F'" $FILE
+					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
+					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
+					sed -i  "9 cdoresetprop ro.product.name 'starltexx'" $FILE
+					sed -i  "10 cdoresetprop ro.product.device 'starlte'" $FILE
+					press_enter
+					break;;
+				8)	clear;
+					echo "Resetting to Samsung Galaxy S9+";
+					sed -i  "6 cdoresetprop ro.product.model 'SM-G965F'" $FILE
+					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
+					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
+					sed -i  "9 cdoresetprop ro.product.name 'star2ltexx'" $FILE
+					sed -i  "10 cdoresetprop ro.product.device 'star2lte'" $FILE
+					press_enter
+					break;;
+				9)	clear;
+					echo "Resetting to Samsung Galaxy Note 9";
+					sed -i  "6 cdoresetprop ro.product.model 'SM-N960F'" $FILE
+					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
+					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
+					sed -i  "9 cdoresetprop ro.product.name 'crownltexx'" $FILE
+					sed -i  "10 cdoresetprop ro.product.device 'crownlte'" $FILE
+					press_enter
+					break;;
+			esac
+		fi
+	done
+}
+
+function max_vol_warning()
+{
+	while :
+	do
+		clear;
+		echo "${GREEN}Max Vol Warning Toggle${NONE}";
+		echo "";
+		echo " 1. Enable Max Volume Warning";
+		echo " 2. Disable Max Volume Warning";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+		case $opt in
+			1)	settings put global audio_safe_volume_state 3
+				settings put secure unsafe_volume_music_active_ms 72000000
+				REBOOT_REQUIRED=1
+				clear;
+				echo "Max Volume Warning enabled.";
+				echo "Active time: 20 hours";
+				echo "";
+				press_enter
+				break;;
+			2)	settings put global audio_safe_volume_state 2
+				settings put secure unsafe_volume_music_active_ms -1
+				REBOOT_REQUIRED=1
+				clear;
+				echo "Max Volume Warning disabled.";
+				echo "Active time: Forever";
+				echo "";
+				press_enter
+				break;;
+			0)	break;;
+			*)	clear;
+				echo "${RED}Invalid option.${NONE}";
+				sleep 1
+		esac
+	done
+}
+
+function navbar_toggle()
+{
+	while :
+	do
+		clear;
+		echo "${GREEN}Navigation Bar Toggle${NONE}";
+		echo "";
+		echo " 1. Enable Navigation Bar";
+		echo " 2. Disable Navigation Bar";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+		case $opt in
+			1)	set_prop qemu.hw.mainkeys 0
+				REBOOT_REQUIRED=1
+				clear;
+				echo "Navigation Bar enabled.";
+				echo "Reboot device to apply.";
+				echo "";
+				press_enter
+				break;;
+			2)	set_prop qemu.hw.mainkeys 1
+				REBOOT_REQUIRED=1
+				clear;
+				echo "Navigation Bar disabled.";
+				echo "Reboot device to apply.";
+				echo "";
+				press_enter
+				break;;
+			0)	break;;
+			*)	clear;
+				echo "${RED}Invalid option.${NONE}";
+				sleep 1
+		esac
+	done
+}
+
+function immersive_mode()
+{
+	while :
+	do
+		clear;
+		echo "${GREEN}Immersive Mode Toggle${NONE}";
+		echo "";
+		echo " 1. Navigation Only Immersive Mode";
+		echo " 2. Full Immersive Mode";
+		echo " 3. Disable Immersive Mode";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+		case $opt in
+			1)	$CMD settings put global policy_control immersive.navigation=*
+				clear;
+				echo "Enabled navigation only immersive mode.";
+				echo "";
+				press_enter
+				break;;
+			2)	$CMD settings put global policy_control immersive.full=*
+				clear;
+				echo "Enabled full immersive mode";
+				echo "";
+				press_enter
+				break;;
+			3)	$CMD settings put global policy_control immersive.navigation=
+				$CMD settings put global policy_control immersive.full=
+				clear;
+				echo "Disabled immersive mode";
+				echo "";
+				press_enter
+				break;;
+			0)	break;;
+			*)	clear;
+				echo "${RED}Invalid option.${NONE}";
+				sleep 1
+		esac
+	done
+}
+
+function service_toggle()
+{
+	while :
+	do
+		clear;
+		echo "${RED}${BOLD}[ WARNING ]${NONE}";
+		echo "${GREEN}This function might break stuffs in${NONE}";
+		echo "${GREEN}an unexpected and terrible way.${NONE}";
+		echo "";
+		sleep 1;
+		echo " 1. Aggresive Service Disabler";
+		echo " 2. Moderate Service Disabler";
+		echo " 3. Disable Service Disabler";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+		case $opt in
+			1)	clear;
+				echo "This can take up to 5 minutes";
+				echo "Do not interrupt the process";
+				dss disable &>/dev/null
+				clear;
+				echo "All done.";
+				echo "";
+				press_enter
+				break;;
+			2)	clear;
+				echo "This can take up to 5 minutes";
+				echo "Do not interrupt the process";
+				dss2 disable &>/dev/null
+				clear;
+				echo "All done.";
+				echo "";
+				press_enter
+				break;;
+			3)	clear;
+				echo "This can take up to 5 minutes";
+				echo "Do not interrupt the process";
+				dss enable &>/dev/null
+				clear;
+				echo "All done.";
+				echo "";
+				press_enter
+				break;;
+			0)	break;;
+			*)	clear;
+				echo "${RED}Invalid option.${NONE}";
+				sleep 1
+		esac
+	done
+}
+
+while :
+do
+	clear;
+	echo -e "${GREEN}${BOLD}Advanced Device Settings${NONE}";
+	echo "Version: ${CYAN}$SCRIPT_VERSION${NONE}";
+	echo "";
+	echo " 1. Remap Bixby Key";
+	echo " 2. Change Device Name";
+	echo " 3. Max Volume Warning Toggle";
+	echo " 4. Navigation Bar Toggle";
+	echo " 5. Immersive Mode";
+    echo " 6. Service Disabler";
+	echo " 0. Exit";
+	echo "";
+	echo -n "${YELLOW}Enter option : ${NONE}";
+	read opt
+	echo "";
+	case $opt in
+		1)	edit_bixby;;
+		2)	edit_device;;
+		3)	max_vol_warning;;
+		4)	navbar_toggle;;
+		5)	immersive_mode;;
+        6)  service_toggle;;
+		0)	break;;
+		*)	clear;
+			echo "${RED}Invalid option${NONE}"
+			sleep 2;;
+	esac
+done
+
+return $REBOOT_REQUIRED;

@@ -1,0 +1,168 @@
+#!/system/bin/sh
+#====================================================
+#              FILE: SSAF_network_settings
+#            AUTHOR: ImbaWind @ XDA
+#       DESCRIPTION: Edit various device settings
+#====================================================
+NONE='\033[00m'
+RED='\033[01;31m'
+GREEN='\033[01;32m'
+YELLOW='\033[01;33m'
+PURPLE='\033[01;35m'
+CYAN='\033[01;36m'
+WHITE='\033[01;37m'
+BOLD='\033[1m'
+UNDERLINE='\033[4m'
+CMD=/system/bin/cmd
+REBOOT_REQUIRED=0
+
+SCRIPT_VERSION=1
+
+function MOUNT_RW()
+{
+	if [ ! -f "/system/xbin/sysrw" ]; then
+		mount -o rw,remount /system
+	else
+		/system/xbin/sysrw
+	fi
+}
+
+function press_enter()
+{
+	echo -n "Press EnterKey to continue.";
+	read enterKey
+}
+
+function set_dns()
+{
+	FILE=/system/etc/init.d/LS00resetdns
+	while :
+	do
+		clear;
+		echo "${GREEN}DNS Changer${NONE}";
+		echo ""
+		echo " 1. CloudFlare DNS";
+		echo " 2. Google DNS";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+		case $opt in
+			1)	iptables -t nat -A OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53
+				iptables -t nat -A OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53
+				iptables -t nat -D OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53 || true
+				iptables -t nat -D OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53 || true
+				iptables -t nat -I OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53
+				iptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53
+				MOUNT_RW
+				sed -i  "3 ciptables -t nat -A OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53" $FILE
+				sed -i  "4 ciptables -t nat -A OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53" $FILE
+				sed -i  "5 ciptables -t nat -D OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53 || true" $FILE
+				sed -i  "6 ciptables -t nat -D OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53 || true" $FILE
+				sed -i  "7 ciptables -t nat -I OUTPUT -p tcp --dport 53 -j DNAT --to-destination 1.1.1.1:53" $FILE
+				sed -i  "8 ciptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 1.0.0.1:53" $FILE
+				clear;
+				echo "Enabled CloudFlare DNS.";
+				echo "";
+				press_enter
+				break;;
+			2)	iptables -t nat -A OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53
+				iptables -t nat -A OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53
+				iptables -t nat -D OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53 || true
+				iptables -t nat -D OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53 || true
+				iptables -t nat -I OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53
+				iptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53
+				MOUNT_RW
+				sed -i  "3 ciptables -t nat -A OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53" $FILE
+				sed -i  "4 ciptables -t nat -A OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53" $FILE
+				sed -i  "5 ciptables -t nat -D OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53 || true" $FILE
+				sed -i  "6 ciptables -t nat -D OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53 || true" $FILE
+				sed -i  "7 ciptables -t nat -I OUTPUT -p tcp --dport 53 -j DNAT --to-destination 8.8.8.8:53" $FILE
+				sed -i  "8 ciptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53" $FILE
+				clear;
+				echo "Enabled Google DNS.";
+				echo "";
+				press_enter
+				break;;
+			0)	break;;
+			*)	clear;
+				echo "${RED}Invalid option.${NONE}";
+				sleep 1
+		esac
+	done
+}
+
+function adblock()
+{
+	while :
+	do
+		clear;
+		echo "${GREEN}Ads Block${NONE}";
+		echo "";
+		echo " 1. Aggresive Adblock";
+		echo " 2. Moderate Adblock";
+		echo " 3. Disable Adblock";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+		case $opt in
+			1)	MOUNT_RW
+				cp /system/etc/hosts.long /system/etc/hosts
+				REBOOT_REQUIRED=1
+				clear;
+				echo "Enabled ${CYAN}aggresive${NONE} adblock.";
+				echo "";
+				echo "Reboot device to apply.";
+				press_enter
+				break;;
+			2)	MOUNT_RW
+				cp /system/etc/hosts.medium /system/etc/hosts
+				REBOOT_REQUIRED=1
+				clear;
+				echo "Enabled ${CYAN}moderate${NONE} adblock";
+				echo "";
+				echo "Reboot device to apply.";
+				press_enter
+				break;;
+			3)	MOUNT_RW
+				cp /system/etc/hosts.short /system/etc/hosts
+				REBOOT_REQUIRED=1
+				clear;
+				echo "Disabled adblock";
+				echo "";
+				echo "Reboot device to apply.";
+				press_enter
+				break;;
+			0)	break;;
+			*)	clear;
+				echo "${RED}Invalid option.${NONE}";
+				sleep 1
+		esac
+	done
+}
+
+while :
+do
+	clear;
+	echo -e "${GREEN}${BOLD}Network Settings${NONE}";
+	echo "Version: ${CYAN}$SCRIPT_VERSION${NONE}";
+	echo "";
+	echo " 1. Set DNS";
+	echo " 2. AdBlock";
+	echo " 0. Exit";
+	echo "";
+	echo -n "${YELLOW}Enter option : ${NONE}";
+	read opt
+	echo "";
+	case $opt in
+		1)	set_dns;;
+		2)	adblock;;
+		0)	break;;
+		*)	clear;
+			echo "${RED}Invalid option${NONE}"
+			sleep 2;;
+	esac
+done
+
+return $REBOOT_REQUIRED;

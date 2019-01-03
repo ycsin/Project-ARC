@@ -12,7 +12,7 @@ arg=$2
 
 function MOUNT_RW()
 {
-	if [ ! -f "/system/xbin/sysrw"]; then
+	if [ ! -f "/system/xbin/sysrw" ]; then
 		mount -o rw,remount /system
 	else
 		/system/xbin/sysrw
@@ -33,4 +33,3 @@ if grep -Fq $prop $FILE ; then
 else
     echo $prop=$arg >> $FILE
 fi;
-MOUNT_RO

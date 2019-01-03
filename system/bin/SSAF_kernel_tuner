@@ -1,0 +1,266 @@
+#!/system/bin/sh
+#====================================================
+#              FILE: SSAF_kernel_tuner
+#            AUTHOR: ImbaWind @ XDA
+#       DESCRIPTION: Edit various kernel parameters
+#====================================================
+NONE='\033[00m'
+RED='\033[01;31m'
+GREEN='\033[01;32m'
+YELLOW='\033[01;33m'
+PURPLE='\033[01;35m'
+CYAN='\033[01;36m'
+WHITE='\033[01;37m'
+BOLD='\033[1m'
+UNDERLINE='\033[4m'
+CMD=/system/bin/cmd
+REBOOT_REQUIRED=0
+
+SCRIPT_VERSION=1
+
+function MOUNT_RW()
+{
+	if [ ! -f "/system/xbin/sysrw" ]; then
+		mount -o rw,remount /system
+	else
+		/system/xbin/sysrw
+	fi
+}
+
+function press_enter()
+{
+	echo -n "Press EnterKey to continue.";
+	read enterKey
+}
+
+function set_powercfg()
+{
+	FILE=/system/etc/init.d/LS00powercfg
+	# ===================================================================================================
+	# Values taken from yc9559's Project WIPE 
+	# powercfg script
+	# verify_param() function
+	powersave_value="80 680000:27 780000:39 880000:61 980000:68 1380000:98 1680000:94"
+	balance_value="80 780000:53 880000:70 980000:50 1180000:71 1380000:97 1680000:92"
+	performance_value="80 780000:31 880000:62 980000:42 1180000:69 1380000:95 1680000:78"
+	fast_value="80 1680000:90"
+	# ===================================================================================================
+	expected_target=/sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
+	if [ "`cat ${expected_target}`" = "${powersave_value}" ]; then
+		CURRENT="powersave"
+	elif [ "`cat ${expected_target}`" = "${balance_value}" ]; then
+		CURRENT="balance"
+	elif [ "`cat ${expected_target}`" = "${performance_value}" ]; then
+		CURRENT="performance"
+	elif [ "`cat ${expected_target}`" = "${fast_value}" ]; then
+		CURRENT="fast"
+	else
+		CURRENT="kernel_default"
+	fi
+	MOUNT_RW
+	sed -i  "3 cpowercfg ${CURRENT}" $FILE
+	while :
+	do
+		clear;
+		echo "${GREEN}Project WIPE by yc9559 @ CoolApk${NONE}";
+		echo "${GREEN}Github: github.com/yc9559/cpufreq-interactive-opt/${NONE}";
+		echo "${GREEN}Ver: 20180603.2 [Thu Jun 28 04:26:24 2018]${NONE}";
+		echo "";
+		echo "";
+		echo "Current config: ${CYAN}${CURRENT}${NONE}";
+		echo "";
+		echo " 1. Powersave";
+		echo " 2. Balance";
+		echo " 3. Performance";
+		echo " 4. Fast";
+		echo " 5. Restore Kernel Default";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+		case $opt in
+			1)	clear;
+				echo "Setting power config to ${CYAN}[Powersave]${NONE}.";
+				echo "";
+				MOUNT_RW
+				powercfg powersave
+				sed -i  "3 cpowercfg powersave" $FILE
+				echo "";
+				press_enter
+				break;;
+			2)	clear;
+				echo "Setting power config to ${CYAN}[Balance]${NONE}.";
+				echo "";
+				MOUNT_RW
+				powercfg balance
+				sed -i  "3 cpowercfg balance" $FILE
+				echo "";
+				press_enter
+				break;;
+			3)	clear;
+				echo "Setting power config to ${CYAN}[Performance]${NONE}.";
+				echo "";
+				MOUNT_RW
+				powercfg performance
+				sed -i  "3 cpowercfg performance" $FILE
+				echo "";
+				press_enter
+				break;;
+			4)	clear;
+				echo "Setting power config to ${CYAN}[Fast]${NONE}.";
+				echo "";
+				MOUNT_RW
+				powercfg fast
+				sed -i  "3 cpowercfg fast" $FILE
+				echo "";
+				press_enter
+				break;;
+			5)	clear;
+				REBOOT_REQUIRED=1
+				echo "Setting power config to ${CYAN}[kernel_default]${NONE}.";
+				echo "Reboot to apply setting.";
+				echo "";
+				MOUNT_RW
+				powercfg kernel_default
+				sed -i  "3 cpowercfg kernel_default" $FILE
+				echo "";
+				press_enter
+				break;;
+			0)	break;;
+			*)	clear;
+				echo "${RED}Invalid option.${NONE}";
+				sleep 1
+		esac
+	done
+}
+
+function big_cluster_tuning()
+{
+	cpu_dir=/sys/devices/system/cpu/cpu4/cpufreq/
+	cur_max_file=${cpu_dir}/scaling_max_freq
+	FILE=/system/etc/init.d/LS00kernelconfig
+	while :
+	do
+		CUR_MAX=`cat $cur_max_file`
+		clear;
+		echo "${BOLD}${GREEN}big cluster max frequency${NONE}";
+		echo "Current Freq: ${CYAN}$(($CUR_MAX / 1000)) MHz${NONE}";
+		echo "";
+		i=0
+		vAvailableFrequencies=($(cat $cpu_dir/scaling_available_frequencies))
+		nAvailableFrequencies=${#vAvailableFrequencies[@]}
+		while :
+		do
+			if [ "${vAvailableFrequencies[i]}" -gt 0 ] ; then
+				echo "$(($i+1)).\t$((${vAvailableFrequencies[i]} / 1000))\tMHz";
+				i=$((i + 1));
+			else
+				break;
+			fi
+		done
+		echo "";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+
+		if [ "$opt" -eq 0 ] ; then
+			break;
+		else
+			opt=$((opt - 1));
+		fi
+
+		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
+			for i in 4 5 6 7; do
+				MOUNT_RW
+				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+			done
+				sed -i  "24 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
+		else
+			clear
+			echo "${RED}Invalid option${NONE}";
+			sleep 2
+			clear
+		fi
+	done
+}
+
+function LITTLE_cluster_tuning()
+{
+	cpu_dir=/sys/devices/system/cpu/cpu0/cpufreq/
+	cur_max_file=${cpu_dir}/scaling_max_freq
+	FILE=/system/etc/init.d/LS00kernelconfig
+	while :
+	do
+		CUR_MAX=`cat $cur_max_file`
+		clear;
+		echo "${BOLD}${GREEN}LITTLE cluster max frequency${NONE}";
+		echo "Current Freq: ${CYAN}$(($CUR_MAX / 1000)) MHz${NONE}";
+		echo "";
+		i=0
+		vAvailableFrequencies=($(cat $cpu_dir/scaling_available_frequencies))
+		nAvailableFrequencies=${#vAvailableFrequencies[@]}
+		while :
+		do
+			if [ "${vAvailableFrequencies[i]}" -gt 0 ] ; then
+				echo "$(($i+1)).\t$((${vAvailableFrequencies[i]} / 1000))\tMHz";
+				i=$((i + 1));
+			else
+				break;
+			fi
+		done
+		echo "";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+
+		if [ "$opt" -eq 0 ] ; then
+			break;
+		else
+			opt=$((opt - 1));
+		fi
+
+		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
+			for i in 0 1 2 3; do
+				MOUNT_RW
+				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+			done
+				sed -i  "16 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" $FILE
+		else
+			clear
+			echo "${RED}Invalid option${NONE}";
+			sleep 2
+			clear
+		fi
+	done
+}
+
+while :
+do
+	clear;
+	echo -e "${GREEN}${BOLD}Kernel Tuner${NONE}";
+	echo "Version: ${CYAN}$SCRIPT_VERSION${NONE}";
+	echo "";
+	echo " 1. Powercfg";
+	echo " 2. big Cluster";
+	echo " 3. LITTLE Cluster";
+	echo " 0. Exit";
+	echo "";
+	echo -n "${YELLOW}Enter option : ${NONE}";
+	read opt
+	echo "";
+	case $opt in
+		1)	set_powercfg;;
+		2)	big_cluster_tuning;;
+		3)	LITTLE_cluster_tuning;;
+		0)	break;;
+		*)	clear;
+			echo "${RED}Invalid option${NONE}"
+			sleep 2;;
+	esac
+done
