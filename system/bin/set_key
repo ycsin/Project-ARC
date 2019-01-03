@@ -1,3 +1,4 @@
+#!/system/bin/sh
 #====================================================
 #       FILE: set_key
 #       AUTHOR: ImbaWind @ XDA
@@ -9,9 +10,29 @@
 FILE=/system/usr/keylayout/Generic.kl
 prop=$1
 arg=$2
+
+function MOUNT_RW()
+{
+	if [ ! -f "/system/xbin/sysrw"]; then
+		mount -o rw,remount /system
+	else
+		/system/xbin/sysrw
+	fi
+}
+
+function MOUNT_RO()
+{
+	if [ -f "/system/xbin/sysro" ]; then
+		/system/xbin/sysro
+	fi
+}
+
+MOUNT_RW
 if grep -Fq "key "$prop $FILE ; then
     lineNum=`busybox sed -n "/key ${prop}/=" $FILE`
+    /system/xbin
     sed -i "${lineNum} ckey ${prop}   ${arg}" $FILE
 else
     echo "Key not found"
 fi;
+MOUNT_RO
