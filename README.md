@@ -1,5 +1,8 @@
 # Shell Script Advanced Features
 
+### Version
+Pre-released
+
 ### Current Functions
 1. Remap Bixby Key
 2. Change Device Name
@@ -11,6 +14,7 @@
 8. Adblock
 9. Service Disabler
 10. Set big Cluster Max Frequency
+11. Set LITTLE Cluster Max Frequency
 11. Reboot
 12. Reboot Recovery
 
