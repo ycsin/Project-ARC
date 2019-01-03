@@ -788,29 +788,6 @@ function set_dns()
 	done
 }
 
-function verify_param() 
-{
-	# Taken from yc9559's Project WIPE 
-	# powercfg script
-	
-	expected_target=/sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
-	if [ "$action" = "powersave" ]; then
-		expected_value="80 680000:27 780000:39 880000:61 980000:68 1380000:98 1680000:94"
-	elif [ "$action" = "balance" ]; then
-		expected_value="80 780000:53 880000:70 980000:50 1180000:71 1380000:97 1680000:92"
-	elif [ "$action" = "performance" ]; then
-		expected_value="80 780000:31 880000:62 980000:42 1180000:69 1380000:95 1680000:78"
-	elif [ "$action" = "fast" ]; then
-		expected_value="80 1680000:90"
-	fi
-	
-	if [ "`cat ${expected_target}`" = "${expected_value}" ]; then
-		echo "${action} ${CYAN}OK${NONE}"
-	else
-		echo "${action} ${RED}FAIL${NONE}"
-	fi
-}
-
 function set_powercfg()
 {
 	FILE=/system/etc/init.d/LS00powercfg

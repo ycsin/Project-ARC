@@ -5,6 +5,10 @@
 # Generated at: Thu Jun 28 04:26:24 2018
 SCRIPT_VERSION=1
 
+NONE='\033[00m'
+RED='\033[01;31m'
+GREEN='\033[01;32m'
+
 C0_GOVERNOR_DIR="/sys/devices/system/cpu/cpu0/cpufreq/interactive"
 C1_GOVERNOR_DIR="/sys/devices/system/cpu/cpu4/cpufreq/interactive"
 C0_CPUFREQ_DIR="/sys/devices/system/cpu/cpu0/cpufreq"
@@ -63,7 +67,10 @@ function before_modify() {
 	chmod 0666 ${C0_GOVERNOR_DIR}/*
 	lock_value 580000 ${C0_CPUFREQ_DIR}/scaling_min_freq
 
-	#	set_value 1 /sys/devices/system/cpu/cpu4/online
+	chmod 660 /sys/devices/system/cpu/cpu4/online
+	set_value 1 /sys/devices/system/cpu/cpu4/online
+	chmod 444 /sys/devices/system/cpu/cpu4/online
+
 	chown 0.0 ${C1_GOVERNOR_DIR}/*
 	chmod 0666 ${C1_GOVERNOR_DIR}/*
 	lock_value 680000 ${C1_CPUFREQ_DIR}/scaling_min_freq
@@ -129,8 +136,12 @@ function print_value() {
 	fi
 }
 
-function verify_param() {
-	expected_target=${C0_GOVERNOR_DIR}/target_loads
+function verify_param() 
+{
+	# Taken from yc9559's Project WIPE 
+	# powercfg script
+	
+	expected_target=/sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
 	if [ "$action" = "powersave" ]; then
 		expected_value="80 680000:27 780000:39 880000:61 980000:68 1380000:98 1680000:94"
 	elif [ "$action" = "balance" ]; then
@@ -140,10 +151,11 @@ function verify_param() {
 	elif [ "$action" = "fast" ]; then
 		expected_value="80 1680000:90"
 	fi
-	if [ "$(cat ${expected_target})" = "${expected_value}" ]; then
-		echo "${action} OK"
+	
+	if [ "`cat ${expected_target}`" = "${expected_value}" ]; then
+		echo "${action} ${GREEN}OK${NONE}"
 	else
-		echo "${action} FAIL"
+		echo "${action} ${RED}FAIL${NONE}"
 	fi
 }
 
