@@ -15,8 +15,9 @@ Pre-released
 9. Service Disabler
 10. Set big Cluster Max Frequency
 11. Set LITTLE Cluster Max Frequency
-11. Reboot
-12. Reboot Recovery
+12. Enable Stereo Speaker
+13. Reboot
+14. Reboot Recovery
 
 ### Usage
 ```shell
