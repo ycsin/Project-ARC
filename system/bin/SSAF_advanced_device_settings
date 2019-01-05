@@ -494,6 +494,151 @@ function service_toggle()
 	done
 }
 
+function enable_stereo_speaker()
+{
+	MOUNT_RW
+	REBOOT_REQUIRED=1
+	clear;
+	PATHS_FILE=/system/etc/mixer_paths.xml
+	GAINS_FILE=/system/etc/mixer_gains.xml
+	if [ ! -e $PATHS_FILE.bak ] ; then
+		cp $PATHS_FILE $PATHS_FILE.bak;
+	else
+		cp $PATHS_FILE.bak $PATHS_FILE;
+	fi
+
+	if [ ! -e $GAINS_FILE.bak ] ; then
+		cp $GAINS_FILE $GAINS_FILE.bak;
+	else
+		cp $GAINS_FILE.bak $GAINS_FILE;
+	fi
+
+	if grep -Fq '<path name="media-speaker">' $PATHS_FILE ; then
+		lineNum=`busybox sed -n '/<path name="media-speaker">/=' $PATHS_FILE`
+		nextNum=$((lineNum + 1))
+		while :
+		do
+			if [ ! `sed "${nextNum}!d" $PATHS_FILE | grep -F "</path>"` ] ; then
+				nextNum=$((nextNum + 1))
+			else
+				break
+			fi
+		done
+		
+		intLine=$((nextNum - lineNum))
+		case $intLine in
+			3)	sed -i "$((lineNum+1)) c\t\t<path name=\"route-spkamp-playback\" \/>" $PATHS_FILE;
+				sed -i "$((lineNum+2)) c\t\t<path name=\"dev-speaker\" \/>" $PATHS_FILE;
+				sed -i "$((lineNum+3)) i\t\t<path name=\"dev-handset\" \/>" $PATHS_FILE;;
+			4)	sed -i "$((lineNum+1)) c\t\t<path name=\"route-spkamp-playback\" \/>" $PATHS_FILE;
+				sed -i "$((lineNum+2)) c\t\t<path name=\"dev-speaker\" \/>" $PATHS_FILE;
+				sed -i "$((lineNum+3)) c\t\t<path name=\"dev-handset\" \/>" $PATHS_FILE;;
+			*)	echo "E: Invalid intLine value - mixer_paths.xml";
+				press_enter;
+				break;;
+		esac
+	else
+		echo "";
+		echo "${RED}E: <path name=\"media-speaker\"> not found${NONE}";
+		echo "";
+		press_enter;
+		return;
+	fi
+
+	if grep -Fq '<path name="gain-media-speaker">' $GAINS_FILE ; then
+		lineNum=`busybox sed -n '/<path name="gain-media-speaker">/=' $GAINS_FILE`
+		nextNum=$((lineNum + 1))
+		while :
+		do
+			if [ ! `sed "${nextNum}!d" $GAINS_FILE | grep -F "</path>"` ] ; then
+				nextNum=$((nextNum + 1))
+			else
+				break
+			fi
+		done
+		
+		intLine=$((nextNum - lineNum))
+		case $intLine in
+			1)	sed -i "$((lineNum+1)) i\t<ctl name=\"HPOUT3L Input 1 Volume\" value=\"35\" \/>" $GAINS_FILE;
+				sed -i "$((lineNum+2)) i\t<ctl name=\"HPOUT3R Input 1 Volume\" value=\"35\" \/>" $GAINS_FILE;;
+			3)	sed -i "$((lineNum+1)) c\t<ctl name=\"HPOUT3L Input 1 Volume\" value=\"35\" \/>" $GAINS_FILE;
+				sed -i "$((lineNum+2)) c\t<ctl name=\"HPOUT3R Input 1 Volume\" value=\"35\" \/>" $GAINS_FILE;;
+			*)	echo "E: Invalid intLine value - mixer_gains.xml";
+				press_enter;
+				break;;
+		esac
+	else
+		echo "";
+		echo "${RED}E: <path name=\"gain-media-speaker\"> not found${NONE}";
+		echo "";
+		press_enter;
+		return;
+	fi
+	echo "";
+	echo "${GREEN}Enabled stereo speaker${NONE}";
+	echo "";
+	press_enter;
+	return;
+}
+
+function restore_speaker()
+{
+	MOUNT_RW
+	REBOOT_REQUIRED=1
+	clear;
+	PATHS_FILE=/system/etc/mixer_paths.xml
+	GAINS_FILE=/system/etc/mixer_gains.xml
+	if [ -e $PATHS_FILE.bak ] ; then
+		mv $PATHS_FILE.bak $PATHS_FILE;
+		echo "${GREEN}Restored mixer_paths.xml${NONE}";
+	else
+		echo "${RED}E: mixer_paths.xml backup not found.${NONE}";
+		press_enter;
+		return;
+	fi
+
+	if [ -e $GAINS_FILE.bak ] ; then
+		mv $GAINS_FILE.bak $GAINS_FILE;
+		echo "${GREEN}Restored mixer_gains.xml${NONE}";
+	else
+		echo "${RED}E: mixer_gains.xml backup not found.${NONE}";
+		press_enter;
+		return;
+	fi
+	echo "";
+	echo "${GREEN}Restored speaker successfully${NONE}";
+	echo "";
+	press_enter;
+	return;
+}
+
+function advanced_audio_menu()
+{
+	while :
+	do
+		clear;
+		echo -e "${GREEN}${BOLD}Advanced Audio${NONE}";
+		echo "";
+		echo " 1. Max Volume Warning Toggle";
+		echo " 2. Enable Stereo Speaker";
+		echo " 3. Restore Speaker";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter option : ${NONE}";
+		read opt
+		echo "";
+		case $opt in
+			1)	max_vol_warning;;
+			2)	enable_stereo_speaker;;
+			3)	restore_speaker;;
+			0)	break;;
+			*)	clear;
+				echo "${RED}Invalid option${NONE}"
+				sleep 2;;
+		esac
+	done
+}
+
 while :
 do
 	clear;
@@ -502,7 +647,7 @@ do
 	echo "";
 	echo " 1. Remap Bixby Key";
 	echo " 2. Change Device Name";
-	echo " 3. Max Volume Warning Toggle";
+	echo " 3. Advanced Audio";
 	echo " 4. Navigation Bar Toggle";
 	echo " 5. Immersive Mode";
     echo " 6. Service Disabler";
@@ -514,7 +659,7 @@ do
 	case $opt in
 		1)	edit_bixby;;
 		2)	edit_device;;
-		3)	max_vol_warning;;
+		3)	advanced_audio_menu;;
 		4)	navbar_toggle;;
 		5)	immersive_mode;;
         6)  service_toggle;;
