@@ -4,34 +4,16 @@
 #            AUTHOR: ImbaWind @ XDA
 #       DESCRIPTION: Edit various device settings
 #====================================================
-NONE='\033[00m'
-RED='\033[01;31m'
-GREEN='\033[01;32m'
-YELLOW='\033[01;33m'
-PURPLE='\033[01;35m'
-CYAN='\033[01;36m'
-WHITE='\033[01;37m'
-BOLD='\033[1m'
-UNDERLINE='\033[4m'
-CMD=/system/bin/cmd
+. "/system/bin/SSAF_INCL.sh"
 REBOOT_REQUIRED=0
 
 SCRIPT_VERSION=1
 
-function MOUNT_RW()
-{
-	if [ ! -f "/system/xbin/sysrw" ]; then
-		mount -o rw,remount /system
-	else
-		/system/xbin/sysrw
-	fi
-}
-
-function press_enter()
-{
-	echo -n "Press EnterKey to continue.";
-	read enterKey
-}
+ACTION=$1
+if [ "$ACTION" = "version" ]; then
+	echo $SCRIPT_VERSION;
+	exit 0
+fi
 
 function set_dns()
 {

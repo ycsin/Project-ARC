@@ -5,56 +5,17 @@
 #       DESCRIPTION: Shell Script Advanced Features
 #       USAGE: cfg
 #==============================================================
+. "/system/bin/SSAF_INCL.sh"
+SCRIPT_VERSION=0
 
-SCRIPT_VERSION="PRE-RELEASED"
-
-NONE='\033[00m'
-RED='\033[01;31m'
-GREEN='\033[01;32m'
-YELLOW='\033[01;33m'
-PURPLE='\033[01;35m'
-CYAN='\033[01;36m'
-WHITE='\033[01;37m'
-BOLD='\033[1m'
-UNDERLINE='\033[4m'
-
-CMD=/system/bin/cmd
 REBOOT_REQUIRED=0;
 
-function MOUNT_RW()
-{
-	if [ ! -f "/system/xbin/sysrw" ]; then
-		mount -o rw,remount /system
-	else
-		/system/xbin/sysrw
-	fi
-}
-
-function MOUNT_RO()
-{
-	if [ -f "/system/xbin/sysro" ]; then
-		/system/xbin/sysro
-	fi
-}
-
-function press_enter()
-{
-	echo -n "Press EnterKey to continue.";
-	read enterKey
-}
-
-function check_root()
-{
-	clear;
-	if [[ $(id -u) -ne 0 ]] ; then
-		echo "This script requires root access to execute";
-		echo "Type  su  first before  cfg";
-		echo "";
-		sleep 2
-		press_enter
-		exit 0
-	fi
-}
+ACTION=$1
+if [ "$ACTION" = "version" ]; then
+	echo $SCRIPT_VERSION;
+	CHECK_INTERNET
+	exit 0
+fi
 
 function verify_files()
 {
