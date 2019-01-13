@@ -315,7 +315,7 @@ rm -f /system/xbin/dss2.old
 
 function update_main()
 {
-	clear
+	clear;
 	if ! HAS_INTERNET; then
 		echo "No internet access";
 		echo ""
@@ -328,7 +328,7 @@ function update_main()
 	wget -q --no-check-certificate -O /system/bin/cfg.new https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/cfg
 	chmod 777 /system/bin/cfg.new
 	dos2unix /system/bin/cfg.new
-	cfg.NEW VERSION &>/dev/null
+	cfg.new VERSION &>/dev/null
 	NEW=$?
 	echo "1"
 	press_enter
@@ -437,11 +437,11 @@ check_root
 ACTION=$1
 if [ "$ACTION" = "VERSION" ]; then
 	echo "$SCRIPT_VERSION";
-	return
+	exit
 elif [ "$ACTION" = "UPDATE" ]; then
 	if [ ! -f "/system/bin/cfg.old" ]; then
 		echo "Update Error";
-		return
+		exit
 	fi
 	update_scripts
 fi
