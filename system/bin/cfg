@@ -2,27 +2,27 @@
 #==============================================================
 #       FILE		: cfg
 #       AUTHOR		: ImbaWind @ XDA
-#       DESCRIPTION	: Shell Script Advanced Features
+#       DESCRIPTION	: Shell Script Advanced Features Main Menu
 #		GitHub		: https://github.com/ycsin
 #       USAGE		: cfg
 #==============================================================
-. "/system/bin/SSAF_INCL.sh"
-SCRIPT_VERSION=0
+. "/system/bin/SSAF_INCL"
+SCRIPT_VERSION=1
 
 REBOOT_REQUIRED=0;
-
-ACTION=$1
-if [ "$ACTION" = "version" ]; then
-	echo $SCRIPT_VERSION;
-	CHECK_INTERNET
-	exit 0
-fi
 
 function verify_files()
 {
 	clear
 	FILES_UPDATED=0
 	MOUNT_RW
+# ========================================================
+# Delete old files
+# ========================================================
+if [ -f "/system/bin/cfg" ]; then
+	rm -f /system/bin/cfg.old
+fi
+
 # ========================================================
 # Download missing files
 # ========================================================
@@ -84,11 +84,11 @@ function verify_files()
 		FILES_UPDATED=1
 		echo "Downloading LS00devicename...";
 		wget -O /system/etc/init.d/LS00devicename https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00devicename
-		sed -i  "6 cdoresetprop ro.product.model '`getprop ro.product.model`'" /system/etc/init.d/LS00devicename
-		sed -i  "7 cdoresetprop ro.product.brand '`getprop ro.product.brand`'" /system/etc/init.d/LS00devicename
-		sed -i  "8 cdoresetprop ro.product.manufacturer '`getprop ro.product.manufacturer`'" /system/etc/init.d/LS00devicename
-		sed -i  "9 cdoresetprop ro.product.name '`getprop ro.product.name`'" /system/etc/init.d/LS00devicename
-		sed -i  "10 cdoresetprop ro.product.device '`getprop ro.product.device`'" /system/etc/init.d/LS00devicename
+		sed -i  "15 cdoresetprop ro.product.model '`getprop ro.product.model`'" /system/etc/init.d/LS00devicename
+		sed -i  "16 cdoresetprop ro.product.brand '`getprop ro.product.brand`'" /system/etc/init.d/LS00devicename
+		sed -i  "17 cdoresetprop ro.product.manufacturer '`getprop ro.product.manufacturer`'" /system/etc/init.d/LS00devicename
+		sed -i  "18 cdoresetprop ro.product.name '`getprop ro.product.name`'" /system/etc/init.d/LS00devicename
+		sed -i  "19 cdoresetprop ro.product.device '`getprop ro.product.device`'" /system/etc/init.d/LS00devicename
 		echo "";
 	fi
 	if [ ! -f "/system/etc/init.d/LS00powercfg" ]; then 
@@ -107,8 +107,8 @@ function verify_files()
 		FILES_UPDATED=1
 		echo "Downloading LS00kernelconfig...";
 		wget -O /system/etc/init.d/LS00kernelconfig https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00kernelconfig
-		sed -i  "24 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
-		sed -i  "16 cecho `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
+		sed -i  "32 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
+		sed -i  "24 cecho `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
 		echo "";
 	fi
 	if [ ! -f "/system/etc/hosts.long" ]; then 
@@ -297,6 +297,67 @@ function verify_files()
 	if [ "$FILES_UPDATED" -eq 1 ]; then press_enter; fi
 }
 
+function update_main()
+{
+	clear
+	if ! HAS_INTERNET; then
+		echo "No internet access";
+		echo ""
+		press_enter
+		return
+	fi
+	MOUNT_RW
+	mv /system/bin/cfg /system/bin/cfg.old
+	wget -O /system/bin/cfg https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/cfg
+	chmod 777 /system/bin/cfg
+	dos2unix /system/bin/cfg
+	OLD=`cfg.old version`
+	NEW=`cfg version`
+	echo "Current version is ${GREEN}$OLD${NONE}";
+	echo "Online version is ${GREEN}$NEW${NONE}";
+	echo "";
+	if [ "$OLD" -eq "$NEW" ]; then
+		# cfg is up-to-date
+		echo "Main script is up-to-date";
+		rm -f /system/bin/cfg
+		mv /system/bin/cfg.old /system/bin/cfg
+	fi
+	#Update remaining files
+	echo "Proceed to update other files";
+	sleep 2
+	cfg update
+	exit 0
+}
+
+# TODO: More sophisticated check for each file instead of just
+#		deleting everything and download again.
+#		A config file can be implemented to retore user's setting
+function update_scripts()
+{
+	MOUNT_RW
+	clear
+	# Delete old files
+	echo "Deleting old files..."
+	rm -f /system/bin/powercfg
+	rm -f /system/bin/set_key
+	rm -f /system/bin/set_prop
+	rm -f /system/bin/SSAF_advanced_device_settings
+	rm -f /system/bin/SSAF_INCL
+	rm -f /system/bin/SSAF_kernel_tuner
+	rm -f /system/bin/SSAF_network_settings
+	rm -f /system/etc/init.d/LS00devicename
+	rm -f /system/etc/init.d/LS00kernelconfig
+	rm -f /system/etc/init.d/LS00powercfg
+	rm -f /system/etc/init.d/LS00resetdns
+	rm -f /system/etc/hosts.long
+	rm -f /system/etc/hosts.medium
+	rm -f /system/etc/hosts.short
+	rm -f /system/xbin/dss
+	rm -f /system/xbin/dss2
+	echo ""
+	sleep 1
+}
+
 function power_device()
 {
 	while :
@@ -341,6 +402,19 @@ function power_device()
 }
 
 check_root
+
+ACTION=$1
+if [ "$ACTION" = "version" ]; then
+	echo "Script version: $SCRIPT_VERSION";
+	return $SCRIPT_VERSION;
+elif [ "$ACTION" = "update" ]; then
+	if [ ! -f "/system/bin/cfg.old" ]; then
+		echo "Update Error";
+		return
+	fi
+	update_scripts
+fi
+
 verify_files
 
 while :
@@ -352,6 +426,7 @@ do
 	echo " 1. Advanced Device Settings";
 	echo " 2. Network Settings";
 	echo " 3. Kernel Tuner";
+	echo "88. Update Scripts"
 	echo "99. Power Menu";
 	echo " 0. Exit";
 	echo "";
@@ -365,6 +440,7 @@ do
 			REBOOT_REQUIRED=$?;;
 		3)	SSAF_kernel_tuner;
 			REBOOT_REQUIRED=$?;;
+		88)	update_main;;
 		99)	power_device;;
 		0)	clear;
 			if [ "$REBOOT_REQUIRED" -eq 1 ]; then

@@ -1,4 +1,13 @@
 #!/system/bin/sh
+#==============================================================
+#       FILE		: LS00devicename
+#       AUTHOR		: ImbaWind @ XDA
+#       DESCRIPTION	: Shell Script Advanced Features
+#                     Execute on boot to (re)set device name
+#		GitHub		: https://github.com/ycsin
+#==============================================================
+SCRIPT_VERSION=1
+
 doresetprop () {
     /sbin/resetprop $1 "$2"
 }
@@ -8,5 +17,3 @@ doresetprop ro.product.brand 'samsung'
 doresetprop ro.product.manufacturer 'samsung'
 doresetprop ro.product.name 'dreamltexx'
 doresetprop ro.product.device 'dreamlte'
-
-SCRIPT_VERSION=1

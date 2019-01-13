@@ -4,15 +4,15 @@
 #            AUTHOR: ImbaWind @ XDA
 #       DESCRIPTION: Edit various device settings
 #====================================================
-. "/system/bin/SSAF_INCL.sh"
-REBOOT_REQUIRED=0
-
 SCRIPT_VERSION=1
+
+. "/system/bin/SSAF_INCL"
+
+REBOOT_REQUIRED=0
 
 ACTION=$1
 if [ "$ACTION" = "version" ]; then
-	echo $SCRIPT_VERSION;
-	exit 0
+	return $SCRIPT_VERSION;
 fi
 
 function edit_bixby()
@@ -187,23 +187,23 @@ function edit_device()
 				break;
 			else
 				clear;
-				sed -i  "6 cdoresetprop ro.product.model $arg" $FILE
+				sed -i  "15 cdoresetprop ro.product.model $arg" $FILE
 				clear;
 				echo -n "Enter custom brand: ";
 				read arg
-				sed -i  "7 cdoresetprop ro.product.brand $arg" $FILE
+				sed -i  "16 cdoresetprop ro.product.brand $arg" $FILE
 				clear;
 				echo -n "Enter custom manufacturer: ";
 				read arg
-				sed -i  "8 cdoresetprop ro.product.manufacturer $arg" $FILE
+				sed -i  "17 cdoresetprop ro.product.manufacturer $arg" $FILE
 				clear;
 				echo -n "Enter custom name: ";
 				read arg
-				sed -i  "9 cdoresetprop ro.product.name $arg" $FILE
+				sed -i  "18 cdoresetprop ro.product.name $arg" $FILE
 				clear;
 				echo -n "Enter custom device: ";
 				read arg
-				sed -i  "10 cdoresetprop ro.product.brand $arg" $FILE
+				sed -i  "19 cdoresetprop ro.product.brand $arg" $FILE
 				clear;
 				press_enter
 				break;
@@ -219,83 +219,83 @@ function edit_device()
 			case $opt in
 				1)	clear;
 					echo "Resetting to Google Pixel 2";
-					sed -i  "6 cdoresetprop ro.product.model 'Pixel 2'" $FILE
-					sed -i  "7 cdoresetprop ro.product.brand 'Google'" $FILE
-					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
-					sed -i  "9 cdoresetprop ro.product.name 'walleye'" $FILE
-					sed -i  "10 cdoresetprop ro.product.device 'walleye'" $FILE
+					sed -i  "15 cdoresetprop ro.product.model 'Pixel 2'" $FILE
+					sed -i  "16 cdoresetprop ro.product.brand 'Google'" $FILE
+					sed -i  "17 cdoresetprop ro.product.manufacturer 'Google'" $FILE
+					sed -i  "18 cdoresetprop ro.product.name 'walleye'" $FILE
+					sed -i  "19 cdoresetprop ro.product.device 'walleye'" $FILE
 					press_enter
 					break;;
 				2)	clear;
 					echo "Resetting to Google Pixel 2 XL";
-					sed -i  "6 cdoresetprop ro.product.model 'Pixel 2'" $FILE
-					sed -i  "7 cdoresetprop ro.product.brand 'Google'" $FILE
-					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
-					sed -i  "9 cdoresetprop ro.product.name 'taimen'" $FILE
-					sed -i  "10 cdoresetprop ro.product.device 'taimen'" $FILE
+					sed -i  "15 cdoresetprop ro.product.model 'Pixel 2'" $FILE
+					sed -i  "16 cdoresetprop ro.product.brand 'Google'" $FILE
+					sed -i  "17 cdoresetprop ro.product.manufacturer 'Google'" $FILE
+					sed -i  "18 cdoresetprop ro.product.name 'taimen'" $FILE
+					sed -i  "19 cdoresetprop ro.product.device 'taimen'" $FILE
 					press_enter
 					break;;
 				3)	clear;
 					echo "Resetting to Google Pixel 3";
-					sed -i  "6 cdoresetprop ro.product.model 'Pixel 3'" $FILE
-					sed -i  "7 cdoresetprop ro.product.brand 'Google'" $FILE
-					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
-					sed -i  "9 cdoresetprop ro.product.name 'blueline'" $FILE
-					sed -i  "10 cdoresetprop ro.product.device 'blueline'" $FILE
+					sed -i  "15 cdoresetprop ro.product.model 'Pixel 3'" $FILE
+					sed -i  "16 cdoresetprop ro.product.brand 'Google'" $FILE
+					sed -i  "17 cdoresetprop ro.product.manufacturer 'Google'" $FILE
+					sed -i  "18 cdoresetprop ro.product.name 'blueline'" $FILE
+					sed -i  "19 cdoresetprop ro.product.device 'blueline'" $FILE
 					press_enter
 					break;;
 				4)	clear;
 					echo "Resetting to Google Pixel 3 XL";
-					sed -i  "6 cdoresetprop ro.product.model 'Pixel 3 XL'" $FILE
-					sed -i  "7 cdoresetprop ro.product.brand 'Google'" $FILE
-					sed -i  "8 cdoresetprop ro.product.manufacturer 'Google'" $FILE
-					sed -i  "9 cdoresetprop ro.product.name 'crosshatch'" $FILE
-					sed -i  "10 cdoresetprop ro.product.device 'crosshatch'" $FILE
+					sed -i  "15 cdoresetprop ro.product.model 'Pixel 3 XL'" $FILE
+					sed -i  "16 cdoresetprop ro.product.brand 'Google'" $FILE
+					sed -i  "17 cdoresetprop ro.product.manufacturer 'Google'" $FILE
+					sed -i  "18 cdoresetprop ro.product.name 'crosshatch'" $FILE
+					sed -i  "19 cdoresetprop ro.product.device 'crosshatch'" $FILE
 					press_enter
 					break;;
 				5)	clear;
 					echo "Resetting to Samsung Galaxy S8";
-					sed -i  "6 cdoresetprop ro.product.model 'SM-G950F'" $FILE
-					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
-					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
-					sed -i  "9 cdoresetprop ro.product.name 'dreamltexx'" $FILE
-					sed -i  "10 cdoresetprop ro.product.device 'dreamlte'" $FILE
+					sed -i  "15 cdoresetprop ro.product.model 'SM-G950F'" $FILE
+					sed -i  "16 cdoresetprop ro.product.brand 'samsung'" $FILE
+					sed -i  "17 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
+					sed -i  "18 cdoresetprop ro.product.name 'dreamltexx'" $FILE
+					sed -i  "19 cdoresetprop ro.product.device 'dreamlte'" $FILE
 					press_enter
 					break;;
 				6)	clear;
 					echo "Resetting to Samsung Galaxy S8+";
-					sed -i  "6 cdoresetprop ro.product.model 'SM-G955F'" $FILE
-					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
-					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
-					sed -i  "9 cdoresetprop ro.product.name 'dream2ltexx'" $FILE
-					sed -i  "10 cdoresetprop ro.product.device 'dream2lte'" $FILE
+					sed -i  "15 cdoresetprop ro.product.model 'SM-G955F'" $FILE
+					sed -i  "16 cdoresetprop ro.product.brand 'samsung'" $FILE
+					sed -i  "17 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
+					sed -i  "18 cdoresetprop ro.product.name 'dream2ltexx'" $FILE
+					sed -i  "19 cdoresetprop ro.product.device 'dream2lte'" $FILE
 					press_enter
 					break;;
 				7)	clear;
 					echo "Resetting to Samsung Galaxy S9";
-					sed -i  "6 cdoresetprop ro.product.model 'SM-G960F'" $FILE
-					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
-					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
-					sed -i  "9 cdoresetprop ro.product.name 'starltexx'" $FILE
-					sed -i  "10 cdoresetprop ro.product.device 'starlte'" $FILE
+					sed -i  "15 cdoresetprop ro.product.model 'SM-G960F'" $FILE
+					sed -i  "16 cdoresetprop ro.product.brand 'samsung'" $FILE
+					sed -i  "17 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
+					sed -i  "18 cdoresetprop ro.product.name 'starltexx'" $FILE
+					sed -i  "19 cdoresetprop ro.product.device 'starlte'" $FILE
 					press_enter
 					break;;
 				8)	clear;
 					echo "Resetting to Samsung Galaxy S9+";
-					sed -i  "6 cdoresetprop ro.product.model 'SM-G965F'" $FILE
-					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
-					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
-					sed -i  "9 cdoresetprop ro.product.name 'star2ltexx'" $FILE
-					sed -i  "10 cdoresetprop ro.product.device 'star2lte'" $FILE
+					sed -i  "15 cdoresetprop ro.product.model 'SM-G965F'" $FILE
+					sed -i  "16 cdoresetprop ro.product.brand 'samsung'" $FILE
+					sed -i  "17 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
+					sed -i  "18 cdoresetprop ro.product.name 'star2ltexx'" $FILE
+					sed -i  "19 cdoresetprop ro.product.device 'star2lte'" $FILE
 					press_enter
 					break;;
 				9)	clear;
 					echo "Resetting to Samsung Galaxy Note 9";
-					sed -i  "6 cdoresetprop ro.product.model 'SM-N960F'" $FILE
-					sed -i  "7 cdoresetprop ro.product.brand 'samsung'" $FILE
-					sed -i  "8 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
-					sed -i  "9 cdoresetprop ro.product.name 'crownltexx'" $FILE
-					sed -i  "10 cdoresetprop ro.product.device 'crownlte'" $FILE
+					sed -i  "15 cdoresetprop ro.product.model 'SM-N960F'" $FILE
+					sed -i  "16 cdoresetprop ro.product.brand 'samsung'" $FILE
+					sed -i  "17 cdoresetprop ro.product.manufacturer 'samsung'" $FILE
+					sed -i  "18 cdoresetprop ro.product.name 'crownltexx'" $FILE
+					sed -i  "19 cdoresetprop ro.product.device 'crownlte'" $FILE
 					press_enter
 					break;;
 			esac

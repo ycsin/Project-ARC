@@ -1,5 +1,11 @@
 #!/system/bin/sh
+#==============================================================
+#       FILE		: LS00powercfg
+#       AUTHOR		: ImbaWind @ XDA
+#       DESCRIPTION	: Shell Script Advanced Features
+#                     Execute on boot to powercfg setting
+#		GitHub		: https://github.com/ycsin
+#==============================================================
+SCRIPT_VERSION=1
 
 powercfg balance
-
-SCRIPT_VERSION=1

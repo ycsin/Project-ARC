@@ -8,25 +8,16 @@
 #====================================================
 SCRIPT_VERSION=1
 
+ACTION=$1
+if [ "$ACTION" = "version" ]; then
+	return $SCRIPT_VERSION;
+fi
+
+. "/system/bin/SSAF_INCL"
+
 FILE=/system/usr/keylayout/Generic.kl
 prop=$1
 arg=$2
-
-function MOUNT_RW()
-{
-	if [ ! -f "/system/xbin/sysrw" ]; then
-		mount -o rw,remount /system
-	else
-		/system/xbin/sysrw
-	fi
-}
-
-function MOUNT_RO()
-{
-	if [ -f "/system/xbin/sysro" ]; then
-		/system/xbin/sysro
-	fi
-}
 
 MOUNT_RW
 if grep -Fq "key "$prop $FILE ; then

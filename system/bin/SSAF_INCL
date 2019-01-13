@@ -1,4 +1,14 @@
 #!/system/bin/sh
+#==============================================================
+#       FILE		: SSAF_INCL
+#       AUTHOR		: ImbaWind @ XDA
+#       DESCRIPTION	: Shell Script Advanced Features
+#                     INCLUDE FILE
+#					  Contains various fns that are used
+#					  across multiple files
+#		GitHub		: https://github.com/ycsin
+#==============================================================
+SCRIPT_VERSION=1
 
 NONE='\033[00m'
 RED='\033[01;31m'
@@ -11,7 +21,6 @@ BOLD='\033[1m'
 UNDERLINE='\033[4m'
 
 CMD=/system/bin/cmd
-SCRIPT_VERSION=1
 
 ACTION=$1
 if [ "$ACTION" = "version" ]; then
@@ -19,13 +28,14 @@ if [ "$ACTION" = "version" ]; then
 	exit 0
 fi
 
-function CHECK_INTERNET()
+function HAS_INTERNET()
 {
-	if ping -q -c 1 -W 1 8.8.8.8 >/dev/null; then
-	  echo "IPv4 is up"
+	if ping -q -c 1 -W 1 8.8.8.8 &>/dev/null; then
+	  true
 	else
-	  echo "IPv4 is down"
+	  false
 	fi
+	return
 }
 
 function MOUNT_RW()

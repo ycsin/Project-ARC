@@ -4,7 +4,7 @@
 #            AUTHOR: ImbaWind @ XDA
 #       DESCRIPTION: Edit various kernel parameters
 #====================================================
-. "/system/bin/SSAF_INCL.sh"
+. "/system/bin/SSAF_INCL"
 REBOOT_REQUIRED=0
 
 SCRIPT_VERSION=1
@@ -40,7 +40,7 @@ function set_powercfg()
 		CURRENT="kernel_default"
 	fi
 	MOUNT_RW
-	sed -i  "3 cpowercfg ${CURRENT}" $FILE
+	sed -i  "11 cpowercfg ${CURRENT}" $FILE
 	while :
 	do
 		clear;
@@ -66,7 +66,7 @@ function set_powercfg()
 				echo "";
 				MOUNT_RW
 				powercfg powersave
-				sed -i  "3 cpowercfg powersave" $FILE
+				sed -i  "11 cpowercfg powersave" $FILE
 				echo "";
 				press_enter
 				break;;
@@ -75,7 +75,7 @@ function set_powercfg()
 				echo "";
 				MOUNT_RW
 				powercfg balance
-				sed -i  "3 cpowercfg balance" $FILE
+				sed -i  "11 cpowercfg balance" $FILE
 				echo "";
 				press_enter
 				break;;
@@ -84,7 +84,7 @@ function set_powercfg()
 				echo "";
 				MOUNT_RW
 				powercfg performance
-				sed -i  "3 cpowercfg performance" $FILE
+				sed -i  "11 cpowercfg performance" $FILE
 				echo "";
 				press_enter
 				break;;
@@ -93,7 +93,7 @@ function set_powercfg()
 				echo "";
 				MOUNT_RW
 				powercfg fast
-				sed -i  "3 cpowercfg fast" $FILE
+				sed -i  "11 cpowercfg fast" $FILE
 				echo "";
 				press_enter
 				break;;
@@ -104,7 +104,7 @@ function set_powercfg()
 				echo "";
 				MOUNT_RW
 				powercfg kernel_default
-				sed -i  "3 cpowercfg kernel_default" $FILE
+				sed -i  "11 cpowercfg kernel_default" $FILE
 				echo "";
 				press_enter
 				break;;
@@ -159,7 +159,7 @@ function big_cluster_tuning()
 				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 			done
-				sed -i  "24 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
+				sed -i  "32 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -212,7 +212,7 @@ function LITTLE_cluster_tuning()
 				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 			done
-				sed -i  "16 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" $FILE
+				sed -i  "24 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
