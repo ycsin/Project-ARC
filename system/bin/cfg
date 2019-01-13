@@ -170,7 +170,7 @@ fi
 			press_enter
 			exit 0
 		fi
-		echo "SSAF_INCL.sh ${GREEN}OK${NONE}";
+		echo "SSAF_INCL ${GREEN}OK${NONE}";
 
 		if [ ! -f "/system/bin/SSAF_kernel_tuner" ]; then
 			echo "E: /system/bin/SSAF_kernel_tuner"
