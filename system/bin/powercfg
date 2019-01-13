@@ -172,7 +172,7 @@ elif [ "$action" = "powersave" ]; then
 elif [ "$action" = "kernel_default" ]; then
 	exit 0
 elif [ "$action" = "version" ]; then
-	return $SCRIPT_VERSION
+	echo $SCRIPT_VERSION
 else
 	action="balance"
 fi

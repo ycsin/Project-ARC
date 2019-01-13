@@ -12,7 +12,7 @@ REBOOT_REQUIRED=0
 
 ACTION=$1
 if [ "$ACTION" = "version" ]; then
-	return $SCRIPT_VERSION;
+	echo $SCRIPT_VERSION;
 fi
 
 function edit_bixby()

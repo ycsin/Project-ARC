@@ -7,7 +7,7 @@
 #       USAGE		: cfg
 #==============================================================
 . "/system/bin/SSAF_INCL"
-SCRIPT_VERSION=4
+SCRIPT_VERSION=5
 
 REBOOT_REQUIRED=0;
 
@@ -421,7 +421,7 @@ check_root
 ACTION=$1
 if [ "$ACTION" = "version" ]; then
 	echo "Script version: $SCRIPT_VERSION";
-	return $SCRIPT_VERSION;
+	echo $SCRIPT_VERSION;
 elif [ "$ACTION" = "update" ]; then
 	if [ ! -f "/system/bin/cfg.old" ]; then
 		echo "Update Error";
