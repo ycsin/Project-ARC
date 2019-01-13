@@ -329,19 +329,28 @@ function update_main()
 	chmod 777 /system/bin/cfg.new
 	dos2unix /system/bin/cfg.new
 	NEW=`cfg.new VERSION`
-	echo "Current version is ${GREEN}$SCRIPT_VERSION${NONE}";
-	echo "Online version is ${GREEN}$NEW${NONE}";
+	press_enter
+	echo "Installed version is ${GREEN}$SCRIPT_VERSION${NONE}";
+	press_enter
+	echo "Current version is ${GREEN}$NEW${NONE}";
+	press_enter
 	echo "";
+	press_enter
 	if [ "$OLD" -eq "$NEW" ]; then
+	press_enter
 		# cfg is up-to-date
 		echo "Main script is up-to-date";
+		press_enter
 	fi
+	press_enter
 	mv /system/bin/cfg.new /system/bin/cfg
+	press_enter
 	#Update remaining files
 	echo "Proceeding to update other files";
 	sleep 2
 	cfg UPDATE
 	exit 0
+	echo "353";
 }
 
 # TODO: More sophisticated check for each file instead of just
