@@ -340,7 +340,7 @@ function update_main()
 	#Update remaining files
 	echo "Proceed to update other files";
 	sleep 2
-	cfg update
+	cfg UPDATE
 	exit 0
 }
 
