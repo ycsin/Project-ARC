@@ -7,7 +7,7 @@
 #       USAGE		: cfg
 #==============================================================
 . "/system/bin/SSAF_INCL"
-SCRIPT_VERSION=3
+SCRIPT_VERSION=4
 
 REBOOT_REQUIRED=0;
 
@@ -325,10 +325,10 @@ function update_main()
 	MOUNT_RW
 	mv /system/bin/cfg /system/bin/cfg.old
 	sleep 1
-	wget -q --no-check-certificate -O /system/bin/cfg https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/cfg
-	chmod 777 /system/bin/cfg
-	dos2unix /system/bin/cfg
-	NEW=`cfg version`
+	wget -q --no-check-certificate -O /system/bin/cfg.new https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/cfg
+	chmod 777 /system/bin/cfg.new
+	dos2unix /system/bin/cfg.new
+	NEW=`cfg.new version`
 	echo "Current version is ${GREEN}$SCRIPT_VERSION${NONE}";
 	echo "Online version is ${GREEN}$NEW${NONE}";
 	echo "";
@@ -336,6 +336,7 @@ function update_main()
 		# cfg is up-to-date
 		echo "Main script is up-to-date";
 	fi
+	mv /system/bin/cfg.new /system/bin/cfg
 	#Update remaining files
 	echo "Proceed to update other files";
 	sleep 2
