@@ -7,7 +7,7 @@
 #       USAGE		: cfg
 #==============================================================
 . "/system/bin/SSAF_INCL"
-SCRIPT_VERSION=8
+SCRIPT_VERSION=9
 
 REBOOT_REQUIRED=0;
 
@@ -338,7 +338,7 @@ function update_main()
 	fi
 	mv /system/bin/cfg.new /system/bin/cfg
 	#Update remaining files
-	echo "Proceed to update other files";
+	echo "Proceeding to update other files";
 	sleep 2
 	cfg UPDATE
 	exit 0
@@ -420,7 +420,7 @@ check_root
 
 ACTION=$1
 if [ "$ACTION" = "VERSION" ]; then
-	return $SCRIPT_VERSION;
+	return $SCRIPT_VERSION
 elif [ "$ACTION" = "UPDATE" ]; then
 	if [ ! -f "/system/bin/cfg.old" ]; then
 		echo "Update Error";
