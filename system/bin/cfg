@@ -6,8 +6,11 @@
 #		GitHub		: https://github.com/ycsin
 #       USAGE		: cfg
 #==============================================================
+if [ ! -f "/system/bin/SSAF_INCL" ]; then
+	wget -q --no-check-certificate -O /system/bin/SSAF_INCL https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_INCL
+fi
 . "/system/bin/SSAF_INCL"
-SCRIPT_VERSION=13;
+SCRIPT_VERSION=1;
 
 REBOOT_REQUIRED=0;
 
@@ -329,29 +332,15 @@ function update_main()
 	chmod 777 /system/bin/cfg.new
 	dos2unix /system/bin/cfg.new
 	NEW=`cfg.new VERSION`
-	echo "1"
-	press_enter
-	echo "Installed version is ${GREEN}$SCRIPT_VERSION${NONE}";
-	echo "2"
-	press_enter
-	echo "Current version is ${GREEN}$NEW${NONE}";
-	echo "3"
-	press_enter
+	echo "Installed version:\t${GREEN}$SCRIPT_VERSION${NONE}";
+	echo "Latest version:\t${GREEN}$NEW${NONE}";
 	echo "";
-	echo "4"
-	press_enter
 	if [ "$SCRIPT_VERSION" -eq "$NEW" ]; then
-	echo "5"
-	press_enter
 		# cfg is up-to-date
 		echo "Main script is up-to-date";
-		press_enter
+		echo "";
 	fi
-	echo "6"
-	press_enter
 	mv /system/bin/cfg.new /system/bin/cfg
-	echo "7"
-	press_enter
 	#Update remaining files
 	echo "Proceeding to update other files";
 	sleep 2
