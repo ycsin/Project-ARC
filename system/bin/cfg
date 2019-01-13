@@ -1,9 +1,10 @@
 #!/system/bin/sh
 #==============================================================
-#       FILE: cfg
-#       AUTHOR: ImbaWind @ XDA
-#       DESCRIPTION: Shell Script Advanced Features
-#       USAGE: cfg
+#       FILE		: cfg
+#       AUTHOR		: ImbaWind @ XDA
+#       DESCRIPTION	: Shell Script Advanced Features
+#		GitHub		: https://github.com/ycsin
+#       USAGE		: cfg
 #==============================================================
 . "/system/bin/SSAF_INCL.sh"
 SCRIPT_VERSION=0
@@ -28,55 +29,61 @@ function verify_files()
 	if [ ! -f "/system/bin/powercfg" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading powercfg...";
-		wget -O /system/bin/powercfg https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/bin/powercfg
+		wget -O /system/bin/powercfg https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/powercfg
 		echo "";
 	fi
 	if [ ! -f "/system/bin/set_key" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading set_key...";
-		wget -O /system/bin/set_key https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/bin/set_key
+		wget -O /system/bin/set_key https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/set_key
 		echo "";
 	fi
 	if [ ! -f "/system/bin/set_prop" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading set_prop...";
-		wget -O /system/bin/set_prop https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/bin/set_prop
+		wget -O /system/bin/set_prop https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/set_prop
 		echo "";
 	fi
 	if [ ! -f "/system/bin/SSAF_advanced_device_settings" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading SSAF_advanced_device_settings...";
-		wget -O /system/bin/SSAF_advanced_device_settings https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/bin/SSAF_advanced_device_settings
+		wget -O /system/bin/SSAF_advanced_device_settings https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_advanced_device_settings
+		echo "";
+	fi
+	if [ ! -f "/system/bin/SSAF_INCL" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading SSAF_INCL...";
+		wget -O /system/bin/SSAF_INCL https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_INCL
 		echo "";
 	fi
 	if [ ! -f "/system/bin/SSAF_kernel_tuner" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading SSAF_kernel_tuner...";
-		wget -O /system/bin/SSAF_kernel_tuner https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/bin/SSAF_kernel_tuner
+		wget -O /system/bin/SSAF_kernel_tuner https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_kernel_tuner
 		echo "";
 	fi
 	if [ ! -f "/system/bin/SSAF_network_settings" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading SSAF_network_settings...";
-		wget -O /system/bin/SSAF_network_settings https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/bin/SSAF_network_settings
+		wget -O /system/bin/SSAF_network_settings https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_network_settings
 		echo "";
 	fi
 	if [ ! -f "/system/xbin/dss" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading dss...";
-		wget -O /system/xbin/dss https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/xbin/dss
+		wget -O /system/xbin/dss https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/xbin/dss
 		echo "";
 	fi
 	if [ ! -f "/system/xbin/dss2" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading dss2...";
-		wget -O /system/xbin/dss2 https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/xbin/dss2
+		wget -O /system/xbin/dss2 https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/xbin/dss2
 		echo "";
 	fi
 	if [ ! -f "/system/etc/init.d/LS00devicename" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading LS00devicename...";
-		wget -O /system/etc/init.d/LS00devicename https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00devicename
+		wget -O /system/etc/init.d/LS00devicename https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00devicename
 		sed -i  "6 cdoresetprop ro.product.model '`getprop ro.product.model`'" /system/etc/init.d/LS00devicename
 		sed -i  "7 cdoresetprop ro.product.brand '`getprop ro.product.brand`'" /system/etc/init.d/LS00devicename
 		sed -i  "8 cdoresetprop ro.product.manufacturer '`getprop ro.product.manufacturer`'" /system/etc/init.d/LS00devicename
@@ -87,19 +94,19 @@ function verify_files()
 	if [ ! -f "/system/etc/init.d/LS00powercfg" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading LS00powercfg...";
-		wget -O /system/etc/init.d/LS00powercfg https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00powercfg
+		wget -O /system/etc/init.d/LS00powercfg https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00powercfg
 		echo "";
 	fi
 	if [ ! -f "/system/etc/init.d/LS00resetdns" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading LS00resetdns...";
-		wget -O /system/etc/init.d/LS00resetdns https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00resetdns
+		wget -O /system/etc/init.d/LS00resetdns https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00resetdns
 		echo "";
 	fi
 	if [ ! -f "/system/etc/init.d/LS00kernelconfig" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading LS00kernelconfig...";
-		wget -O /system/etc/init.d/LS00kernelconfig https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00kernelconfig
+		wget -O /system/etc/init.d/LS00kernelconfig https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00kernelconfig
 		sed -i  "24 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
 		sed -i  "16 cecho `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
 		echo "";
@@ -107,25 +114,25 @@ function verify_files()
 	if [ ! -f "/system/etc/hosts.long" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading hosts.long...";
-		wget -O /system/etc/hosts.long https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/hosts.long
+		wget -O /system/etc/hosts.long https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/hosts.long
 		echo "";
 	fi
 	if [ ! -f "/system/etc/hosts.medium" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading hosts.medium...";
-		wget -O /system/etc/hosts.medium https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/hosts.medium
+		wget -O /system/etc/hosts.medium https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/hosts.medium
 		echo "";
 	fi
 	if [ ! -f "/system/etc/hosts.short" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading hosts.short...";
-		wget -O /system/etc/hosts.short https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/etc/hosts.short
+		wget -O /system/etc/hosts.short https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/hosts.short
 		echo "";
 	fi
 	if [ ! -f "/system/usr/keylayout/Generic.kl" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading Generic.kl...";
-		wget -O /system/usr/keylayout/Generic.kl https://raw.githubusercontent.com/imbawind/Shell-Script-Advanced-Features/master/system/usr/keylayout/Generic.kl
+		wget -O /system/usr/keylayout/Generic.kl https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/usr/keylayout/Generic.kl
 		echo "";
 	fi
 
@@ -157,6 +164,13 @@ function verify_files()
 			exit 0
 		fi
 		echo "SSAF_advanced_device_settings ${GREEN}OK${NONE}";
+
+		if [ ! -f "/system/bin/SSAF_INCL" ]; then
+			echo "E: /system/bin/SSAF_INCL"
+			press_enter
+			exit 0
+		fi
+		echo "SSAF_INCL.sh ${GREEN}OK${NONE}";
 
 		if [ ! -f "/system/bin/SSAF_kernel_tuner" ]; then
 			echo "E: /system/bin/SSAF_kernel_tuner"
@@ -257,6 +271,8 @@ function verify_files()
 	dos2unix /system/bin/set_prop
 	chmod 777 /system/bin/SSAF_advanced_device_settings
 	dos2unix /system/bin/SSAF_advanced_device_settings
+	chmod 777 /system/bin/SSAF_INCL
+	dos2unix /system/bin/SSAF_INCL
 	chmod 777 /system/bin/SSAF_kernel_tuner
 	dos2unix /system/bin/SSAF_kernel_tuner
 	chmod 777 /system/bin/SSAF_network_settings
