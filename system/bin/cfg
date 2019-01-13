@@ -7,7 +7,7 @@
 #       USAGE		: cfg
 #==============================================================
 . "/system/bin/SSAF_INCL"
-SCRIPT_VERSION=2
+SCRIPT_VERSION=3
 
 REBOOT_REQUIRED=0;
 
@@ -328,9 +328,8 @@ function update_main()
 	wget -q --no-check-certificate -O /system/bin/cfg https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/cfg
 	chmod 777 /system/bin/cfg
 	dos2unix /system/bin/cfg
-	OLD=`cfg.old version`
 	NEW=`cfg version`
-	echo "Current version is ${GREEN}$OLD${NONE}";
+	echo "Current version is ${GREEN}$SCRIPT_VERSION${NONE}";
 	echo "Online version is ${GREEN}$NEW${NONE}";
 	echo "";
 	if [ "$OLD" -eq "$NEW" ]; then
