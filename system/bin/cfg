@@ -7,7 +7,7 @@
 #       USAGE		: cfg
 #==============================================================
 . "/system/bin/SSAF_INCL"
-SCRIPT_VERSION=9
+SCRIPT_VERSION=10
 
 REBOOT_REQUIRED=0;
 
@@ -330,9 +330,9 @@ function update_main()
 	dos2unix /system/bin/cfg.new
 	NEW=`cfg.new VERSION`
 	press_enter
-	echo "Installed version is ${GREEN}$SCRIPT_VERSION${NONE}";
+	echo "Installed version is ${GREEN}$SCRIPT_VERSION ${NONE}";
 	press_enter
-	echo "Current version is ${GREEN}$NEW${NONE}";
+	echo "Current version is $NEW";
 	press_enter
 	echo "";
 	press_enter
