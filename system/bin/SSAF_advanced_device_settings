@@ -11,8 +11,9 @@ SCRIPT_VERSION=1
 REBOOT_REQUIRED=0
 
 ACTION=$1
-if [ "$ACTION" = "version" ]; then
-	echo $SCRIPT_VERSION;
+if [ "$ACTION" = "VERSION" ]; then
+	echo "$SCRIPT_VERSION";
+	exit
 fi
 
 function edit_bixby()

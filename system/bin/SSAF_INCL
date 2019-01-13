@@ -6,7 +6,7 @@
 #                     INCLUDE FILE
 #					  Contains various fns that are used
 #					  across multiple files
-#		GitHub		: https://github.com/ycsin
+#       GitHub		: https://github.com/ycsin
 #==============================================================
 SCRIPT_VERSION=1
 
@@ -23,9 +23,9 @@ UNDERLINE='\033[4m'
 CMD=/system/bin/cmd
 
 ACTION=$1
-if [ "$ACTION" = "version" ]; then
-	echo $SCRIPT_VERSION;
-	exit 0
+if [ "$ACTION" = "VERSION" ]; then
+	echo "$SCRIPT_VERSION";
+	exit
 fi
 
 function HAS_INTERNET()

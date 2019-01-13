@@ -3,7 +3,7 @@
 #       FILE		: cfg
 #       AUTHOR		: ImbaWind @ XDA
 #       DESCRIPTION	: Shell Script Advanced Features Main Menu
-#		GitHub		: https://github.com/ycsin
+#       GitHub		: https://github.com/ycsin
 #       USAGE		: cfg
 #==============================================================
 if [ ! -f "/system/bin/SSAF_INCL" ]; then
@@ -349,7 +349,7 @@ function update_main()
 	dos2unix /system/bin/cfg.new
 	NEW=`cfg.new VERSION`
 	echo "Installed version: ${GREEN}$SCRIPT_VERSION${NONE}";
-	echo "Latest version:\t${GREEN}$NEW${NONE}";
+	echo "Latest version:\t\t${GREEN}$NEW${NONE}";
 	echo "";
 	if [ "$SCRIPT_VERSION" -eq "$NEW" ]; then
 		# cfg is up-to-date

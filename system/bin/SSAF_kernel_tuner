@@ -10,9 +10,9 @@ REBOOT_REQUIRED=0
 SCRIPT_VERSION=1
 
 ACTION=$1
-if [ "$ACTION" = "version" ]; then
-	echo $SCRIPT_VERSION;
-	exit 0
+if [ "$ACTION" = "VERSION" ]; then
+	echo "$SCRIPT_VERSION";
+	exit
 fi
 
 function set_powercfg()

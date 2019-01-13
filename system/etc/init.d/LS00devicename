@@ -4,7 +4,7 @@
 #       AUTHOR		: ImbaWind @ XDA
 #       DESCRIPTION	: Shell Script Advanced Features
 #                     Execute on boot to (re)set device name
-#		GitHub		: https://github.com/ycsin
+#       GitHub		: https://github.com/ycsin
 #==============================================================
 SCRIPT_VERSION=1
 
