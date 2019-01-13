@@ -334,7 +334,7 @@ function update_main()
 	echo "Installed version is ${GREEN}$SCRIPT_VERSION${NONE}";
 	echo "2"
 	press_enter
-	echo "Current version is ${GREEN}$NEW{NONE}";
+	echo "Current version is ${GREEN}$NEW${NONE}";
 	echo "3"
 	press_enter
 	echo "";
