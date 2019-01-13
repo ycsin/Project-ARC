@@ -7,7 +7,7 @@
 #       USAGE		: cfg
 #==============================================================
 . "/system/bin/SSAF_INCL"
-SCRIPT_VERSION=10
+SCRIPT_VERSION=11
 
 REBOOT_REQUIRED=0;
 
@@ -330,7 +330,7 @@ function update_main()
 	dos2unix /system/bin/cfg.new
 	NEW=`cfg.new VERSION`
 	press_enter
-	echo "Installed version is ${GREEN}$SCRIPT_VERSION ${NONE}";
+	echo "Installed version is ${GREEN}$SCRIPT_VERSION${NONE}";
 	press_enter
 	echo "Current version is $NEW";
 	press_enter
@@ -350,7 +350,6 @@ function update_main()
 	sleep 2
 	cfg UPDATE
 	exit 0
-	echo "353";
 }
 
 # TODO: More sophisticated check for each file instead of just
@@ -429,7 +428,8 @@ check_root
 
 ACTION=$1
 if [ "$ACTION" = "VERSION" ]; then
-	return $SCRIPT_VERSION
+	echo "$SCRIPT_VERSION";
+	return
 elif [ "$ACTION" = "UPDATE" ]; then
 	if [ ! -f "/system/bin/cfg.old" ]; then
 		echo "Update Error";
