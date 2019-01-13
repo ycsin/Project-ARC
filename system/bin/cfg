@@ -22,6 +22,22 @@ function verify_files()
 if [ -f "/system/bin/cfg" ]; then
 	rm -f /system/bin/cfg.old
 fi
+rm -f /system/bin/powercfg.old
+rm -f /system/bin/set_key.old
+rm -f /system/bin/set_prop.old
+rm -f /system/bin/SSAF_advanced_device_settings.old
+rm -f /system/bin/SSAF_INCL.old
+rm -f /system/bin/SSAF_kernel_tuner.old
+rm -f /system/bin/SSAF_network_settings.old
+rm -f /system/etc/init.d/LS00devicename.old
+rm -f /system/etc/init.d/LS00kernelconfig.old
+rm -f /system/etc/init.d/LS00powercfg.old
+rm -f /system/etc/init.d/LS00resetdns.old
+rm -f /system/etc/hosts.long.old
+rm -f /system/etc/hosts.medium.old
+rm -f /system/etc/hosts.short.old
+rm -f /system/xbin/dss.old
+rm -f /system/xbin/dss2.old
 
 # ========================================================
 # Download missing files
@@ -337,23 +353,23 @@ function update_scripts()
 	MOUNT_RW
 	clear
 	# Delete old files
-	echo "Deleting old files..."
-	rm -f /system/bin/powercfg
-	rm -f /system/bin/set_key
-	rm -f /system/bin/set_prop
-	rm -f /system/bin/SSAF_advanced_device_settings
-	rm -f /system/bin/SSAF_INCL
-	rm -f /system/bin/SSAF_kernel_tuner
-	rm -f /system/bin/SSAF_network_settings
-	rm -f /system/etc/init.d/LS00devicename
-	rm -f /system/etc/init.d/LS00kernelconfig
-	rm -f /system/etc/init.d/LS00powercfg
-	rm -f /system/etc/init.d/LS00resetdns
-	rm -f /system/etc/hosts.long
-	rm -f /system/etc/hosts.medium
-	rm -f /system/etc/hosts.short
-	rm -f /system/xbin/dss
-	rm -f /system/xbin/dss2
+	echo "Renaming old files..."
+	mv /system/bin/powercfg /system/bin/powercfg.old
+	mv /system/bin/set_key /system/bin/set_key.old
+	mv /system/bin/set_prop /system/bin/set_prop.old
+	mv /system/bin/SSAF_advanced_device_settings /system/bin/SSAF_advanced_device_settings.old
+	mv /system/bin/SSAF_INCL /system/bin/SSAF_INCL.old
+	mv /system/bin/SSAF_kernel_tuner /system/bin/SSAF_kernel_tuner.old
+	mv /system/bin/SSAF_network_settings /system/bin/SSAF_network_settings.old
+	mv /system/etc/init.d/LS00devicename /system/etc/init.d/LS00devicename.old
+	mv /system/etc/init.d/LS00kernelconfig /system/etc/init.d/LS00kernelconfig.old
+	mv /system/etc/init.d/LS00powercfg /system/etc/init.d/LS00powercfg.old
+	mv /system/etc/init.d/LS00resetdns /system/etc/init.d/LS00resetdns.old
+	mv /system/etc/hosts.long /system/etc/hosts.long.old
+	mv /system/etc/hosts.medium /system/etc/hosts.medium.old
+	mv /system/etc/hosts.short /system/etc/hosts.short.old
+	mv /system/xbin/dss /system/xbin/dss.old
+	mv /system/xbin/dss2 /system/xbin/dss2.old
 	echo ""
 	sleep 1
 }
