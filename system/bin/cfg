@@ -335,8 +335,6 @@ function update_main()
 	if [ "$OLD" -eq "$NEW" ]; then
 		# cfg is up-to-date
 		echo "Main script is up-to-date";
-		rm -f /system/bin/cfg
-		mv /system/bin/cfg.old /system/bin/cfg
 	fi
 	#Update remaining files
 	echo "Proceed to update other files";
