@@ -328,7 +328,7 @@ function update_main()
 	wget -q --no-check-certificate -O /system/bin/cfg.new https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/cfg
 	chmod 777 /system/bin/cfg.new
 	dos2unix /system/bin/cfg.new
-	NEW=`cfg.new version`
+	NEW=`cfg.new VERSION`
 	echo "Current version is ${GREEN}$SCRIPT_VERSION${NONE}";
 	echo "Online version is ${GREEN}$NEW${NONE}";
 	echo "";
