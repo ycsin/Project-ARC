@@ -53,54 +53,63 @@ rm -f /system/xbin/dss2.old
 	fi
 	if [ ! -f "/system/bin/set_key" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading set_key...";
 		wget --no-check-certificate -O /system/bin/set_key https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/set_key
 		echo "";
 	fi
 	if [ ! -f "/system/bin/set_prop" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading set_prop...";
 		wget --no-check-certificate -O /system/bin/set_prop https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/set_prop
 		echo "";
 	fi
 	if [ ! -f "/system/bin/SSAF_advanced_device_settings" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading SSAF_advanced_device_settings...";
 		wget --no-check-certificate -O /system/bin/SSAF_advanced_device_settings https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_advanced_device_settings
 		echo "";
 	fi
 	if [ ! -f "/system/bin/SSAF_INCL" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading SSAF_INCL...";
 		wget --no-check-certificate -O /system/bin/SSAF_INCL https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_INCL
 		echo "";
 	fi
 	if [ ! -f "/system/bin/SSAF_kernel_tuner" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading SSAF_kernel_tuner...";
 		wget --no-check-certificate -O /system/bin/SSAF_kernel_tuner https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_kernel_tuner
 		echo "";
 	fi
 	if [ ! -f "/system/bin/SSAF_network_settings" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading SSAF_network_settings...";
 		wget --no-check-certificate -O /system/bin/SSAF_network_settings https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_network_settings
 		echo "";
 	fi
 	if [ ! -f "/system/xbin/dss" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading dss...";
 		wget --no-check-certificate -O /system/xbin/dss https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/xbin/dss
 		echo "";
 	fi
 	if [ ! -f "/system/xbin/dss2" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading dss2...";
 		wget --no-check-certificate -O /system/xbin/dss2 https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/xbin/dss2
 		echo "";
 	fi
 	if [ ! -f "/system/etc/init.d/LS00devicename" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading LS00devicename...";
 		wget --no-check-certificate -O /system/etc/init.d/LS00devicename https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00devicename
 		sed -i  "15 cdoresetprop ro.product.model '`getprop ro.product.model`'" /system/etc/init.d/LS00devicename
@@ -112,18 +121,21 @@ rm -f /system/xbin/dss2.old
 	fi
 	if [ ! -f "/system/etc/init.d/LS00powercfg" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading LS00powercfg...";
 		wget --no-check-certificate -O /system/etc/init.d/LS00powercfg https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00powercfg
 		echo "";
 	fi
 	if [ ! -f "/system/etc/init.d/LS00resetdns" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading LS00resetdns...";
 		wget --no-check-certificate -O /system/etc/init.d/LS00resetdns https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00resetdns
 		echo "";
 	fi
 	if [ ! -f "/system/etc/init.d/LS00kernelconfig" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading LS00kernelconfig...";
 		wget --no-check-certificate -O /system/etc/init.d/LS00kernelconfig https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00kernelconfig
 		sed -i  "32 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
@@ -132,29 +144,33 @@ rm -f /system/xbin/dss2.old
 	fi
 	if [ ! -f "/system/etc/hosts.long" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading hosts.long...";
 		wget --no-check-certificate -O /system/etc/hosts.long https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/hosts.long
 		echo "";
 	fi
 	if [ ! -f "/system/etc/hosts.medium" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading hosts.medium...";
 		wget --no-check-certificate -O /system/etc/hosts.medium https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/hosts.medium
 		echo "";
 	fi
 	if [ ! -f "/system/etc/hosts.short" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading hosts.short...";
 		wget --no-check-certificate -O /system/etc/hosts.short https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/hosts.short
 		echo "";
 	fi
 	if [ ! -f "/system/usr/keylayout/Generic.kl" ]; then 
 		FILES_UPDATED=1
+		clear
 		echo "Downloading Generic.kl...";
 		wget --no-check-certificate -O /system/usr/keylayout/Generic.kl https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/usr/keylayout/Generic.kl
 		echo "";
 	fi
-
+	clear
 	if [ "$FILES_UPDATED" -eq 1 ]; then
 		if [ ! -f "/system/bin/powercfg" ]; then
 			echo "E: /system/bin/powercfg"
@@ -313,7 +329,7 @@ rm -f /system/xbin/dss2.old
 	chmod 644 /system/etc/hosts.short
 	chmod 644 /system/usr/keylayout/Generic.kl
 	
-	if [ "$FILES_UPDATED" -eq 1 ]; then press_enter; fi
+	if [ "$FILES_UPDATED" -eq 1 ]; then sleep 3; fi
 }
 
 function update_main()
@@ -332,7 +348,7 @@ function update_main()
 	chmod 777 /system/bin/cfg.new
 	dos2unix /system/bin/cfg.new
 	NEW=`cfg.new VERSION`
-	echo "Installed version:\t${GREEN}$SCRIPT_VERSION${NONE}";
+	echo "Installed version: ${GREEN}$SCRIPT_VERSION${NONE}";
 	echo "Latest version:\t${GREEN}$NEW${NONE}";
 	echo "";
 	if [ "$SCRIPT_VERSION" -eq "$NEW" ]; then
