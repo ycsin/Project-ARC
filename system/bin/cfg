@@ -328,7 +328,7 @@ rm -f /system/xbin/dss2.old
 	chmod 644 /system/etc/hosts.medium
 	chmod 644 /system/etc/hosts.short
 	chmod 644 /system/usr/keylayout/Generic.kl
-	
+	MOUNT_RO
 	if [ "$FILES_UPDATED" -eq 1 ]; then sleep 3; fi
 }
 
@@ -359,6 +359,7 @@ function update_main()
 	mv /system/bin/cfg.new /system/bin/cfg
 	#Update remaining files
 	echo "Proceeding to update other files";
+	MOUNT_RO
 	sleep 2
 	cfg UPDATE
 	exit 0
@@ -390,6 +391,7 @@ function update_scripts()
 	mv /system/xbin/dss /system/xbin/dss.old
 	mv /system/xbin/dss2 /system/xbin/dss2.old
 	echo ""
+	MOUNT_RO
 	sleep 1
 }
 
