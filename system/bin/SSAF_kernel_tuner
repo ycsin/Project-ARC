@@ -335,7 +335,7 @@ function LITTLE_cluster_gov_tuning()
 		nAvailableGovernors=${#vAvailableGovernors[@]}
 		while :
 		do
-			if [ "${vAvailableGovernors[i]}" -gt 0 ] ; then
+			if [ "${vAvailableGovernors[i]}" -ne 0 ] ; then
 				echo "$(($i+1)).\t${vAvailableGovernors[i]}";
 				i=$((i + 1));
 			else
@@ -354,7 +354,7 @@ function LITTLE_cluster_gov_tuning()
 			opt=$((opt - 1));
 		fi
 
-		if [ "${vAvailableGovernors[opt]}" -gt 0 ] ; then
+		if [ "${vAvailableGovernors[opt]}" -ne 0 ] ; then
 			for i in 0 1 2 3; do
 				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
 				echo "${vAvailableGovernors[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
@@ -387,7 +387,7 @@ function big_cluster_gov_tuning()
 		nAvailableGovernors=${#vAvailableGovernors[@]}
 		while :
 		do
-			if [ "${vAvailableGovernors[i]}" - ne 0 ] ; then
+			if [ "${vAvailableGovernors[i]}" -ne 0 ] ; then
 				echo "$(($i+1)).\t${vAvailableGovernors[i]}";
 				i=$((i + 1));
 			else
