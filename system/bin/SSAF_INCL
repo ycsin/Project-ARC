@@ -43,7 +43,7 @@ function MOUNT_RW()
 	if [ ! -f "/system/xbin/sysrw" ]; then
 		mount -o rw,remount /system
 	else
-		system/xbin/sysrw
+		/system/xbin/sysrw
 	fi
 }
 
