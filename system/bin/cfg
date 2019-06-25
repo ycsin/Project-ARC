@@ -137,8 +137,10 @@ rm -f /system/xbin/dss2.old
 		clear
 		echo "Downloading LS00kernelconfig...";
 		wget --no-check-certificate -O /system/etc/init.d/LS00kernelconfig https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00kernelconfig
-		sed -i  "32 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
-		sed -i  "24 cecho `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
+		sed -i  "32 cecho `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
+		sed -i  "40 cecho `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" /system/etc/init.d/LS00kernelconfig
+		sed -i  "48 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
+		sed -i  "56 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" /system/etc/init.d/LS00kernelconfig
 		echo "";
 	fi
 	if [ ! -f "/system/etc/hosts.long" ]; then 
