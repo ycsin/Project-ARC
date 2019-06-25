@@ -43,8 +43,7 @@ function MOUNT_RW()
 	if [ ! -f "/system/xbin/sysrw" ]; then
 		mount -o rw,remount /system
 	else
-		#system/xbin/sysrw
-		mount -o rw,remount /system
+		system/xbin/sysrw
 	fi
 }
 
@@ -53,8 +52,7 @@ function MOUNT_RO()
 	if [ ! -f "/system/xbin/sysro" ]; then
 		mount -o ro,remount /system
 	else
-		#/system/xbin/sysro
-		mount -o ro,remount /system
+		/system/xbin/sysro
 	fi
 }
 

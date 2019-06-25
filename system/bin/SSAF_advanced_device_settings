@@ -71,7 +71,6 @@ function edit_bixby()
 			sleep 1
 		else
 			REBOOT_REQUIRED=1
-			MOUNT_RW
 			clear;
 			case $bixby in
 				1)	set_key 703 HOME
@@ -180,7 +179,6 @@ function edit_device()
 			break;
 		elif [ "$opt" -eq 99 ] ; then
 			REBOOT_REQUIRED=1
-			MOUNT_RW
 			clear;
 			echo -n "${YELLOW}Enter custom model [Type 0 to exit]: ${NONE}";
 			read arg
@@ -215,7 +213,6 @@ function edit_device()
 			sleep 1
 		else
 			REBOOT_REQUIRED=1
-			MOUNT_RW
 			clear;
 			case $opt in
 				1)	clear;
@@ -479,7 +476,6 @@ function service_toggle()
 
 function enable_stereo_speaker()
 {
-	MOUNT_RW
 	REBOOT_REQUIRED=1
 	clear;
 	PATHS_FILE=/system/etc/mixer_paths.xml
@@ -566,7 +562,6 @@ function enable_stereo_speaker()
 
 function restore_speaker()
 {
-	MOUNT_RW
 	REBOOT_REQUIRED=1
 	clear;
 	PATHS_FILE=/system/etc/mixer_paths.xml

@@ -13,12 +13,11 @@ fi
 SCRIPT_VERSION=1;
 
 REBOOT_REQUIRED=0;
-
+MOUNT_RW
 function verify_files()
 {
 	clear
 	FILES_UPDATED=0
-	MOUNT_RW
 # ========================================================
 # Delete old files
 # ========================================================
@@ -328,7 +327,6 @@ rm -f /system/xbin/dss2.old
 	chmod 644 /system/etc/hosts.medium
 	chmod 644 /system/etc/hosts.short
 	chmod 644 /system/usr/keylayout/Generic.kl
-	MOUNT_RO
 	if [ "$FILES_UPDATED" -eq 1 ]; then sleep 3; fi
 }
 
@@ -341,7 +339,6 @@ function update_main()
 		press_enter
 		return
 	fi
-	MOUNT_RW
 	mv /system/bin/cfg /system/bin/cfg.old
 	sleep 1
 	wget -q --no-check-certificate -O /system/bin/cfg.new https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/cfg
@@ -359,7 +356,6 @@ function update_main()
 	mv /system/bin/cfg.new /system/bin/cfg
 	#Update remaining files
 	echo "Proceeding to update other files";
-	MOUNT_RO
 	sleep 2
 	cfg UPDATE
 	exit 0
@@ -370,7 +366,6 @@ function update_main()
 #		A config file can be implemented to retore user's setting
 function update_scripts()
 {
-	MOUNT_RW
 	clear
 	# Delete old files
 	echo "Renaming old files..."
@@ -391,7 +386,6 @@ function update_scripts()
 	mv /system/xbin/dss /system/xbin/dss.old
 	mv /system/xbin/dss2 /system/xbin/dss2.old
 	echo ""
-	MOUNT_RO
 	sleep 1
 }
 
@@ -480,6 +474,7 @@ do
 		88)	update_main;;
 		99)	power_device;;
 		0)	clear;
+			MOUNT_RO
 			if [ "$REBOOT_REQUIRED" -eq 1 ]; then
 				echo "You have made changes that require a reboot to apply";
 				echo "";

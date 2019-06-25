@@ -20,7 +20,6 @@ FILE=/system/usr/keylayout/Generic.kl
 prop=$1
 arg=$2
 
-MOUNT_RW
 if grep -Fq "key "$prop $FILE ; then
     lineNum=`busybox sed -n "/key ${prop}/=" $FILE`
     sed -i "${lineNum} ckey ${prop}   ${arg}" $FILE
