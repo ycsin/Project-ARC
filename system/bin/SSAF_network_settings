@@ -86,53 +86,6 @@ function set_dns()
 	done
 }
 
-function adblock()
-{
-	while :
-	do
-		clear;
-		echo "${GREEN}Ads Block${NONE}";
-		echo "";
-		echo " 1. Aggresive Adblock";
-		echo " 2. Moderate Adblock";
-		echo " 3. Disable Adblock";
-		echo " 0. Exit";
-		echo "";
-		echo -n "${YELLOW}Enter Option: ${NONE}";
-		read opt
-		case $opt in
-			1)	cp /system/etc/hosts.long /system/etc/hosts
-				REBOOT_REQUIRED=1
-				clear;
-				echo "Enabled ${CYAN}aggresive${NONE} adblock.";
-				echo "";
-				echo "Reboot device to apply.";
-				press_enter
-				break;;
-			2)	cp /system/etc/hosts.medium /system/etc/hosts
-				REBOOT_REQUIRED=1
-				clear;
-				echo "Enabled ${CYAN}moderate${NONE} adblock";
-				echo "";
-				echo "Reboot device to apply.";
-				press_enter
-				break;;
-			3)	cp /system/etc/hosts.short /system/etc/hosts
-				REBOOT_REQUIRED=1
-				clear;
-				echo "Disabled adblock";
-				echo "";
-				echo "Reboot device to apply.";
-				press_enter
-				break;;
-			0)	break;;
-			*)	clear;
-				echo "${RED}Invalid option.${NONE}";
-				sleep 1
-		esac
-	done
-}
-
 while :
 do
 	clear;
@@ -140,7 +93,6 @@ do
 	echo "Version: ${CYAN}$SCRIPT_VERSION${NONE}";
 	echo "";
 	echo " 1. Set DNS";
-	echo " 2. AdBlock";
 	echo " 0. Exit";
 	echo "";
 	echo -n "${YELLOW}Enter option : ${NONE}";
@@ -148,7 +100,6 @@ do
 	echo "";
 	case $opt in
 		1)	set_dns;;
-		2)	adblock;;
 		0)	break;;
 		*)	clear;
 			echo "${RED}Invalid option${NONE}"

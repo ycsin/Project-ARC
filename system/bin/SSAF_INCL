@@ -40,20 +40,26 @@ function HAS_INTERNET()
 
 function MOUNT_RW()
 {
-	if [ ! -f "/system/xbin/sysrw" ]; then
-		mount -o rw,remount /system
-	else
-		sysrw
-	fi
+#	if [ ! -f "/system/xbin/sysrw" ]; then
+#		mount -o rw,remount /system
+#	else
+#		sysrw
+#	fi
+	mount -o rw,remount /system
+	mount -o rw,remount /system/etc
+	mount -o rw,remount /system/etc/init.d
 }
 
 function MOUNT_RO()
 {
-	if [ ! -f "/system/xbin/sysro" ]; then
-		mount -o ro,remount /system
-	else
-		sysro
-	fi
+#	if [ ! -f "/system/xbin/sysro" ]; then
+#		mount -o ro,remount /system
+#	else
+#		sysro
+#	fi
+	mount -o ro,remount /system
+	mount -o ro,remount /system/etc
+	mount -o ro,remount /system/etc/init.d
 }
 
 function press_enter()

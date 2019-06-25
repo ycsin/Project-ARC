@@ -2,7 +2,7 @@
 #==============================================================
 #       FILE		: cfg
 #       AUTHOR		: ImbaWind @ XDA
-#       DESCRIPTION	: Shell Script Advanced Features Main Menu
+#       DESCRIPTION	: Project ARC Main Menu
 #       GitHub		: https://github.com/ycsin
 #       USAGE		: cfg
 #==============================================================
@@ -35,9 +35,6 @@ rm -f /system/etc/init.d/LS00devicename.old
 rm -f /system/etc/init.d/LS00kernelconfig.old
 rm -f /system/etc/init.d/LS00powercfg.old
 rm -f /system/etc/init.d/LS00resetdns.old
-rm -f /system/etc/hosts.long.old
-rm -f /system/etc/hosts.medium.old
-rm -f /system/etc/hosts.short.old
 rm -f /system/xbin/dss.old
 rm -f /system/xbin/dss2.old
 
@@ -145,27 +142,6 @@ rm -f /system/xbin/dss2.old
 		sed -i  "72 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" /system/etc/init.d/LS00kernelconfig
 		echo "";
 	fi
-	if [ ! -f "/system/etc/hosts.long" ]; then 
-		FILES_UPDATED=1
-		clear
-		echo "Downloading hosts.long...";
-		wget --no-check-certificate -O /system/etc/hosts.long https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/hosts.long
-		echo "";
-	fi
-	if [ ! -f "/system/etc/hosts.medium" ]; then 
-		FILES_UPDATED=1
-		clear
-		echo "Downloading hosts.medium...";
-		wget --no-check-certificate -O /system/etc/hosts.medium https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/hosts.medium
-		echo "";
-	fi
-	if [ ! -f "/system/etc/hosts.short" ]; then 
-		FILES_UPDATED=1
-		clear
-		echo "Downloading hosts.short...";
-		wget --no-check-certificate -O /system/etc/hosts.short https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/hosts.short
-		echo "";
-	fi
 	if [ ! -f "/system/usr/keylayout/Generic.kl" ]; then 
 		FILES_UPDATED=1
 		clear
@@ -265,28 +241,7 @@ rm -f /system/xbin/dss2.old
 			exit 0
 		fi
 		echo "LS00kernelconfig ${GREEN}OK${NONE}";
-
-		if [ ! -f "/system/etc/hosts.long" ]; then
-			echo "E: /system/etc/hosts.long"
-			press_enter
-			exit 0
-		fi
-		echo "hosts.long ${GREEN}OK${NONE}";
-
-		if [ ! -f "/system/etc/hosts.medium" ]; then
-			echo "E: /system/etc/hosts.medium"
-			press_enter
-			exit 0
-		fi
-		echo "hosts.medium ${GREEN}OK${NONE}";
-
-		if [ ! -f "/system/etc/hosts.short" ]; then
-			echo "E: /system/etc/hosts.short"
-			press_enter
-			exit 0
-		fi
-		echo "hosts.short ${GREEN}OK${NONE}";
-
+		
 		if [ ! -f "/system/usr/keylayout/Generic.kl" ]; then
 			echo "E: /system/usr/keylayout/Generic.kl"
 			press_enter
@@ -327,9 +282,6 @@ rm -f /system/xbin/dss2.old
 	dos2unix /system/etc/init.d/LS00resetdns
 	chmod 755 /system/etc/init.d/LS00kernelconfig
 	dos2unix /system/etc/init.d/LS00kernelconfig
-	chmod 644 /system/etc/hosts.long
-	chmod 644 /system/etc/hosts.medium
-	chmod 644 /system/etc/hosts.short
 	chmod 644 /system/usr/keylayout/Generic.kl
 	if [ "$FILES_UPDATED" -eq 1 ]; then sleep 3; fi
 }
@@ -384,9 +336,6 @@ function update_scripts()
 	mv /system/etc/init.d/LS00kernelconfig /system/etc/init.d/LS00kernelconfig.old
 	mv /system/etc/init.d/LS00powercfg /system/etc/init.d/LS00powercfg.old
 	mv /system/etc/init.d/LS00resetdns /system/etc/init.d/LS00resetdns.old
-	mv /system/etc/hosts.long /system/etc/hosts.long.old
-	mv /system/etc/hosts.medium /system/etc/hosts.medium.old
-	mv /system/etc/hosts.short /system/etc/hosts.short.old
 	mv /system/xbin/dss /system/xbin/dss.old
 	mv /system/xbin/dss2 /system/xbin/dss2.old
 	echo ""
