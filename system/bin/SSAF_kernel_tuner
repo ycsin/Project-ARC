@@ -433,6 +433,8 @@ do
 	echo " 3. big Cluster Min";
 	echo " 4. LITTLE Cluster Max";
 	echo " 5. LITTLE Cluster Min";
+	echo " 6. big Cluster Governor";
+	echo " 7. LITTLE Cluster Governor";
 	echo " 0. Exit";
 	echo "";
 	echo -n "${YELLOW}Enter option : ${NONE}";
@@ -444,7 +446,8 @@ do
 		3)	big_cluster_min_tuning;;
 		4)	LITTLE_cluster_max_tuning;;
 		5)	LITTLE_cluster_min_tuning;;
-		6)	governor_tuning;;
+		6)	big_cluster_gov_tuning;;
+		7)	LITTLE_cluster_gov_tuning;;
 		0)	break;;
 		*)	clear;
 			echo "${RED}Invalid option${NONE}"
