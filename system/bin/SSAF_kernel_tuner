@@ -318,6 +318,110 @@ function big_cluster_min_tuning()
 	done
 }
 
+function LITTLE_cluster_gov_tuning()
+{
+	cpu_dir=/sys/devices/system/cpu/cpu0/cpufreq/
+	cur_gov_file=${cpu_dir}/scaling_governor
+	FILE=/system/etc/init.d/LS00kernelconfig
+	while :
+	do
+		CUR_GOV=`cat $cur_gov_file`
+		clear;
+		echo "${BOLD}${GREEN}LITTLE cluster governor${NONE}";
+		echo "Current Governor: ${CYAN}$CUR_GOV${NONE}";
+		echo "";
+		i=0
+		vAvailableGovernors=($(cat $cpu_dir/scaling_available_governors))
+		nAvailableGovernors=${#vAvailableGovernors[@]}
+		while :
+		do
+			if [ "${vAvailableGovernors[i]}" -gt 0 ] ; then
+				echo "$(($i+1)).\t${vAvailableGovernors[i]}";
+				i=$((i + 1));
+			else
+				break;
+			fi
+		done
+		echo "";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+
+		if [ "$opt" -eq 0 ] ; then
+			break;
+		else
+			opt=$((opt - 1));
+		fi
+
+		if [ "${vAvailableGovernors[opt]}" -gt 0 ] ; then
+			for i in 0 1 2 3; do
+				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
+				echo "${vAvailableGovernors[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
+				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
+			done
+				sed -i  "64 cecho ${vAvailableGovernors[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" $FILE
+		else
+			clear
+			echo "${RED}Invalid option${NONE}";
+			sleep 2
+			clear
+		fi
+	done
+}
+
+function big_cluster_gov_tuning()
+{
+	cpu_dir=/sys/devices/system/cpu/cpu4/cpufreq/
+	cur_gov_file=${cpu_dir}/scaling_governor
+	FILE=/system/etc/init.d/LS00kernelconfig
+	while :
+	do
+		CUR_GOV=`cat $cur_gov_file`
+		clear;
+		echo "${BOLD}${GREEN}big cluster governor${NONE}";
+		echo "Current Governor: ${CYAN}$CUR_GOV${NONE}";
+		echo "";
+		i=0
+		vAvailableGovernors=($(cat $cpu_dir/scaling_available_governors))
+		nAvailableGovernors=${#vAvailableGovernors[@]}
+		while :
+		do
+			if [ "${vAvailableGovernors[i]}" -gt 0 ] ; then
+				echo "$(($i+1)).\t${vAvailableGovernors[i]}";
+				i=$((i + 1));
+			else
+				break;
+			fi
+		done
+		echo "";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+
+		if [ "$opt" -eq 0 ] ; then
+			break;
+		else
+			opt=$((opt - 1));
+		fi
+
+		if [ "${vAvailableGovernors[opt]}" -gt 0 ] ; then
+			for i in 4 5 6 7; do
+				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
+				echo "${vAvailableGovernors[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
+				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
+			done
+				sed -i  "72 cecho ${vAvailableGovernors[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" $FILE
+		else
+			clear
+			echo "${RED}Invalid option${NONE}";
+			sleep 2
+			clear
+		fi
+	done
+}
+
 while :
 do
 	clear;

@@ -141,6 +141,8 @@ rm -f /system/xbin/dss2.old
 		sed -i  "40 cecho `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" /system/etc/init.d/LS00kernelconfig
 		sed -i  "48 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
 		sed -i  "56 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" /system/etc/init.d/LS00kernelconfig
+		sed -i  "64 cecho `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" /system/etc/init.d/LS00kernelconfig
+		sed -i  "72 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" /system/etc/init.d/LS00kernelconfig
 		echo "";
 	fi
 	if [ ! -f "/system/etc/hosts.long" ]; then 
