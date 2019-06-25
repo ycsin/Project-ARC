@@ -337,9 +337,9 @@ do
 	case $opt in
 		1)	set_powercfg;;
 		2)	big_cluster_max_tuning;;
-		3)	big_cluster_max_tuning;;
+		3)	big_cluster_min_tuning;;
 		4)	LITTLE_cluster_max_tuning;;
-		5)	LITTLE_cluster_max_tuning;;
+		5)	LITTLE_cluster_min_tuning;;
 		6)	governor_tuning;;
 		0)	break;;
 		*)	clear;
