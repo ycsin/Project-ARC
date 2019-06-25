@@ -110,59 +110,7 @@ function set_powercfg()
 	done
 }
 
-function big_cluster_tuning()
-{
-	cpu_dir=/sys/devices/system/cpu/cpu4/cpufreq/
-	cur_max_file=${cpu_dir}/scaling_max_freq
-	FILE=/system/etc/init.d/LS00kernelconfig
-	while :
-	do
-		CUR_MAX=`cat $cur_max_file`
-		clear;
-		echo "${BOLD}${GREEN}big cluster max frequency${NONE}";
-		echo "Current Freq: ${CYAN}$(($CUR_MAX / 1000)) MHz${NONE}";
-		echo "";
-		i=0
-		vAvailableFrequencies=($(cat $cpu_dir/scaling_available_frequencies))
-		nAvailableFrequencies=${#vAvailableFrequencies[@]}
-		while :
-		do
-			if [ "${vAvailableFrequencies[i]}" -gt 0 ] ; then
-				echo "$(($i+1)).\t$((${vAvailableFrequencies[i]} / 1000))\tMHz";
-				i=$((i + 1));
-			else
-				break;
-			fi
-		done
-		echo "";
-		echo " 0. Exit";
-		echo "";
-		echo -n "${YELLOW}Enter Option: ${NONE}";
-		read opt
-
-		if [ "$opt" -eq 0 ] ; then
-			break;
-		else
-			opt=$((opt - 1));
-		fi
-
-		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
-			for i in 4 5 6 7; do
-				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
-				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
-				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
-			done
-				sed -i  "32 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
-		else
-			clear
-			echo "${RED}Invalid option${NONE}";
-			sleep 2
-			clear
-		fi
-	done
-}
-
-function LITTLE_cluster_tuning()
+function LITTLE_cluster_max_tuning()
 {
 	cpu_dir=/sys/devices/system/cpu/cpu0/cpufreq/
 	cur_max_file=${cpu_dir}/scaling_max_freq
@@ -204,7 +152,163 @@ function LITTLE_cluster_tuning()
 				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 			done
-				sed -i  "24 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" $FILE
+				sed -i  "32 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" $FILE
+		else
+			clear
+			echo "${RED}Invalid option${NONE}";
+			sleep 2
+			clear
+		fi
+	done
+}
+
+function LITTLE_cluster_min_tuning()
+{
+	cpu_dir=/sys/devices/system/cpu/cpu0/cpufreq/
+	cur_min_file=${cpu_dir}/scaling_min_freq
+	FILE=/system/etc/init.d/LS00kernelconfig
+	while :
+	do
+		CUR_MIN=`cat $cur_min_file`
+		clear;
+		echo "${BOLD}${GREEN}LITTLE cluster min frequency${NONE}";
+		echo "Current Freq: ${CYAN}$(($CUR_MIN / 1000)) MHz${NONE}";
+		echo "";
+		i=0
+		vAvailableFrequencies=($(cat $cpu_dir/scaling_available_frequencies))
+		nAvailableFrequencies=${#vAvailableFrequencies[@]}
+		while :
+		do
+			if [ "${vAvailableFrequencies[i]}" -gt 0 ] ; then
+				echo "$(($i+1)).\t$((${vAvailableFrequencies[i]} / 1000))\tMHz";
+				i=$((i + 1));
+			else
+				break;
+			fi
+		done
+		echo "";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+
+		if [ "$opt" -eq 0 ] ; then
+			break;
+		else
+			opt=$((opt - 1));
+		fi
+
+		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
+			for i in 0 1 2 3; do
+				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
+				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
+				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
+			done
+				sed -i  "40 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" $FILE
+		else
+			clear
+			echo "${RED}Invalid option${NONE}";
+			sleep 2
+			clear
+		fi
+	done
+}
+
+function big_cluster_max_tuning()
+{
+	cpu_dir=/sys/devices/system/cpu/cpu4/cpufreq/
+	cur_max_file=${cpu_dir}/scaling_max_freq
+	FILE=/system/etc/init.d/LS00kernelconfig
+	while :
+	do
+		CUR_MAX=`cat $cur_max_file`
+		clear;
+		echo "${BOLD}${GREEN}big cluster max frequency${NONE}";
+		echo "Current Freq: ${CYAN}$(($CUR_MAX / 1000)) MHz${NONE}";
+		echo "";
+		i=0
+		vAvailableFrequencies=($(cat $cpu_dir/scaling_available_frequencies))
+		nAvailableFrequencies=${#vAvailableFrequencies[@]}
+		while :
+		do
+			if [ "${vAvailableFrequencies[i]}" -gt 0 ] ; then
+				echo "$(($i+1)).\t$((${vAvailableFrequencies[i]} / 1000))\tMHz";
+				i=$((i + 1));
+			else
+				break;
+			fi
+		done
+		echo "";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+
+		if [ "$opt" -eq 0 ] ; then
+			break;
+		else
+			opt=$((opt - 1));
+		fi
+
+		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
+			for i in 4 5 6 7; do
+				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+			done
+				sed -i  "48 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
+		else
+			clear
+			echo "${RED}Invalid option${NONE}";
+			sleep 2
+			clear
+		fi
+	done
+}
+
+function big_cluster_min_tuning()
+{
+	cpu_dir=/sys/devices/system/cpu/cpu4/cpufreq/
+	cur_min_file=${cpu_dir}/scaling_min_freq
+	FILE=/system/etc/init.d/LS00kernelconfig
+	while :
+	do
+		CUR_MIN=`cat $cur_min_file`
+		clear;
+		echo "${BOLD}${GREEN}big cluster min frequency${NONE}";
+		echo "Current Freq: ${CYAN}$(($CUR_MIN / 1000)) MHz${NONE}";
+		echo "";
+		i=0
+		vAvailableFrequencies=($(cat $cpu_dir/scaling_available_frequencies))
+		nAvailableFrequencies=${#vAvailableFrequencies[@]}
+		while :
+		do
+			if [ "${vAvailableFrequencies[i]}" -gt 0 ] ; then
+				echo "$(($i+1)).\t$((${vAvailableFrequencies[i]} / 1000))\tMHz";
+				i=$((i + 1));
+			else
+				break;
+			fi
+		done
+		echo "";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+
+		if [ "$opt" -eq 0 ] ; then
+			break;
+		else
+			opt=$((opt - 1));
+		fi
+
+		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
+			for i in 4 5 6 7; do
+				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
+				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
+				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
+			done
+				sed -i  "56 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -221,8 +325,10 @@ do
 	echo "Version: ${CYAN}$SCRIPT_VERSION${NONE}";
 	echo "";
 	echo " 1. Powercfg";
-	echo " 2. big Cluster";
-	echo " 3. LITTLE Cluster";
+	echo " 2. big Cluster Max";
+	echo " 3. big Cluster Min";
+	echo " 4. LITTLE Cluster Max";
+	echo " 5. LITTLE Cluster Min";
 	echo " 0. Exit";
 	echo "";
 	echo -n "${YELLOW}Enter option : ${NONE}";
@@ -230,8 +336,11 @@ do
 	echo "";
 	case $opt in
 		1)	set_powercfg;;
-		2)	big_cluster_tuning;;
-		3)	LITTLE_cluster_tuning;;
+		2)	big_cluster_max_tuning;;
+		3)	big_cluster_max_tuning;;
+		4)	LITTLE_cluster_max_tuning;;
+		5)	LITTLE_cluster_max_tuning;;
+		6)	governor_tuning;;
 		0)	break;;
 		*)	clear;
 			echo "${RED}Invalid option${NONE}"

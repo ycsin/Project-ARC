@@ -25,6 +25,7 @@ function set_dns()
 		echo ""
 		echo " 1. CloudFlare DNS";
 		echo " 2. Google DNS";
+		echo " 3. Restore DNS (Reboot required)"
 		echo " 0. Exit";
 		echo "";
 		echo -n "${YELLOW}Enter Option: ${NONE}";
@@ -61,6 +62,19 @@ function set_dns()
 				sed -i  "16 ciptables -t nat -I OUTPUT -p udp --dport 53 -j DNAT --to-destination 8.8.4.4:53" $FILE
 				clear;
 				echo "Enabled Google DNS.";
+				echo "";
+				press_enter
+				break;;
+			3)	REBOOT_REQUIRED=1
+				sed -i '11,16d' $FILE
+				echo "" >> $FILE
+				echo "" >> $FILE
+				echo "" >> $FILE
+				echo "" >> $FILE
+				echo "" >> $FILE
+				echo "" >> $FILE
+				clear;
+				echo "Restored DNS, please reboot.";
 				echo "";
 				press_enter
 				break;;

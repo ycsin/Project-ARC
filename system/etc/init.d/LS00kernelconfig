@@ -10,12 +10,20 @@ SCRIPT_VERSION=1
 
 function MOUNT_RW()
 {
-	/system/xbin/sysrw
+	if [ ! -f "/system/xbin/sysrw" ]; then
+		mount -o rw,remount /system
+	else
+		sysrw
+	fi
 }
 
 function MOUNT_RO()
 {
-	/system/xbin/sysro
+	if [ ! -f "/system/xbin/sysro" ]; then
+		mount -o ro,remount /system
+	else
+		sysro
+	fi
 }
 
 for i in 0 1 2 3; do
@@ -26,10 +34,26 @@ for i in 0 1 2 3; do
 	MOUNT_RO
 done
 
+for i in 0 1 2 3; do
+	MOUNT_RW
+	chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
+	echo 1690000 > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
+	chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
+	MOUNT_RO
+done
+
 for i in 4 5 6 7; do
 	MOUNT_RW
 	chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 	echo 2496000 > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 	chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+	MOUNT_RO
+done
+
+for i in 4 5 6 7; do
+	MOUNT_RW
+	chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
+	echo 2496000 > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
+	chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
 	MOUNT_RO
 done
