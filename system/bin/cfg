@@ -10,7 +10,7 @@ if [ ! -f "/system/bin/SSAF_INCL" ]; then
 	wget -q --no-check-certificate -O /system/bin/SSAF_INCL https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_INCL
 fi
 . "/system/bin/SSAF_INCL"
-SCRIPT_VERSION=2
+SCRIPT_VERSION=1
 
 REBOOT_REQUIRED=0
 MOUNT_RW
@@ -41,6 +41,24 @@ function verify_files()
 # ========================================================
 # Download missing files
 # ========================================================
+	if [ ! -f "/system/bin/cfg_save" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading cfg_save..."
+		wget --no-check-certificate -O /system/bin/cfg_save https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/cfg_save
+		echo ""
+	fi
+	if [ ! -f "/system/bin/cfg_norm" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading cfg_norm..."
+		wget --no-check-certificate -O /system/bin/cfg_norm https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/cfg_norm
+		echo ""
+	fi
+	if [ ! -f "/system/bin/cfg_game" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading cfg_game..."
+		wget --no-check-certificate -O /system/bin/cfg_game https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/cfg_game
+		echo ""
+	fi
 	if [ ! -f "/system/bin/dlcfg" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading dlcfg..."
@@ -405,11 +423,24 @@ ACTION=$1
 if [ -n "$ACTION" ]; then 
 	if [ "$ACTION" = "version" ]; then
 		echo "$SCRIPT_VERSION"
+		exit
 	elif [ "$ACTION" = "update" ]; then
 		if [ ! -f "/system/bin/cfg.old" ]; then
 			echo "Update Error"
 		fi
 		update_scripts
+	elif [ "$ACTION" = "gaming" ]; then
+		cfg_game
+		exit
+	elif [ "$ACTION" = "normal" ]; then
+		cfg_norm
+		exit
+	elif [ "$ACTION" = "powersave" ]; then
+		cfg_save
+		exit
+	else
+		echo "Invalid command"
+		exit
 	fi
 fi
 

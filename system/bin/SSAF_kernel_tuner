@@ -7,11 +7,11 @@
 . "/system/bin/SSAF_INCL"
 REBOOT_REQUIRED=0
 
-SCRIPT_VERSION=1
+KERNEL_TUNER_VERSION=1
 
 ACTION=$1
-if [ "$ACTION" = "VERSION" ]; then
-	echo "$SCRIPT_VERSION";
+if [ "$ACTION" = "version" ]; then
+	echo "$KERNEL_TUNER_VERSION";
 	exit
 fi
 
