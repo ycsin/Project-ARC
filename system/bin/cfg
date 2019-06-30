@@ -10,7 +10,7 @@ if [ ! -f "/system/bin/SSAF_INCL" ]; then
 	wget -q --no-check-certificate -O /system/bin/SSAF_INCL https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_INCL
 fi
 . "/system/bin/SSAF_INCL"
-SCRIPT_VERSION=1
+SCRIPT_VERSION=2
 
 REBOOT_REQUIRED=0
 MOUNT_RW

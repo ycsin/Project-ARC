@@ -144,9 +144,7 @@ function LITTLE_cluster_max_tuning()
 
 		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
 			for i in 0 1 2 3; do
-				chmod 660 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
-				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
-				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
+				lock_value "${vAvailableFrequencies[opt]}" /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 			done
 				sed -i  "16 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" $FILE
 		else
@@ -418,6 +416,54 @@ function big_cluster_gov_tuning()
 	done
 }
 
+function GPU_max_tuning()
+{
+	gpu_dir=/sys/kernel/gpu/
+	cur_max_file=${gpu_dir}/gpu_max_clock
+	FILE=/system/etc/init.d/LS00kernelconfig
+	while :
+	do
+		CUR_MAX=`cat $cur_max_file`
+		clear;
+		echo "${BOLD}${GREEN}GPU max frequency${NONE}";
+		echo "Current Freq: ${CYAN}$(($CUR_MAX / 1000)) MHz${NONE}";
+		echo "";
+		i=0
+		vAvailableFrequencies=($(cat $gpu_dir/gpu_freq_table))
+		nAvailableFrequencies=${#vAvailableFrequencies[@]}
+		while :
+		do
+			if [ "${vAvailableFrequencies[i]}" -gt 0 ] ; then
+				echo "$(($i+1)).\t$((${vAvailableFrequencies[i]} / 1000))\tMHz";
+				i=$((i + 1));
+			else
+				break;
+			fi
+		done
+		echo "";
+		echo " 0. Exit";
+		echo "";
+		echo -n "${YELLOW}Enter Option: ${NONE}";
+		read opt
+
+		if [ "$opt" -eq 0 ] ; then
+			break;
+		else
+			opt=$((opt - 1));
+		fi
+
+		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
+			lock_value "${vAvailableFrequencies[opt]}" $gpu_dir/gpu_freq_table
+			sed -i  "16 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" $FILE
+		else
+			clear
+			echo "${RED}Invalid option${NONE}";
+			sleep 2
+			clear
+		fi
+	done
+}
+
 while :
 do
 	clear;
@@ -431,6 +477,7 @@ do
 	echo " 5. LITTLE Cluster Min";
 	echo " 6. big Cluster Governor";
 	echo " 7. LITTLE Cluster Governor";
+	echo " 8. GPU Max Frequency"
 	echo " 0. Exit";
 	echo "";
 	echo -n "${YELLOW}Enter option : ${NONE}";
@@ -444,6 +491,7 @@ do
 		5)	LITTLE_cluster_min_tuning;;
 		6)	big_cluster_gov_tuning;;
 		7)	LITTLE_cluster_gov_tuning;;
+		7)	GPU_max_tuning;;
 		0)	break;;
 		*)	clear;
 			echo "${RED}Invalid option${NONE}"
