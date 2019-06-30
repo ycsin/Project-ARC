@@ -18,34 +18,31 @@ fi
 function set_powercfg()
 {
 	FILE=/system/etc/init.d/LS00powercfg
-	# ===================================================================================================
-	# Values taken from yc9559's Project WIPE 
-	# powercfg script
-	# verify_param() function
-	powersave_value="80 680000:27 780000:39 880000:61 980000:68 1380000:98 1680000:94"
-	balance_value="80 780000:53 880000:70 980000:50 1180000:71 1380000:97 1680000:92"
-	performance_value="80 780000:31 880000:62 980000:42 1180000:69 1380000:95 1680000:78"
-	fast_value="80 1680000:90"
-	# ===================================================================================================
-	expected_target=/sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
-	if [ "`cat ${expected_target}`" = "${powersave_value}" ]; then
+	CUR_LEVEL_FILE="/dev/.wipe_cur_level"
+	
+	cur_level=`cat ${CUR_LEVEL_FILE}`
+
+	if [ "${cur_level}" -eq 5 ]; then
 		CURRENT="powersave"
-	elif [ "`cat ${expected_target}`" = "${balance_value}" ]; then
+		sed -i  "11 cpowercfg ${CURRENT}" $FILE
+	elif [ "${cur_level}" -eq 3 ]; then
 		CURRENT="balance"
-	elif [ "`cat ${expected_target}`" = "${performance_value}" ]; then
+		sed -i  "11 cpowercfg ${CURRENT}" $FILE
+	elif [ "${cur_level}" -eq 1 ]; then
 		CURRENT="performance"
-	elif [ "`cat ${expected_target}`" = "${fast_value}" ]; then
+		sed -i  "11 cpowercfg ${CURRENT}" $FILE
+	elif [ "${cur_level}" -eq 0 ]; then
 		CURRENT="fast"
+		sed -i  "11 cpowercfg ${CURRENT}" $FILE
 	else
 		CURRENT="kernel_default"
 	fi
-	sed -i  "11 cpowercfg ${CURRENT}" $FILE
 	while :
 	do
 		clear;
-		echo "${GREEN}Project WIPE by yc9559 @ CoolApk${NONE}";
-		echo "${GREEN}Github: github.com/yc9559/cpufreq-interactive-opt/${NONE}";
-		echo "${GREEN}Ver: 20180603.2 [Thu Jun 28 04:26:24 2018]${NONE}";
+		echo "${GREEN}Project WIPEv2 by yc9559 @ CoolApk${NONE}";
+		echo "${GREEN}Github: https://github.com/yc9559/wipe-v2${NONE}";
+		echo "${GREEN}Ver: 20190528 DEV${NONE}";
 		echo "";
 		echo "";
 		echo "Current config: ${CYAN}${CURRENT}${NONE}";
@@ -93,12 +90,10 @@ function set_powercfg()
 				press_enter
 				break;;
 			5)	clear;
-				REBOOT_REQUIRED=1
 				echo "Setting power config to ${CYAN}[kernel_default]${NONE}.";
-				echo "Reboot to apply setting.";
 				echo "";
-				powercfg kernel_default
-				sed -i  "11 cpowercfg kernel_default" $FILE
+				powercfg restore
+				sed -i  "11 cpowercfg=restore" $FILE
 				echo "";
 				press_enter
 				break;;

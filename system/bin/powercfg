@@ -1,282 +1,559 @@
 #!/system/bin/sh
-# Project WIPE https://github.com/yc9559/cpufreq-interactive-opt
+# Project WIPE v2 https://github.com/yc9559/wipe-v2
 # Author: yc9559
-# Platform: exynos_8895
-# Generated at: Thu Jun 28 04:26:24 2018
-SCRIPT_VERSION=1
+# Platform: e8895
+# Generated at: 2019-05-25 15:24:06
 
-. "/system/bin/SSAF_INCL"
+CUR_LEVEL_FILE="/dev/.wipe_cur_level"
+PARAM_BAK_FILE="/dev/.wipe_param_bak"
 
+# const variables
+PARAM_NUM=35
+
+# sysfs_objx example:
+# sysfs_obj1="${C0_GOVERNOR_DIR}/target_loads"
+SCHED_DIR="/proc/sys/kernel/hmp"
 C0_GOVERNOR_DIR="/sys/devices/system/cpu/cpu0/cpufreq/interactive"
 C1_GOVERNOR_DIR="/sys/devices/system/cpu/cpu4/cpufreq/interactive"
-C0_CPUFREQ_DIR="/sys/devices/system/cpu/cpu0/cpufreq"
-C1_CPUFREQ_DIR="/sys/devices/system/cpu/cpu4/cpufreq"
+C0_DIR="/sys/devices/system/cpu/cpu0"
+C1_DIR="/sys/devices/system/cpu/cpu4"
 
-# $1:timer_rate $2:value
-function set_param_little() {
-	echo ${2} >${C0_GOVERNOR_DIR}/${1}
-}
+sysfs_obj1="/sys/power/cpuhotplug/enabled"
+sysfs_obj2="/sys/devices/system/cpu/cpuhotplug/enabled"
+sysfs_obj3="${C0_DIR}/online"
+sysfs_obj4="${C0_DIR}/cpufreq/scaling_governor"
+sysfs_obj5="${C0_DIR}/cpufreq/scaling_min_freq"
+sysfs_obj6="${C0_DIR}/cpufreq/scaling_max_freq"
+sysfs_obj7="${C0_GOVERNOR_DIR}/hispeed_freq"
+sysfs_obj8="${C0_GOVERNOR_DIR}/go_hispeed_load"
+sysfs_obj9="${C0_GOVERNOR_DIR}/min_sample_time"
+sysfs_obj10="${C0_GOVERNOR_DIR}/max_freq_hysteresis"
+sysfs_obj11="${C0_GOVERNOR_DIR}/above_hispeed_delay"
+sysfs_obj12="${C0_GOVERNOR_DIR}/target_loads"
+sysfs_obj13="${C0_GOVERNOR_DIR}/timer_rate"
+sysfs_obj14="${C0_GOVERNOR_DIR}/timer_slack"
+sysfs_obj15="${C0_GOVERNOR_DIR}/boost"
+sysfs_obj16="${C0_GOVERNOR_DIR}/boostpulse_duration"
+sysfs_obj17="${C1_DIR}/online"
+sysfs_obj18="${C1_DIR}/cpufreq/scaling_governor"
+sysfs_obj19="${C1_DIR}/cpufreq/scaling_min_freq"
+sysfs_obj20="${C1_DIR}/cpufreq/scaling_max_freq"
+sysfs_obj21="${C1_GOVERNOR_DIR}/hispeed_freq"
+sysfs_obj22="${C1_GOVERNOR_DIR}/go_hispeed_load"
+sysfs_obj23="${C1_GOVERNOR_DIR}/min_sample_time"
+sysfs_obj24="${C1_GOVERNOR_DIR}/max_freq_hysteresis"
+sysfs_obj25="${C1_GOVERNOR_DIR}/above_hispeed_delay"
+sysfs_obj26="${C1_GOVERNOR_DIR}/target_loads"
+sysfs_obj27="${C1_GOVERNOR_DIR}/timer_rate"
+sysfs_obj28="${C1_GOVERNOR_DIR}/timer_slack"
+sysfs_obj29="${C1_GOVERNOR_DIR}/boost"
+sysfs_obj30="${C1_GOVERNOR_DIR}/boostpulse_duration"
+sysfs_obj31="${SCHED_DIR}/down_threshold"
+sysfs_obj32="${SCHED_DIR}/up_threshold"
+sysfs_obj33="${SCHED_DIR}/down_threshold"
+sysfs_obj34="${SCHED_DIR}/load_avg_period_ms"
+sysfs_obj35="${SCHED_DIR}/boost"
 
-# $1:timer_rate $2:value
-function set_param_big() {
-	echo ${2} >${C1_GOVERNOR_DIR}/${1}
-}
 
-# $1:timer_rate
-function print_param() {
-	print_value "LITTLE: ${1}" ${C0_GOVERNOR_DIR}/${1}
-	print_value "big: ${1}" ${C1_GOVERNOR_DIR}/${1}
-}
+# level x example:
+# lag percent: 90.0%
+# battery life: 110.0%
+# levelx_val1="38000"
+# levelx_val2="85 1190000:90"
 
-function unify_environment() {
-	# SELinux permissive
-	setenforce 0
-	# Exynos hotplug
-	lock_value 0 /sys/power/cpuhotplug/enabled
-	lock_value 0 /sys/devices/system/cpu/cpuhotplug/enabled
-	lock_value 1 /sys/devices/system/cpu/cpu4/online
-	lock_value 1 /sys/devices/system/cpu/cpu5/online
-	lock_value 1 /sys/devices/system/cpu/cpu6/online
-	lock_value 1 /sys/devices/system/cpu/cpu7/online
-	# in case of using ondemand as default governor
-	lock_value "interactive" ${C0_CPUFREQ_DIR}/scaling_governor
-	lock_value "interactive" ${C1_CPUFREQ_DIR}/scaling_governor
-}
+# LEVEL 0
+# lag percent: 65.8%
+# battery life: 115.8%
+level0_val1="0"
+level0_val2="0"
+level0_val3="1"
+level0_val4="interactive"
+level0_val5="454000"
+level0_val6="1691000"
+level0_val7="1456000"
+level0_val8="90"
+level0_val9="18000"
+level0_val10="38000"
+level0_val11="98000"
+level0_val12="56 598000:32 715000:74 832000:36 949000:37 1053000:15 1248000:32 1456000:46 1690000:54"
+level0_val13="20000"
+level0_val14="12345678"
+level0_val15="0"
+level0_val16="0"
+level0_val17="1"
+level0_val18="interactive"
+level0_val19="740000"
+level0_val20="2315000"
+level0_val21="1937000"
+level0_val22="98"
+level0_val23="18000"
+level0_val24="38000"
+level0_val25="198000"
+level0_val26="70 858000:35 962000:77 1066000:51 1170000:82 1261000:89 1469000:95 1703000:77 1807000:72 1937000:99 2002000:98 2158000:99"
+level0_val27="20000"
+level0_val28="12345678"
+level0_val29="0"
+level0_val30="0"
+level0_val31="238"
+level0_val32="983"
+level0_val33="238"
+level0_val34="128"
+level0_val35="0"
 
-function runonce_custom() {
-	# avoid permission problem, do not set 0444
-	set_value 2-3 /dev/cpuset/background/cpus
-	set_value 0-3 /dev/cpuset/system-background/cpus
-	set_value 0-3,4-7 /dev/cpuset/foreground/cpus
-	set_value 0-3,4-7 /dev/cpuset/top-app/cpus
+# LEVEL 1
+# lag percent: 14.9%
+# battery life: 96.8%
+level1_val1="0"
+level1_val2="0"
+level1_val3="1"
+level1_val4="interactive"
+level1_val5="454000"
+level1_val6="1691000"
+level1_val7="1456000"
+level1_val8="98"
+level1_val9="18000"
+level1_val10="18000"
+level1_val11="78000"
+level1_val12="75 598000:56 715000:71 832000:68 949000:76 1053000:71 1248000:86 1456000:64 1690000:65"
+level1_val13="20000"
+level1_val14="12345678"
+level1_val15="0"
+level1_val16="0"
+level1_val17="1"
+level1_val18="interactive"
+level1_val19="740000"
+level1_val20="2315000"
+level1_val21="1937000"
+level1_val22="73"
+level1_val23="18000"
+level1_val24="18000"
+level1_val25="198000"
+level1_val26="67 858000:49 962000:42 1066000:63 1170000:88 1261000:86 1469000:71 1703000:89 1807000:63 1937000:98 2002000:99 2314000:95"
+level1_val27="20000"
+level1_val28="12345678"
+level1_val29="0"
+level1_val30="0"
+level1_val31="162"
+level1_val32="762"
+level1_val33="162"
+level1_val34="128"
+level1_val35="0"
 
-	# Linaro HMP, between 0 and 1024, maybe compare to the capacity of current cluster
-	# PELT and period average smoothing sampling, so the parameter style differ from WALT by Qualcomm a lot.
-	# https://lists.linaro.org/pipermail/linaro-dev/2012-November/014485.html
-	# https://www.anandtech.com/show/9330/exynos-7420-deep-dive/6
-	# lock_value 60 /sys/kernel/hmp/load_avg_period_ms
-	lock_value 256 /sys/kernel/hmp/down_threshold
-	lock_value 640 /sys/kernel/hmp/up_threshold
-	lock_value 0 /sys/kernel/hmp/boost
-}
+# LEVEL 2
+# lag percent: 29.8%
+# battery life: 104.1%
+level2_val1="0"
+level2_val2="0"
+level2_val3="1"
+level2_val4="interactive"
+level2_val5="454000"
+level2_val6="1691000"
+level2_val7="1456000"
+level2_val8="91"
+level2_val9="18000"
+level2_val10="18000"
+level2_val11="118000"
+level2_val12="56 598000:57 715000:24 832000:29 949000:57 1053000:60 1248000:41 1456000:48 1690000:73"
+level2_val13="20000"
+level2_val14="12345678"
+level2_val15="0"
+level2_val16="0"
+level2_val17="1"
+level2_val18="interactive"
+level2_val19="740000"
+level2_val20="2315000"
+level2_val21="1937000"
+level2_val22="98"
+level2_val23="18000"
+level2_val24="38000"
+level2_val25="198000"
+level2_val26="70 858000:77 962000:59 1066000:5 1170000:82 1261000:89 1469000:95 1703000:75 1807000:71 1937000:99 2002000:98 2158000:99 2314000:95"
+level2_val27="20000"
+level2_val28="12345678"
+level2_val29="0"
+level2_val30="0"
+level2_val31="162"
+level2_val32="798"
+level2_val33="162"
+level2_val34="128"
+level2_val35="0"
 
-function before_modify() {
-	chown 0.0 ${C0_GOVERNOR_DIR}/*
-	chmod 0666 ${C0_GOVERNOR_DIR}/*
-	lock_value 580000 ${C0_CPUFREQ_DIR}/scaling_min_freq
+# LEVEL 3
+# lag percent: 50.0%
+# battery life: 110.8%
+level3_val1="0"
+level3_val2="0"
+level3_val3="1"
+level3_val4="interactive"
+level3_val5="454000"
+level3_val6="1691000"
+level3_val7="1456000"
+level3_val8="95"
+level3_val9="18000"
+level3_val10="58000"
+level3_val11="58000"
+level3_val12="36 598000:13 715000:35 832000:44 949000:30 1053000:44 1248000:22 1456000:66 1690000:78"
+level3_val13="20000"
+level3_val14="12345678"
+level3_val15="0"
+level3_val16="0"
+level3_val17="1"
+level3_val18="interactive"
+level3_val19="740000"
+level3_val20="2315000"
+level3_val21="1937000"
+level3_val22="94"
+level3_val23="18000"
+level3_val24="38000"
+level3_val25="198000"
+level3_val26="70 858000:32 962000:69 1066000:55 1170000:82 1261000:90 1469000:96 1703000:78 1807000:69 1937000:99 2314000:98"
+level3_val27="20000"
+level3_val28="12345678"
+level3_val29="0"
+level3_val30="0"
+level3_val31="223"
+level3_val32="954"
+level3_val33="223"
+level3_val34="128"
+level3_val35="0"
 
-	chmod 660 /sys/devices/system/cpu/cpu4/online
-	set_value 1 /sys/devices/system/cpu/cpu4/online
-	chmod 444 /sys/devices/system/cpu/cpu4/online
+# LEVEL 4
+# lag percent: 75.0%
+# battery life: 118.7%
+level4_val1="0"
+level4_val2="0"
+level4_val3="1"
+level4_val4="interactive"
+level4_val5="454000"
+level4_val6="1691000"
+level4_val7="1456000"
+level4_val8="91"
+level4_val9="18000"
+level4_val10="58000"
+level4_val11="98000"
+level4_val12="52 598000:40 715000:39 832000:61 949000:7 1053000:43 1248000:18 1456000:49 1690000:29"
+level4_val13="20000"
+level4_val14="12345678"
+level4_val15="0"
+level4_val16="0"
+level4_val17="1"
+level4_val18="interactive"
+level4_val19="740000"
+level4_val20="2315000"
+level4_val21="1937000"
+level4_val22="98"
+level4_val23="18000"
+level4_val24="18000"
+level4_val25="198000"
+level4_val26="70 858000:40 962000:79 1066000:31 1170000:82 1261000:91 1469000:97 1703000:80 1807000:78 1937000:99 2314000:95"
+level4_val27="20000"
+level4_val28="12345678"
+level4_val29="0"
+level4_val30="0"
+level4_val31="235"
+level4_val32="996"
+level4_val33="235"
+level4_val34="128"
+level4_val35="0"
 
-	chown 0.0 ${C1_GOVERNOR_DIR}/*
-	chmod 0666 ${C1_GOVERNOR_DIR}/*
-	lock_value 680000 ${C1_CPUFREQ_DIR}/scaling_min_freq
-}
+# LEVEL 5
+# lag percent: 99.0%
+# battery life: 125.4%
+level5_val1="0"
+level5_val2="0"
+level5_val3="1"
+level5_val4="interactive"
+level5_val5="454000"
+level5_val6="1691000"
+level5_val7="1456000"
+level5_val8="87"
+level5_val9="18000"
+level5_val10="58000"
+level5_val11="58000"
+level5_val12="53 598000:19 715000:34 832000:45 949000:39 1053000:24 1248000:28 1456000:65"
+level5_val13="20000"
+level5_val14="12345678"
+level5_val15="0"
+level5_val16="0"
+level5_val17="1"
+level5_val18="interactive"
+level5_val19="740000"
+level5_val20="2315000"
+level5_val21="1937000"
+level5_val22="96"
+level5_val23="18000"
+level5_val24="18000"
+level5_val25="198000"
+level5_val26="67 858000:46 962000:29 1066000:9 1170000:82 1261000:90 1469000:95 1703000:82 1807000:68 1937000:99 2314000:97"
+level5_val27="20000"
+level5_val28="12345678"
+level5_val29="0"
+level5_val30="0"
+level5_val31="537"
+level5_val32="961"
+level5_val33="537"
+level5_val34="128"
+level5_val35="1"
 
-function after_modify() {
-	chmod 0444 ${C0_GOVERNOR_DIR}/*
-	chmod 0444 ${C1_GOVERNOR_DIR}/*
-	verify_param
-}
+# LEVEL 6
+# lag percent: 119.9%
+# battery life: 130.3%
+level6_val1="0"
+level6_val2="0"
+level6_val3="1"
+level6_val4="interactive"
+level6_val5="454000"
+level6_val6="1691000"
+level6_val7="1456000"
+level6_val8="89"
+level6_val9="18000"
+level6_val10="138000"
+level6_val11="158000"
+level6_val12="40 598000:36 715000:48 832000:38 949000:44 1053000:38 1248000:21 1456000:64 1690000:82"
+level6_val13="20000"
+level6_val14="12345678"
+level6_val15="0"
+level6_val16="0"
+level6_val17="1"
+level6_val18="interactive"
+level6_val19="740000"
+level6_val20="2315000"
+level6_val21="1937000"
+level6_val22="99"
+level6_val23="18000"
+level6_val24="18000"
+level6_val25="198000"
+level6_val26="60 858000:42 962000:73 1066000:45 1170000:82 1261000:88 1469000:95 1703000:82 1807000:74 1937000:99 2002000:98 2158000:99 2314000:94"
+level6_val27="20000"
+level6_val28="12345678"
+level6_val29="0"
+level6_val30="0"
+level6_val31="627"
+level6_val32="968"
+level6_val33="627"
+level6_val34="128"
+level6_val35="0"
 
-function powersave_custom() {
-	:
-}
 
-function balance_custom() {
-	:
-}
-
-function performance_custom() {
-	:
-}
-
-function fast_custom() {
-	:
-}
+# global variables
+HAS_BAK=0
+NOT_MATCH_NUM=0
 
 # $1:value $2:file path
-function set_value() {
-	if [ -f $2 ]; then
-		echo $1 >$2
-	fi
-}
-
-# $1:value $2:file path
-function lock_value() {
-	if [ -f $2 ]; then
-		# chown 0.0 $2
-		chmod 0666 $2
-		echo $1 >$2
-		chmod 0444 $2
-	fi
-}
-
-# $1:io-scheduler $2:block-path
-function set_io() {
-	if [ -f $2/queue/scheduler ]; then
-		if [ $(grep -c $1 $2/queue/scheduler) = 1 ]; then
-			echo $1 >$2/queue/scheduler
-			echo 512 >$2/queue/read_ahead_kb
-			lock_value 0 $2/queue/iostats
-			lock_value 256 $2/queue/nr_requests
-			lock_value 0 $2/queue/iosched/slice_idle
-		fi
-	fi
-}
-
-# $1:display-name $2:file path
-function print_value() {
-	if [ -f $2 ]; then
-		echo $1
-		cat $2
-	fi
-}
-
-function verify_param() 
+lock_value() 
 {
-	# Taken from yc9559's Project WIPE 
-	# powercfg script
-	
-	expected_target=/sys/devices/system/cpu/cpu0/cpufreq/interactive/target_loads
-	if [ "$action" = "powersave" ]; then
-		expected_value="80 680000:27 780000:39 880000:61 980000:68 1380000:98 1680000:94"
-	elif [ "$action" = "balance" ]; then
-		expected_value="80 780000:53 880000:70 980000:50 1180000:71 1380000:97 1680000:92"
-	elif [ "$action" = "performance" ]; then
-		expected_value="80 780000:31 880000:62 980000:42 1180000:69 1380000:95 1680000:78"
-	elif [ "$action" = "fast" ]; then
-		expected_value="80 1680000:90"
-	fi
-	
-	if [ "`cat ${expected_target}`" = "${expected_value}" ]; then
-		echo "${action} ${GREEN}OK${NONE}"
-	else
-		echo "${action} ${RED}FAIL${NONE}"
+	if [ -f ${2} ]; then
+		chmod 0666 ${2}
+		echo ${1} > ${2}
+		chmod 0444 ${2}
 	fi
 }
+
+# $1:level_number
+apply_level() 
+{
+	# 0. SELinux permissive
+	setenforce 0
+    # 1. backup
+    backup_default
+    # 2. apply modification
+    for n in `seq ${PARAM_NUM}`
+    do
+        eval obj="$"sysfs_obj${n}
+        eval val="$"level${1}_val${n}
+        lock_value "${val}" ${obj}
+    done
+    # 3. save current level to file
+    echo ${1} > ${CUR_LEVEL_FILE}
+}
+
+# $1:value $2:file path
+check_value() 
+{
+    if [ -f ${2} ]; then
+        expected="${1}"
+        actual="`cat ${2}`"
+        if [ "${actual}" != "${expected}" ]; then
+            # input_boost_freq has a additional line break
+            case1=$(echo "${actual}" | grep "${expected}")
+            # Actual scaling_min_freq is 633600, but given is 633000. That's OK
+            case2=$(echo "${2}" | grep -E "scaling_m.{2}_freq$")
+            # skip msm_performance/parameters: cpu_min_freq and cpu_max_freq
+            case3=$(echo "${2}" | grep -E "cpu_m.{2}_freq$")
+            if [ "${case1}" == "" ] && [ "${case2}" == "" ] && [ "${case3}" == "" ]; then
+                NOT_MATCH_NUM=$(expr ${NOT_MATCH_NUM} + 1)
+                echo "[FAIL] ${2}"
+                echo "expected: ${expected}"
+                echo "actual: ${actual}"
+            fi
+        fi
+    else
+        echo "[IGNORE] ${2}"
+    fi
+}
+
+# $1:level_number
+verify_level() 
+{
+    for n in `seq ${PARAM_NUM}`
+    do
+        eval obj="$"sysfs_obj${n}
+        eval val="$"level${1}_val${n}
+        check_value "${val}" ${obj}
+    done
+    echo "Verified ${PARAM_NUM} parameters, ${NOT_MATCH_NUM} FAIL"
+}
+
+backup_default()
+{
+    if [ ${HAS_BAK} -eq 0 ]; then
+        # clear previous backup file
+        echo "" > ${PARAM_BAK_FILE}
+        for n in `seq ${PARAM_NUM}`
+        do
+            eval obj="$"sysfs_obj${n}
+            echo "bak_obj${n}=${obj}" >> ${PARAM_BAK_FILE}
+            echo "bak_val${n}=\"`cat ${obj}`\"" >> ${PARAM_BAK_FILE}
+        done
+        echo "Backup default parameters has completed."
+    else
+        echo "Backup file already exists, skip backup."
+    fi
+}
+
+restore_default()
+{
+    if [ -f ${PARAM_BAK_FILE} ]; then
+        # read backup variables
+        while read line
+        do
+            eval ${line}
+        done < ${PARAM_BAK_FILE}
+        # set backup variables
+        for n in `seq ${PARAM_NUM}`
+        do
+            eval obj="$"bak_obj${n}
+            eval val="$"bak_val${n}
+            lock_value "${val}" ${obj}
+        done
+        echo "Restore OK"
+    else
+        echo "Backup file for default parameters not found."
+        echo "Restore FAIL"
+    fi
+}
+
+permanently_disable_perfd()
+{
+    stop perfd
+    perfd_path=`which perfd`
+    if [ -n "${perfd_path}" ]; then
+        mv ${perfd_path} `dirname ${perfd_path}`/perfd_bak
+        echo "Perfd has been disabled."
+    else
+        echo "Perfd binary not found."
+    fi
+}
+
+permanently_enable_perfd()
+{
+    perfd_bak_path=`which perfd_bak`
+    if [ -n "${perfd_bak_path}" ]; then
+        mv ${perfd_bak_path} `dirname ${perfd_bak_path}`/perfd
+        echo "Perfd has been enabled."
+    else
+        echo "Perfd_bak binary not found."
+    fi
+    start perfd
+}
+
+# suppress stderr
+(
+
+echo ""
+
+# backup runonce flag
+if [ -f ${PARAM_BAK_FILE} ]; then
+    HAS_BAK=1
+fi
 
 action=$1
-
-if [ "$action" = "debug" ]; then
-	:
-elif [ "$action" = "balance" ]; then
-	:
-elif [ "$action" = "performance" ]; then
-	:
-elif [ "$action" = "fast" ]; then
-	:
-elif [ "$action" = "powersave" ]; then
-	:
-elif [ "$action" = "kernel_default" ]; then
-	exit 0
-elif [ "$action" = "VERSION" ]; then
-	echo "$SCRIPT_VERSION";
-	exit
-else
-	action="balance"
+# default option is balance
+if [ ! -n "$action" ]; then
+    action="balance"
 fi
 
 if [ "$action" = "debug" ]; then
-	echo "Project WIPE https://github.com/yc9559/cpufreq-interactive-opt"
+	echo "Project WIPE v2 https://github.com/yc9559/wipe-v2"
 	echo "Author: yc9559"
-	echo "Platform: exynos_8895"
-	echo "Generated at: Thu Jun 28 04:26:24 2018"
+	echo "Platform: e8895"
+	echo "Generated at: 2019-05-25 15:24:06"
 	echo ""
-	print_value "Cluster 0: min_freq" ${C0_CPUFREQ_DIR}/scaling_min_freq
-	print_param above_hispeed_delay
-	print_param target_loads
-	print_value "sched_spill_load" /proc/sys/kernel/sched_spill_load
-	print_value "eMMC IO scheduler" /sys/block/mmcblk0/queue/scheduler
-	print_value "UFS IO scheduler" /sys/block/sda/queue/scheduler
-	which perfd
+    # perform parameter verification
+    cur_level=`cat ${CUR_LEVEL_FILE}`
+	if [ -n "${cur_level}" ]; then
+        echo "Current level: ${cur_level}"
+        verify_level ${cur_level}
+    else
+        echo "Current level: not detected"
+    fi
+    echo ""
 	exit 0
 fi
 
-if [ ! -f /dev/.project_wipe ]; then
-	unify_environment
-fi
-
-before_modify
-
-# RunOnce
-if [ ! -f /dev/.project_wipe ]; then
-	# set flag
-	touch /dev/.project_wipe
-
-	runonce_custom
-
-	set_io cfq /sys/block/mmcblk0
-	set_io cfq /sys/block/sda
-
-	# shared interactive parameters
-	set_param_little timer_rate 20000
-	set_param_little timer_slack 180000
-	set_param_little boost 0
-	set_param_little boostpulse_duration 0
-	set_param_big timer_rate 20000
-	set_param_big timer_slack 180000
-	set_param_big boost 0
-	set_param_big boostpulse_duration 0
+if [ "$action" = "restore" ]; then
+	restore_default
+    rm ${CUR_LEVEL_FILE}
 fi
 
 if [ "$action" = "powersave" ]; then
-	powersave_custom
-	set_param_little above_hispeed_delay "38000 1380000:98000"
-	set_param_little hispeed_freq 1180000
-	set_param_little go_hispeed_load 82
-	set_param_little target_loads "80 680000:27 780000:39 880000:61 980000:68 1380000:98 1680000:94"
-	set_param_little min_sample_time 18000
-	set_param_big above_hispeed_delay "18000 1680000:98000 1880000:138000"
-	set_param_big hispeed_freq 1380000
-	set_param_big go_hispeed_load 98
-	set_param_big target_loads "80 780000:73 880000:79 980000:55 1080000:69 1180000:84 1380000:98"
-	set_param_big min_sample_time 18000
+    echo "Applying powersave..."
+    apply_level 5
+    echo "Applying powersave done."
 fi
 
 if [ "$action" = "balance" ]; then
-	balance_custom
-	set_param_little above_hispeed_delay "38000 1380000:98000"
-	set_param_little hispeed_freq 1180000
-	set_param_little go_hispeed_load 98
-	set_param_little target_loads "80 780000:53 880000:70 980000:50 1180000:71 1380000:97 1680000:92"
-	set_param_little min_sample_time 58000
-	set_param_big above_hispeed_delay "18000 1680000:98000 1880000:138000"
-	set_param_big hispeed_freq 1380000
-	set_param_big go_hispeed_load 98
-	set_param_big target_loads "80 780000:40 880000:34 980000:66 1080000:31 1180000:72 1380000:86 1680000:98"
-	set_param_big min_sample_time 18000
+    echo "Applying balance..."
+    apply_level 3
+    echo "Applying balance done."
 fi
 
 if [ "$action" = "performance" ]; then
-	performance_custom
-	set_param_little above_hispeed_delay "38000"
-	set_param_little hispeed_freq 1180000
-	set_param_little go_hispeed_load 97
-	set_param_little target_loads "80 780000:31 880000:62 980000:42 1180000:69 1380000:95 1680000:78"
-	set_param_little min_sample_time 58000
-	set_param_big above_hispeed_delay "18000 1680000:98000 1880000:38000"
-	set_param_big hispeed_freq 1380000
-	set_param_big go_hispeed_load 96
-	set_param_big target_loads "80 780000:22 880000:3 980000:14 1080000:34 1180000:47 1380000:63 1680000:72 1780000:98"
-	set_param_big min_sample_time 18000
+    echo "Applying performance..."
+    apply_level 1
+    echo "Applying performance done."
 fi
 
 if [ "$action" = "fast" ]; then
-	fast_custom
-	lock_value 1180000 ${C0_CPUFREQ_DIR}/scaling_min_freq
-	set_param_little above_hispeed_delay "18000 1380000:198000"
-	set_param_little hispeed_freq 1180000
-	set_param_little target_loads "80 1680000:90"
-	set_param_little min_sample_time 38000
-	lock_value 1380000 ${C1_CPUFREQ_DIR}/scaling_min_freq
-	set_param_big above_hispeed_delay "18000 1880000:198000"
-	set_param_big hispeed_freq 1380000
-	set_param_big target_loads "80 1980000:90"
-	set_param_big min_sample_time 38000
+    echo "Applying fast..."
+    apply_level 0
+    echo "Applying fast done."
 fi
 
-after_modify
+if [ "$action" = "level" ]; then
+    level=${2}
+    if [ "${level}" -ge "0" ] && [ "${level}" -le "6" ]; then
+        echo "Applying level ${level}..."
+        apply_level ${level}
+        echo "Applying level ${level} done."
+    else
+        echo "Level ${level} not supported."
+    fi
+fi
+
+if [ "$action" = "perfd" ]; then
+    cmd=${2}
+    if [ "${cmd}" == "enable" ]; then
+        permanently_enable_perfd
+    fi
+    if [ "${cmd}" == "disable" ]; then
+        permanently_disable_perfd
+    fi
+fi
+
+echo ""
+
+# suppress stderr
+) 2>/dev/null
 
 exit 0
