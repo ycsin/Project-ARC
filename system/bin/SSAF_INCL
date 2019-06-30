@@ -23,7 +23,7 @@ CMD=/system/bin/cmd
 
 ACTION=$1
 if [ "$ACTION" = "VERSION" ]; then
-	echo "$SCRIPT_VERSION"
+	echo "1"
 	exit
 fi
 
