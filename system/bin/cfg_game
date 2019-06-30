@@ -5,7 +5,7 @@
 
 MOUNT_RW
 
-powercfg performance
+powercfg performance > /dev/null
 echo deadline > /sys/block/sdb/queue/scheduler
 lock_value 1898000 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 lock_value 832000 /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq

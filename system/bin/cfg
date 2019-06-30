@@ -432,7 +432,7 @@ if [ -n "$ACTION" ]; then
 	elif [ "$ACTION" = "gaming" ]; then
 		cfg_game
 		exit
-	elif [ "$ACTION" = "normal" ]; then
+	elif [ "$ACTION" = "balanced" ]; then
 		cfg_norm
 		exit
 	elif [ "$ACTION" = "powersave" ]; then
