@@ -357,6 +357,9 @@ function update_scripts()
 	clear
 	# Delete old files
 	echo "Renaming old files..."
+	mv /system/bin/cfg_game /system/bin/cfg_game.old
+	mv /system/bin/cfg_norm /system/bin/cfg_norm.old
+	mv /system/bin/cfg_save /system/bin/cfg_save.old
 	mv /system/bin/powercfg /system/bin/powercfg.old
 	mv /system/bin/set_key /system/bin/set_key.old
 	mv /system/bin/set_prop /system/bin/set_prop.old
