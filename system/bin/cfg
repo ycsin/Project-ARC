@@ -21,22 +21,22 @@ function verify_files()
 # ========================================================
 # Delete old files
 # ========================================================
-if [ -f "/system/bin/cfg" ]; then
-	rm -f /system/bin/cfg.old
-fi
-rm -f /system/bin/powercfg.old
-rm -f /system/bin/set_key.old
-rm -f /system/bin/set_prop.old
-rm -f /system/bin/SSAF_advanced_device_settings.old
-rm -f /system/bin/SSAF_INCL.old
-rm -f /system/bin/SSAF_kernel_tuner.old
-rm -f /system/bin/SSAF_network_settings.old
-rm -f /system/etc/init.d/LS00devicename.old
-rm -f /system/etc/init.d/LS00kernelconfig.old
-rm -f /system/etc/init.d/LS00powercfg.old
-rm -f /system/etc/init.d/LS00resetdns.old
-rm -f /system/xbin/dss.old
-rm -f /system/xbin/dss2.old
+	if [ -f "/system/bin/cfg" ]; then
+		rm -f /system/bin/cfg.old
+	fi
+	rm -f /system/bin/powercfg.old
+	rm -f /system/bin/set_key.old
+	rm -f /system/bin/set_prop.old
+	rm -f /system/bin/SSAF_advanced_device_settings.old
+	rm -f /system/bin/SSAF_INCL.old
+	rm -f /system/bin/SSAF_kernel_tuner.old
+	rm -f /system/bin/SSAF_network_settings.old
+	rm -f /system/etc/init.d/LS00devicename.old
+	rm -f /system/etc/init.d/LS00kernelconfig.old
+	rm -f /system/etc/init.d/LS00powercfg.old
+	rm -f /system/etc/init.d/LS00resetdns.old
+	rm -f /system/xbin/dss.old
+	rm -f /system/xbin/dss2.old
 
 # ========================================================
 # Download missing files
