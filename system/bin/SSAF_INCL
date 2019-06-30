@@ -35,6 +35,7 @@ function MOUNT_RW()
 {
 	mount -o rw,remount /system
 	mount -o rw,remount /system/etc
+	mount -o rw,remount /system/etc/init.d
 }
 
 function MOUNT_RO()
@@ -42,8 +43,9 @@ function MOUNT_RO()
 	sync
 	mount -o ro,remount /system/etc
 	sync
-	sleep 1
 	mount -o ro,remount /system
+	sync 1
+	mount -o rw,remount /system/etc/init.d
 }
 
 function press_enter()
