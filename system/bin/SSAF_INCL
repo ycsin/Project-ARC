@@ -47,6 +47,7 @@ function MOUNT_RW()
 function MOUNT_RO()
 {
 	mount -o ro,remount /system/etc
+	sleep 1
 	mount -o ro,remount /system
 }
 

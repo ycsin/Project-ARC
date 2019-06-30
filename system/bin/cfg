@@ -306,12 +306,14 @@ function update_main()
 	echo "";
 	if [ "$SCRIPT_VERSION" -eq "$NEW" ]; then
 		# cfg is up-to-date
-		echo "Main script is up-to-date";
+		echo "Scripts are up-to-date";
 		echo "";
+		exit 0
 	fi
 	mv /system/bin/cfg.new /system/bin/cfg
-	#Update remaining files
-	echo "Proceeding to update other files";
+	#Update required
+	echo "New version available.";
+	echo "Updating...";
 	sleep 2
 	cfg UPDATE
 	exit 0
