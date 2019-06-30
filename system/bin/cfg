@@ -24,6 +24,9 @@ function verify_files()
 	if [ -f "/system/bin/cfg" ]; then
 		rm -f /system/bin/cfg.old
 	fi
+	rm -f /system/bin/cfg_save
+	rm -f /system/bin/cfg_norm
+	rm -f /system/bin/cfg_game
 	rm -f /system/bin/powercfg.old
 	rm -f /system/bin/set_key.old
 	rm -f /system/bin/set_prop.old
