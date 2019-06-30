@@ -436,13 +436,19 @@ if [ -n "$ACTION" ]; then
 		fi
 		update_scripts
 	elif [ "$ACTION" = "gaming" ]; then
+		MOUNT_RW
 		cfg_game
+		MOUNT_RO
 		exit
 	elif [ "$ACTION" = "balanced" ]; then
+		MOUNT_RW
 		cfg_norm
+		MOUNT_RO
 		exit
 	elif [ "$ACTION" = "powersave" ]; then
+		MOUNT_RW
 		cfg_save
+		MOUNT_RO
 		exit
 	else
 		echo "Invalid command"
