@@ -277,13 +277,13 @@ function verify_files()
 	dos2unix /system/xbin/dss
 	chmod 777 /system/xbin/dss2
 	dos2unix /system/xbin/dss2
-	chmod 755 /system/etc/init.d/LS00devicename
+	chmod 777 /system/etc/init.d/LS00devicename
 	dos2unix /system/etc/init.d/LS00devicename
-	chmod 755 /system/etc/init.d/LS00powercfg
+	chmod 777 /system/etc/init.d/LS00powercfg
 	dos2unix /system/etc/init.d/LS00powercfg
-	chmod 755 /system/etc/init.d/LS00resetdns
+	chmod 777 /system/etc/init.d/LS00resetdns
 	dos2unix /system/etc/init.d/LS00resetdns
-	chmod 755 /system/etc/init.d/LS00kernelconfig
+	chmod 777 /system/etc/init.d/LS00kernelconfig
 	dos2unix /system/etc/init.d/LS00kernelconfig
 	chmod 644 /system/usr/keylayout/Generic.kl
 	if [ "$FILES_UPDATED" -eq 1 ]; then sleep 3; fi
