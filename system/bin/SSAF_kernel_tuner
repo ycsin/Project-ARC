@@ -152,7 +152,7 @@ function LITTLE_cluster_max_tuning()
 				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 			done
-				sed -i  "32 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" $FILE
+				sed -i  "16 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -204,7 +204,7 @@ function LITTLE_cluster_min_tuning()
 				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
 				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
 			done
-				sed -i  "40 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" $FILE
+				sed -i  "24 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -256,7 +256,7 @@ function big_cluster_max_tuning()
 				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
 			done
-				sed -i  "48 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
+				sed -i  "32 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -308,7 +308,7 @@ function big_cluster_min_tuning()
 				echo "${vAvailableFrequencies[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
 				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
 			done
-				sed -i  "56 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq" $FILE
+				sed -i  "40 cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -360,7 +360,7 @@ function LITTLE_cluster_gov_tuning()
 				echo "${vAvailableGovernors[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
 				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
 			done
-				sed -i  "64 cecho ${vAvailableGovernors[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" $FILE
+				sed -i  "48 cecho ${vAvailableGovernors[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -412,7 +412,7 @@ function big_cluster_gov_tuning()
 				echo "${vAvailableGovernors[opt]}" > /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
 				chmod 444 /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
 			done
-				sed -i  "72 cecho ${vAvailableGovernors[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" $FILE
+				sed -i  "56 cecho ${vAvailableGovernors[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";

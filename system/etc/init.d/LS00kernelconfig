@@ -8,23 +8,7 @@
 #==============================================================
 SCRIPT_VERSION=1
 
-function MOUNT_RW()
-{
-	if [ ! -f "/system/xbin/sysrw" ]; then
-		mount -o rw,remount /system
-	else
-		sysrw
-	fi
-}
-
-function MOUNT_RO()
-{
-	if [ ! -f "/system/xbin/sysro" ]; then
-		mount -o ro,remount /system
-	else
-		sysro
-	fi
-}
+. "/system/bin/SSAF_INCL"
 
 for i in 0 1 2 3; do
 	MOUNT_RW
