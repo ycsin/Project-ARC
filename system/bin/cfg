@@ -41,6 +41,12 @@ function verify_files()
 # ========================================================
 # Download missing files
 # ========================================================
+	if [ ! -f "/system/bin/dlcfg" ]; then 
+		FILES_UPDATED=1
+		echo "Downloading dlcfg..."
+		wget --no-check-certificate -O /system/bin/dlcfg https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/dlcfg
+		echo ""
+	fi
 	if [ ! -f "/system/bin/powercfg" ]; then 
 		FILES_UPDATED=1
 		echo "Downloading powercfg..."
@@ -257,6 +263,8 @@ function verify_files()
 # ========================================================
 # Fix permissions & convert to UNIX
 # ========================================================
+	chmod 777 /system/bin/dlcfg
+	dos2unix /system/bin/dlcfg
 	chmod 777 /system/bin/cfg
 	dos2unix /system/bin/cfg
 	chmod 777 /system/bin/powercfg

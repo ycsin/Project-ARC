@@ -8,3 +8,5 @@ wget -q --no-check-certificate -O /system/bin/cfg https://raw.githubusercontent.
 
 chmod 777 /system/bin/cfg
 dos2unix /system/bin/cfg
+
+cfg update
