@@ -21,19 +21,20 @@ function set_powercfg()
 	CUR_LEVEL_FILE="/dev/.wipe_cur_level"
 	
 	cur_level=`cat ${CUR_LEVEL_FILE}`
-
-	if [ "${cur_level}" -eq 5 ]; then
-		CURRENT="powersave"
-		sed -i  "11 cpowercfg ${CURRENT}" $FILE
-	elif [ "${cur_level}" -eq 3 ]; then
-		CURRENT="balance"
-		sed -i  "11 cpowercfg ${CURRENT}" $FILE
-	elif [ "${cur_level}" -eq 1 ]; then
-		CURRENT="performance"
-		sed -i  "11 cpowercfg ${CURRENT}" $FILE
-	elif [ "${cur_level}" -eq 0 ]; then
-		CURRENT="fast"
-		sed -i  "11 cpowercfg ${CURRENT}" $FILE
+	if [ -n "${cur_level}" ]; then
+		if [ "${cur_level}" -eq 5 ]; then
+			CURRENT="powersave"
+			sed -i  "11 cpowercfg ${CURRENT}" $FILE
+		elif [ "${cur_level}" -eq 3 ]; then
+			CURRENT="balance"
+			sed -i  "11 cpowercfg ${CURRENT}" $FILE
+		elif [ "${cur_level}" -eq 1 ]; then
+			CURRENT="performance"
+			sed -i  "11 cpowercfg ${CURRENT}" $FILE
+		elif [ "${cur_level}" -eq 0 ]; then
+			CURRENT="fast"
+			sed -i  "11 cpowercfg ${CURRENT}" $FILE
+		fi
 	else
 		CURRENT="kernel_default"
 	fi
