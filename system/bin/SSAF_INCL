@@ -24,7 +24,7 @@ CMD=/system/bin/cmd
 
 ACTION=$1
 if [ "$ACTION" = "VERSION" ]; then
-	echo "$SCRIPT_VERSION";
+	echo "$SCRIPT_VERSION"
 	exit
 fi
 
@@ -55,16 +55,16 @@ function MOUNT_RO()
 
 function press_enter()
 {
-	echo -n "Press EnterKey to continue.";
+	echo -n "Press EnterKey to continue."
 	read enterKey
 }
 
 function check_root()
 {
 	if [[ $(id -u) -ne 0 ]] ; then
-		echo "This script requires root access to execute";
-		echo "Type  su  first before  cfg";
-		echo "";
+		echo "This script requires root access to execute"
+		echo "Type  su  first before  cfg"
+		echo ""
 		sleep 2
 		press_enter
 		exit 0

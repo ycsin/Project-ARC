@@ -12,7 +12,7 @@ fi
 . "/system/bin/SSAF_INCL"
 SCRIPT_VERSION=2
 
-REBOOT_REQUIRED=0;
+REBOOT_REQUIRED=0
 MOUNT_RW
 function verify_files()
 {
@@ -43,96 +43,96 @@ rm -f /system/xbin/dss2.old
 # ========================================================
 	if [ ! -f "/system/bin/powercfg" ]; then 
 		FILES_UPDATED=1
-		echo "Downloading powercfg...";
+		echo "Downloading powercfg..."
 		wget --no-check-certificate -O /system/bin/powercfg https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/powercfg
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/bin/set_key" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading set_key...";
+		echo "Downloading set_key..."
 		wget --no-check-certificate -O /system/bin/set_key https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/set_key
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/bin/set_prop" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading set_prop...";
+		echo "Downloading set_prop..."
 		wget --no-check-certificate -O /system/bin/set_prop https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/set_prop
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/bin/SSAF_advanced_device_settings" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading SSAF_advanced_device_settings...";
+		echo "Downloading SSAF_advanced_device_settings..."
 		wget --no-check-certificate -O /system/bin/SSAF_advanced_device_settings https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_advanced_device_settings
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/bin/SSAF_INCL" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading SSAF_INCL...";
+		echo "Downloading SSAF_INCL..."
 		wget --no-check-certificate -O /system/bin/SSAF_INCL https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_INCL
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/bin/SSAF_kernel_tuner" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading SSAF_kernel_tuner...";
+		echo "Downloading SSAF_kernel_tuner..."
 		wget --no-check-certificate -O /system/bin/SSAF_kernel_tuner https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_kernel_tuner
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/bin/SSAF_network_settings" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading SSAF_network_settings...";
+		echo "Downloading SSAF_network_settings..."
 		wget --no-check-certificate -O /system/bin/SSAF_network_settings https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_network_settings
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/xbin/dss" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading dss...";
+		echo "Downloading dss..."
 		wget --no-check-certificate -O /system/xbin/dss https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/xbin/dss
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/xbin/dss2" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading dss2...";
+		echo "Downloading dss2..."
 		wget --no-check-certificate -O /system/xbin/dss2 https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/xbin/dss2
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/etc/init.d/LS00devicename" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading LS00devicename...";
+		echo "Downloading LS00devicename..."
 		wget --no-check-certificate -O /system/etc/init.d/LS00devicename https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00devicename
 		sed -i  "15 cdoresetprop ro.product.model '`getprop ro.product.model`'" /system/etc/init.d/LS00devicename
 		sed -i  "16 cdoresetprop ro.product.brand '`getprop ro.product.brand`'" /system/etc/init.d/LS00devicename
 		sed -i  "17 cdoresetprop ro.product.manufacturer '`getprop ro.product.manufacturer`'" /system/etc/init.d/LS00devicename
 		sed -i  "18 cdoresetprop ro.product.name '`getprop ro.product.name`'" /system/etc/init.d/LS00devicename
 		sed -i  "19 cdoresetprop ro.product.device '`getprop ro.product.device`'" /system/etc/init.d/LS00devicename
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/etc/init.d/LS00powercfg" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading LS00powercfg...";
+		echo "Downloading LS00powercfg..."
 		wget --no-check-certificate -O /system/etc/init.d/LS00powercfg https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00powercfg
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/etc/init.d/LS00resetdns" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading LS00resetdns...";
+		echo "Downloading LS00resetdns..."
 		wget --no-check-certificate -O /system/etc/init.d/LS00resetdns https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00resetdns
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/etc/init.d/LS00kernelconfig" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading LS00kernelconfig...";
+		echo "Downloading LS00kernelconfig..."
 		wget --no-check-certificate -O /system/etc/init.d/LS00kernelconfig https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00kernelconfig
 		sed -i  "16 cecho `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
 		sed -i  "24 cecho `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" /system/etc/init.d/LS00kernelconfig
@@ -140,14 +140,14 @@ rm -f /system/xbin/dss2.old
 		sed -i  "40 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" /system/etc/init.d/LS00kernelconfig
 		sed -i  "48 cecho `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" /system/etc/init.d/LS00kernelconfig
 		sed -i  "56 cecho `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor` > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" /system/etc/init.d/LS00kernelconfig
-		echo "";
+		echo ""
 	fi
 	if [ ! -f "/system/usr/keylayout/Generic.kl" ]; then 
 		FILES_UPDATED=1
 		clear
-		echo "Downloading Generic.kl...";
+		echo "Downloading Generic.kl..."
 		wget --no-check-certificate -O /system/usr/keylayout/Generic.kl https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/usr/keylayout/Generic.kl
-		echo "";
+		echo ""
 	fi
 	clear
 	if [ "$FILES_UPDATED" -eq 1 ]; then
@@ -156,99 +156,99 @@ rm -f /system/xbin/dss2.old
 			press_enter
 			exit 0
 		fi
-		echo "powercfg ${GREEN}OK${NONE}";
+		echo "powercfg ${GREEN}OK${NONE}"
 
 		if [ ! -f "/system/bin/set_key" ]; then
 			echo "E: /system/bin/set_key"
 			press_enter
 			exit 0
 		fi
-		echo "set_key ${GREEN}OK${NONE}";
+		echo "set_key ${GREEN}OK${NONE}"
 
 		if [ ! -f "/system/bin/set_prop" ]; then
 			echo "E: /system/bin/set_prop"
 			press_enter
 			exit 0
 		fi
-		echo "set_prop ${GREEN}OK${NONE}";
+		echo "set_prop ${GREEN}OK${NONE}"
 
 		if [ ! -f "/system/bin/SSAF_advanced_device_settings" ]; then
 			echo "E: /system/bin/SSAF_advanced_device_settings"
 			press_enter
 			exit 0
 		fi
-		echo "SSAF_advanced_device_settings ${GREEN}OK${NONE}";
+		echo "SSAF_advanced_device_settings ${GREEN}OK${NONE}"
 
 		if [ ! -f "/system/bin/SSAF_INCL" ]; then
 			echo "E: /system/bin/SSAF_INCL"
 			press_enter
 			exit 0
 		fi
-		echo "SSAF_INCL ${GREEN}OK${NONE}";
+		echo "SSAF_INCL ${GREEN}OK${NONE}"
 
 		if [ ! -f "/system/bin/SSAF_kernel_tuner" ]; then
 			echo "E: /system/bin/SSAF_kernel_tuner"
 			press_enter
 			exit 0
 		fi
-		echo "SSAF_kernel_tuner ${GREEN}OK${NONE}";
+		echo "SSAF_kernel_tuner ${GREEN}OK${NONE}"
 
 		if [ ! -f "/system/bin/SSAF_network_settings" ]; then
 			echo "E: /system/bin/SSAF_network_settings"
 			press_enter
 			exit 0
 		fi
-		echo "SSAF_network_settings ${GREEN}OK${NONE}";
+		echo "SSAF_network_settings ${GREEN}OK${NONE}"
 
 		if [ ! -f "/system/xbin/dss" ]; then
 			echo "E: /system/xbin/dss"
 			press_enter
 			exit 0
 		fi
-		echo "dss ${GREEN}OK${NONE}";
+		echo "dss ${GREEN}OK${NONE}"
 
 		if [ ! -f "/system/xbin/dss2" ]; then
 			echo "E: /system/xbin/dss"
 			press_enter
 			exit 0
 		fi
-		echo "dss2 ${GREEN}OK${NONE}";
+		echo "dss2 ${GREEN}OK${NONE}"
 
 		if [ ! -f "/system/etc/init.d/LS00devicename" ]; then
 			echo "E: /system/etc/init.d/LS00devicename"
 			press_enter
 			exit 0
 		fi
-		echo "LS00devicename ${GREEN}OK${NONE}";
+		echo "LS00devicename ${GREEN}OK${NONE}"
 
 		if [ ! -f "/system/etc/init.d/LS00powercfg" ]; then
 			echo "E: /system/etc/init.d/LS00powercfg"
 			press_enter
 			exit 0
 		fi
-		echo "LS00powercfg ${GREEN}OK${NONE}";
+		echo "LS00powercfg ${GREEN}OK${NONE}"
 
 		if [ ! -f "/system/etc/init.d/LS00resetdns" ]; then
 			echo "E: /system/etc/init.d/LS00resetdns"
 			press_enter
 			exit 0
 		fi
-		echo "LS00resetdns ${GREEN}OK${NONE}";
+		echo "LS00resetdns ${GREEN}OK${NONE}"
 
 		if [ ! -f "/system/etc/init.d/LS00kernelconfig" ]; then
 			echo "E: /system/etc/init.d/LS00kernelconfig"
 			press_enter
 			exit 0
 		fi
-		echo "LS00kernelconfig ${GREEN}OK${NONE}";
+		echo "LS00kernelconfig ${GREEN}OK${NONE}"
 		
 		if [ ! -f "/system/usr/keylayout/Generic.kl" ]; then
 			echo "E: /system/usr/keylayout/Generic.kl"
 			press_enter
 			exit 0
 		fi
-		echo "Generic.kl ${GREEN}OK${NONE}";
-		echo "";
+		echo "Generic.kl ${GREEN}OK${NONE}"
+		echo ""
 	fi
 
 # ========================================================
@@ -290,7 +290,7 @@ function update_main()
 {
 	clear;
 	if ! HAS_INTERNET; then
-		echo "No internet access";
+		echo "No internet access"
 		echo ""
 		press_enter
 		return
@@ -301,20 +301,20 @@ function update_main()
 	chmod 777 /system/bin/cfg.new
 	dos2unix /system/bin/cfg.new
 	NEW=`cfg.new VERSION`
-	echo "Installed version: ${GREEN}$SCRIPT_VERSION${NONE}";
-	echo "Latest version: ${GREEN}$NEW${NONE}";
-	echo "";
+	echo "Installed version: ${GREEN}$SCRIPT_VERSION${NONE}"
+	echo "Latest version: ${GREEN}$NEW${NONE}"
+	echo ""
 	if [ "$SCRIPT_VERSION" -eq "$NEW" ]; then
 		# cfg is up-to-date
-		echo "Scripts are up-to-date";
-		echo "";
+		echo "Scripts are up-to-date"
+		echo ""
 		mv /system/bin/cfg.new /system/bin/cfg
 		return
 	fi
 	mv /system/bin/cfg.new /system/bin/cfg
 	#Update required
-	echo "New version available.";
-	echo "Updating...";
+	echo "New version available."
+	echo "Updating..."
 	sleep 2
 	cfg UPDATE
 	exit 0
@@ -350,15 +350,15 @@ function power_device()
 	while :
 	do
 		clear
-		echo "${GREEN}Power Menu${NONE}";
-		echo "";
-		echo " 1. Reboot device";
-		echo " 2. Reboot into recovery";
-		echo " 3. Reboot into bootloader";
-		echo " 4. Power off device";
+		echo "${GREEN}Power Menu${NONE}"
+		echo ""
+		echo " 1. Reboot device"
+		echo " 2. Reboot into recovery"
+		echo " 3. Reboot into bootloader"
+		echo " 4. Power off device"
 		echo " 0. Exit"
 		echo ""
-		echo -n "${YELLOW}Enter option : ${NONE}";
+		echo -n "${YELLOW}Enter option : ${NONE}"
 		read mode
 		case $mode in
 			1)	:;;
@@ -371,7 +371,7 @@ function power_device()
 				sleep 1;;
 		esac
 		if [[ "$mode" -lt 5 && "$mode" -gt 0 ]] ; then
-			echo -n "Are you sure? (y/n): ";
+			echo -n "Are you sure? (y/n): "
 			read opt
 			case $opt in
 				y|Y) :;;
@@ -392,11 +392,11 @@ check_root
 
 ACTION=$1
 if [ "$ACTION" = "VERSION" ]; then
-	echo "$SCRIPT_VERSION";
+	echo "$SCRIPT_VERSION"
 	exit
 elif [ "$ACTION" = "UPDATE" ]; then
 	if [ ! -f "/system/bin/cfg.old" ]; then
-		echo "Update Error";
+		echo "Update Error"
 		exit
 	fi
 	update_scripts
@@ -407,19 +407,19 @@ verify_files
 while :
 do
 	clear;
-	echo -e "${GREEN}${BOLD}Shell Script Advanced Features${NONE}";
-	echo "Version: ${CYAN}$SCRIPT_VERSION${NONE}";
-	echo "";
-	echo " 1. Advanced Device Settings";
-	echo " 2. Network Settings";
-	echo " 3. Kernel Tuner";
+	echo -e "${GREEN}${BOLD}Shell Script Advanced Features${NONE}"
+	echo "Version: ${CYAN}$SCRIPT_VERSION${NONE}"
+	echo ""
+	echo " 1. Advanced Device Settings"
+	echo " 2. Network Settings"
+	echo " 3. Kernel Tuner"
 	echo "88. Update Scripts"
-	echo "99. Power Menu";
-	echo " 0. Exit";
-	echo "";
-	echo -n "${YELLOW}Enter option : ${NONE}";
+	echo "99. Power Menu"
+	echo " 0. Exit"
+	echo ""
+	echo -n "${YELLOW}Enter option : ${NONE}"
 	read opt
-	echo "";
+	echo ""
 	case $opt in
 		1)	SSAF_advanced_device_settings;
 			REBOOT_REQUIRED=$?;;
@@ -432,9 +432,9 @@ do
 		0)	clear;
 			MOUNT_RO
 			if [ "$REBOOT_REQUIRED" -eq 1 ]; then
-				echo "You have made changes that require a reboot to apply";
-				echo "";
-				echo -n "Do you want to reboot now? (y/n): ";
+				echo "You have made changes that require a reboot to apply"
+				echo ""
+				echo -n "Do you want to reboot now? (y/n): "
 				read opt
 				case $opt in
 					y|Y) reboot &>/dev/null;;
