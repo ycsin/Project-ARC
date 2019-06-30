@@ -21,12 +21,6 @@ UNDERLINE='\033[4m'
 
 CMD=/system/bin/cmd
 
-ACTION=$1
-if [ "$ACTION" = "VERSION" ]; then
-	echo "1"
-	exit
-fi
-
 function HAS_INTERNET()
 {
 	if ping -q -c 1 -W 1 8.8.8.8 &>/dev/null; then
