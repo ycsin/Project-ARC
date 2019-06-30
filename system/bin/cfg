@@ -10,7 +10,7 @@ if [ ! -f "/system/bin/SSAF_INCL" ]; then
 	wget -q --no-check-certificate -O /system/bin/SSAF_INCL https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/SSAF_INCL
 fi
 . "/system/bin/SSAF_INCL"
-SCRIPT_VERSION=1
+SCRIPT_VERSION=2
 
 REBOOT_REQUIRED=0
 MOUNT_RW
@@ -134,12 +134,12 @@ function verify_files()
 		clear
 		echo "Downloading LS00kernelconfig..."
 		wget --no-check-certificate -O /system/etc/init.d/LS00kernelconfig https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/etc/init.d/LS00kernelconfig
-		sed -i  "${LITTLE_MAX} clock_value `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq` /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
-		sed -i  "${LITTLE_MIN} clock_value `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq` /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" /system/etc/init.d/LS00kernelconfig
-		sed -i  "${LITTLE_GOV} clock_value `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor` /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" /system/etc/init.d/LS00kernelconfig
-		sed -i  "${big_MAX} clock_value `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq` /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
-		sed -i  "${big_MIN} clock_value `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq` /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" /system/etc/init.d/LS00kernelconfig
-		sed -i  "${big_GOV} clock_value `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor` /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" /system/etc/init.d/LS00kernelconfig
+		sed -i  "${LITTLE_MAX} clock_value `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq` /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
+		sed -i  "${LITTLE_MIN} clock_value `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq` /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq" /system/etc/init.d/LS00kernelconfig
+		sed -i  "${LITTLE_GOV} clock_value `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor` /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" /system/etc/init.d/LS00kernelconfig
+		sed -i  "${big_MAX} clock_value `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq` /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq" /system/etc/init.d/LS00kernelconfig
+		sed -i  "${big_MIN} clock_value `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq` /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq" /system/etc/init.d/LS00kernelconfig
+		sed -i  "${big_GOV} clock_value `cat /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor` /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor" /system/etc/init.d/LS00kernelconfig
 		sed -i  "${GPU_MAX} clock_value `cat /sys/kernel/gpu/gpu_max_clock` /sys/kernel/gpu/gpu_max_clock" /system/etc/init.d/LS00kernelconfig
 		sed -i  "${GPU_MIN} clock_value `cat /sys/kernel/gpu/gpu_min_clock` /sys/kernel/gpu/gpu_min_clock" /system/etc/init.d/LS00kernelconfig
 		sed -i  "${GPU_GOV} clock_value `cat /sys/kernel/gpu/gpu_governor` /sys/kernel/gpu/gpu_governor" /system/etc/init.d/LS00kernelconfig

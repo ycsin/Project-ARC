@@ -143,10 +143,8 @@ function LITTLE_cluster_max_tuning()
 		fi
 
 		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
-			for i in 0 1 2 3; do
-				lock_value "${vAvailableFrequencies[opt]}" /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
-			done
-				sed -i  "${LITTLE_MAX} cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" $FILE
+			lock_value "${vAvailableFrequencies[opt]}" /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+			sed -i  "${LITTLE_MAX} cecho ${vAvailableFrequencies[opt]} > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -193,10 +191,8 @@ function LITTLE_cluster_min_tuning()
 		fi
 
 		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
-			for i in 0 1 2 3; do
-				lock_value "${vAvailableFrequencies[opt]}" /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
-			done
-				sed -i  "${LITTLE_MIN} clock_value ${vAvailableFrequencies[opt]} /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" $FILE
+			lock_value "${vAvailableFrequencies[opt]}" /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+			sed -i  "${LITTLE_MIN} clock_value ${vAvailableFrequencies[opt]} /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -243,10 +239,8 @@ function big_cluster_max_tuning()
 		fi
 
 		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
-			for i in 4 5 6 7; do
-				lock_value "${vAvailableFrequencies[opt]}" /sys/devices/system/cpu/cpu$i/cpufreq/scaling_max_freq
-			done
-				sed -i  "${big_MAX} clock_value ${vAvailableFrequencies[opt]} /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_max_freq" $FILE
+			lock_value "${vAvailableFrequencies[opt]}" /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq
+			sed -i  "${big_MAX} clock_value ${vAvailableFrequencies[opt]} /sys/devices/system/cpu/cpu4/cpufreq/scaling_max_freq" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -293,10 +287,8 @@ function big_cluster_min_tuning()
 		fi
 
 		if [ "${vAvailableFrequencies[opt]}" -gt 0 ] ; then
-			for i in 4 5 6 7; do
-				lock_value "${vAvailableFrequencies[opt]}" /sys/devices/system/cpu/cpu$i/cpufreq/scaling_min_freq
-			done
-				sed -i  "${big_MIN} clock_value ${vAvailableFrequencies[opt]} /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_min_freq" $FILE
+			lock_value "${vAvailableFrequencies[opt]}" /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq
+			sed -i  "${big_MIN} clock_value ${vAvailableFrequencies[opt]} /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -343,10 +335,8 @@ function LITTLE_cluster_gov_tuning()
 		fi
 
 		if [ "${vAvailableGovernors[opt]}" ] ; then
-			for i in 0 1 2 3; do
-				lock_value "${vAvailableGovernors[opt]}" /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
-			done
-				sed -i  "${LITTLE_GOV} clock_value ${vAvailableGovernors[opt]} /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" $FILE
+			lock_value "${vAvailableGovernors[opt]}" /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+			sed -i  "${LITTLE_GOV} clock_value ${vAvailableGovernors[opt]} /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
@@ -393,10 +383,8 @@ function big_cluster_gov_tuning()
 		fi
 
 		if [ "${vAvailableGovernors[opt]}" ] ; then
-			for i in 4 5 6 7; do
-				lock_value "${vAvailableGovernors[opt]}" /sys/devices/system/cpu/cpu$i/cpufreq/scaling_governor
-			done
-				sed -i  "${big_GOV} clock_value ${vAvailableGovernors[opt]} /sys/devices/system/cpu/cpu\$i/cpufreq/scaling_governor" $FILE
+			lock_value "${vAvailableGovernors[opt]}" /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor
+			sed -i  "${big_GOV} clock_value ${vAvailableGovernors[opt]} /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
