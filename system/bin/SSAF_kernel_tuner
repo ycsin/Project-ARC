@@ -539,10 +539,8 @@ function GPU_gov_tuning()
 		fi
 
 		if [ "${vAvailableGovernors[opt]}" ] ; then
-			for i in 4 5 6 7; do
-				lock_value "${vAvailableGovernors[opt]}" /sys/kernel/gpu/gpu_governor
-			done
-				sed -i  "${GPU_GOV} clock_value ${vAvailableGovernors[opt]} /sys/kernel/gpu/gpu_governor" $FILE
+			lock_value "${vAvailableGovernors[opt]}" /sys/kernel/gpu/gpu_governor
+			sed -i  "${GPU_GOV} clock_value ${vAvailableGovernors[opt]} /sys/kernel/gpu/gpu_governor" $FILE
 		else
 			clear
 			echo "${RED}Invalid option${NONE}";
