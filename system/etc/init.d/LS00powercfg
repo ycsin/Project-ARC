@@ -9,3 +9,5 @@
 SCRIPT_VERSION=1
 
 powercfg balance
+
+sh /system/etc/init.d/LS00kernelconfig #workaround for freq not applying
