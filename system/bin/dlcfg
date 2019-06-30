@@ -1,0 +1,10 @@
+#!/system/bin/sh
+
+mount -o rw,remount /system
+mount -o rw,remount /system/etc
+mount -o rw,remount /system/etc/init.d
+
+wget -q --no-check-certificate -O /system/bin/cfg https://raw.githubusercontent.com/ycsin/Shell-Script-Advanced-Features/master/system/bin/cfg
+
+chmod 777 /system/bin/cfg
+dos2unix /system/bin/cfg
