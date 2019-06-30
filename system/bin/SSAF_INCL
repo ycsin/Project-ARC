@@ -8,7 +8,6 @@
 #					  across multiple files
 #       GitHub		: https://github.com/ycsin
 #==============================================================
-SCRIPT_VERSION=1
 
 NONE='\033[00m'
 RED='\033[01;31m'
