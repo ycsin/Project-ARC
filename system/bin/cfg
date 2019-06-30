@@ -391,15 +391,16 @@ function power_device()
 check_root
 
 ACTION=$1
-if [ "$ACTION" = "version" ]; then
-	echo "$SCRIPT_VERSION"
-	exit
-elif [ "$ACTION" = "update" ]; then
-	if [ ! -f "/system/bin/cfg.old" ]; then
-		echo "Update Error"
-		exit
+if [ -n "$ACTION" ]; then 
+	if [ "$ACTION" = "version" ]; then
+		echo "$SCRIPT_VERSION"
+	elif [ "$ACTION" = "update" ]; then
+		if [ ! -f "/system/bin/cfg.old" ]; then
+			echo "Update Error"
+		fi
+		update_scripts
 	fi
-	update_scripts
+	exit
 fi
 
 verify_files
