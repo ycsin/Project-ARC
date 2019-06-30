@@ -21,6 +21,17 @@ UNDERLINE='\033[4m'
 
 CMD=/system/bin/cmd
 
+LITTLE_MAX=15
+LITTLE_MIN=16
+LITTLE_GOV=17
+big_MAX=21
+big_MIN=22
+big_GOV=23
+GPU_MAX=26
+GPU_MIN=27
+GPU_GOV=28
+
+
 function HAS_INTERNET()
 {
 	if ping -q -c 1 -W 1 8.8.8.8 &>/dev/null; then
