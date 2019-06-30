@@ -284,6 +284,12 @@ function verify_files()
 # ========================================================
 # Fix permissions & convert to UNIX
 # ========================================================
+	chmod 777 /system/bin/cfg_save
+	dos2unix /system/bin/cfg_save
+	chmod 777 /system/bin/cfg_norm
+	dos2unix /system/bin/cfg_norm
+	chmod 777 /system/bin/cfg_game
+	dos2unix /system/bin/cfg_game
 	chmod 777 /system/bin/dlcfg
 	dos2unix /system/bin/dlcfg
 	chmod 777 /system/bin/cfg
